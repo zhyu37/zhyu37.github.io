@@ -1,4 +1,4 @@
 User-agent: *
-Disallow: 
+Disallow:
 
-Sitemap: http://zhyu37.github.io/sitemap.xml 
+Sitemap: http://zhyu37.github.io/sitemap.xml
