@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[My Octopress Blog]]></title>
+  <title><![CDATA[有所为，有所不为]]></title>
   <link href="http://zhyu37.github.io/atom.xml" rel="self"/>
   <link href="http://zhyu37.github.io/"/>
-  <updated>2015-10-09T15:53:01+08:00</updated>
+  <updated>2015-10-09T16:12:19+08:00</updated>
   <id>http://zhyu37.github.io/</id>
   <author>
-    <name><![CDATA[Your Name]]></name>
+    <name><![CDATA[张昊煜]]></name>
     
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Hello World]]></title>
-    <link href="http://zhyu37.github.io/blog/2015/10/09/hello-world/"/>
+    <link href="http://zhyu37.github.io/blog/hello-world.html/"/>
     <updated>2015-10-09T15:29:56+08:00</updated>
-    <id>http://zhyu37.github.io/blog/2015/10/09/hello-world</id>
+    <id>http://zhyu37.github.io/blog/hello-world</id>
     <content type="html"><![CDATA[<p>Today, I finally had my blog, I want to say &ldquo;hello world&rdquo;.</p>
 ]]></content>
   </entry>
