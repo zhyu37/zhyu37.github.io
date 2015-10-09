@@ -5,7 +5,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>有所为，有所不为</title>
+  <title>Effective Objective-C 2.0--10.在既有类中使用关联对象存放自定义数据 - 有所为，有所不为</title>
   <meta name="author" content="张昊煜">
 
   
@@ -21,7 +21,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://zhyu37.github.io/index.html">
+  <link rel="canonical" href="http://zhyu37.github.io/blog/effective-objective-c-2-dot-0-10-dot-zai-ji-you-lei-zhong-shi-yong-guan-lian-dui-xiang-cun-fang-zi-ding-yi-shu-ju.html/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="有所为，有所不为" type="application/atom+xml">
@@ -79,15 +79,14 @@
 </nav>
   <div id="main">
     <div id="content">
-      <div class="blog-index">
+      <div>
+<article class="hentry" role="article">
   
-  
-  
-    <article>
-      
   <header>
     
-      <h1 class="entry-title"><a href="/blog/effective-objective-c-2-dot-0-10-dot-zai-ji-you-lei-zhong-shi-yong-guan-lian-dui-xiang-cun-fang-zi-ding-yi-shu-ju.html/">Effective Objective-C 2.0--10.在既有类中使用关联对象存放自定义数据</a></h1>
+      
+        <h1 class="entry-title">Effective Objective-C 2.0--10.在既有类中使用关联对象存放自定义数据</h1>
+      
     
     
       <p class="meta">
@@ -104,7 +103,7 @@
   </header>
 
 
-  <div class="entry-content"><p>当我们想在对象中存放其他信息时，一般会采用创建其子类后改用这个子类对象。然而并非所有情况都可以这么做。so Object-c中有一个强大的特性——关联对象(Associated Object)</p>
+<div class="entry-content"><p>当我们想在对象中存放其他信息时，一般会采用创建其子类后改用这个子类对象。然而并非所有情况都可以这么做。so Object-c中有一个强大的特性——关联对象(Associated Object)</p>
 
 <p>关联策略</p>
 
@@ -164,207 +163,54 @@ void objc removeAssociatedObjects(id object);</p>
 
 <p>我们把对象想象成NSDicitionary,把关联对象想象成字典的条目。存取关联对象的值就相当于NSDicitionary中调用[object setObject:value forKey:key]和[object setObjectForKey:key]。两者之间有个最重要的差别key(键) 是一个不透明的指针。所以通常使用静态全局变量做键。</p>
 </div>
-  
-  
 
 
-    </article>
-  
-  
-    <article>
+  <footer>
+    <p class="meta">
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/cai-niao-de-nu-li-iosde-httpda-jian.html/">菜鸟的努力-ios的HTTP搭建</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-10-09T19:27:16+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>9</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>7:27 pm</span></time>
-        
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>写接口  当然要用AFNetWorking</p>
-
-<ol>
-<li><p> 既然想通过HTTP 连接服务器</p>
-
-<p> 需要写一个HTTPClient的文件  用来写发送get请求 和 发送post请求</p></li>
-<li><p>(AFHTTPRequestOperation <em>)sendGetRequestWithPathString:(NSString </em>)pathString</p>
-
-<p>  //在数据传输 之前 要进行暗号的 核对
-      tokened:(BOOL)tokened
-      //想要传给服务器的数据</p>
-
-<p>  params:(id)params
-      //当传输 成功之后 执行的</p>
-
-<p>   success:(TDCHTTPRequestSuccessBlock)success
-      //当传输  失败之后  执行的
-       failure:(TDCHTTPRequestFailureBlock)failure;</p></li>
-<li>(AFHTTPRequestOperation <em>)sendPostRequestWithPathString:(NSString </em>)pathString
-       tokened:(BOOL)tokened
-       params:(id)params
-       paramType:(JHHTTPParamType)paramType
-       success:(TDCHTTPRequestSuccessBlock)success
-       failure:(TDCHTTPRequestFailureBlock)failure;</li>
-</ol>
-
-
-<p>用到一个  JHHTTPClient   第三方的HTTPClient
-网盘链接   <a href="http://pan.baidu.com/s/1c0qcnD2">http://pan.baidu.com/s/1c0qcnD2</a></p>
-
-<p>HTTPClient.m 
-+ (AFHTTPRequestOperation <em>)sendGetRequestWithPathString:(NSString </em>)pathString tokened:(BOOL)tokened params:(id)params success:(TDCHTTPRequestSuccessBlock)success failure:(TDCHTTPRequestFailureBlock)failure
-    {</p>
-
-<p>//#define kHTTPServer  (@&ldquo;<a href="http://183.221.242.75:8089/APPInterface/">http://183.221.242.75:8089/APPInterface/</a>&rdquo;)</p>
-
-<p>return [JHHTTPClient sendBaseRequestWithBaseString:kHTTPServer
-    //pathString =  @&ldquo;user/Login.ashx?act=add_phone”;接口链接</p>
-
-<p>   pathString:pathString
-    //方法类型   Get Post  Put  Delete</p>
-
-<p>methodType:JHHTTPMethodTypeGet
-    //参数类型  Default Path KeyValue JSON XML</p>
-
-<p>  paramType:JHHTTPParamTypeDefault
-    //NSDictionary *params = @{@&ldquo;phone&rdquo;: phone};  传递 接口所需要 的参数</p>
-
-<p>   params:params                                          files:nil                                            headers:nil
-                                           success:^(AFHTTPRequestOperation *operation, id response) {
-    //这个 类是用来 保存 服务器 发送回来 除了数据 之外的 信息
-    //{&ldquo;Data&rdquo;:333409,&ldquo;code&rdquo;:0,&ldquo;Msg&rdquo;:&ldquo;&rdquo;,&ldquo;num&rdquo;:0}
-    //Data  为数据  Status 为</p>
-
-<p>   TDCModel *model = [TDCModel objectWithKeyValues:response];
-    //#define kHTTPSuccess (200) </p>
-
-<p>   if(kHTTPSuccess != model.code) {
-                                                       if (failure) {</p>
-
-<p>//
-   failure(operation, [TDCError errorWithCode:model.code description:model.message]);</p>
-
-<p>   }</p>
-
-<p>   }else {
-    if (success) {</p>
-
-<p>//#define kHTTPData (@&ldquo;Data&rdquo;)
-                                                     success(operation, [response objectForKey:kHTTPData]);</p>
-
-<p>}
- }
-}
-                                            failure:failure progress:nil];
-}</p>
-
-<ul>
-<li><p>(AFHTTPRequestOperation <em>)sendPostRequestWithPathString:(NSString </em>)pathString tokened:(BOOL)tokened params:(id)params paramType:(JHHTTPParamType)paramType success:(TDCHTTPRequestSuccessBlock)success failure:(TDCHTTPRequestFailureBlock)failure
-  {</p>
-
-<p>  return [JHHTTPClient sendBaseRequestWithBaseString:kHTTPServer
-                                   pathString:pathString
-                            methodType:JHHTTPMethodTypePost
-paramType:paramType
- params:params
-  files:nil
- headers:nil
-                                           success:^(AFHTTPRequestOperation <em>operation, id response) {
-TDCModel </em>model = [TDCModel objectWithKeyValues:response];</p></li>
-</ul>
-
-
-<p> if (model.code == 1 || model.code == 0) {</p>
-
-<p> if (success) {
-                                            success(operation, [response objectForKey:kHTTPData]);</p>
-
-<p> }</p>
-
-<p>  }else {</p>
-
-<p>  if (failure) {
- if ([model.message isEqualToString:@&ldquo;&rdquo;])
-{
-                                                    failure(operation, [TDCError errorWithCode:model.code description:@&ldquo;服务器内部错误&rdquo;]);</p>
-
-<p>}
-                                                       else
-{
-                                                            failure(operation, [TDCError errorWithCode:model.code description:model.message]);
- }
-}
-}
-}
-                                          failure:^(AFHTTPRequestOperation <em>operation, NSError </em>error) {
-if (3840 == error.code) {
-error = [TDCError errorWithCode:TDCErrorCodeServerInvalid description:kStringServerException];
-}
-if (failure) {
-                                            failure(operation, error);
-}
-} progress:nil];</p>
-
-<p>}</p>
-</div>
-  
   
 
 
-    </article>
+
+  <span class="byline author vcard">Authored by <span class="fn">
   
+    张昊煜
   
-    <article>
+  </span></span>
+
+
       
-  <header>
+
+
+
+
+<time class='entry-date' datetime='2015-10-10T00:47:52+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>10</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>12:47 am</span></time>
+      
+      
+
+
+    </p>
     
-      <h1 class="entry-title"><a href="/blog/hello-world.html/">Hello World</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-10-09T15:29:56+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>9</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>3:29 pm</span></time>
-        
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Today, I finally had my blog, I want to say &ldquo;hello world&rdquo;.</p>
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://zhyu37.github.io/blog/effective-objective-c-2-dot-0-10-dot-zai-ji-you-lei-zhong-shi-yong-guan-lian-dui-xiang-cun-fang-zi-ding-yi-shu-ju.html/" data-via="" data-counturl="http://zhyu37.github.io/blog/effective-objective-c-2-dot-0-10-dot-zai-ji-you-lei-zhong-shi-yong-guan-lian-dui-xiang-cun-fang-zi-ding-yi-shu-ju.html/" >Tweet</a>
+  
+  
+  
 </div>
-  
-  
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/cai-niao-de-nu-li-iosde-httpda-jian.html/" title="Previous Post: 菜鸟的努力-ios的HTTP搭建">&laquo; 菜鸟的努力-ios的HTTP搭建</a>
+      
+      
+    </p>
+  </footer>
+</article>
 
 
-    </article>
-  
-  <div class="pagination">
-    
-    <a href="/blog/archives">Blog Archives</a>
-    
-  </div>
 </div>
-<aside class="sidebar">
-  
-    
-  
-</aside>
 
     </div>
   </div>
