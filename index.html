@@ -9,10 +9,7 @@
   <meta name="author" content="张昊煜">
 
   
-  <meta name="description" content="当我们想在对象中存放其他信息时，一般会采用创建其子类后改用这个子类对象。然而并非所有情况都可以这么做。so Object-c中有一个强大的特性——关联对象(Associated Object) 关联策略 关联策略
-等价属性
-说明 OBJC_ASSOCIATION_ASSIGN
-@property &hellip;">
+  <meta name="description" content="NSNotification 消息机制 最近在项目中发现这个NSNotification还是很好用的。那我就简单介绍一下步骤，先要注册对象，当有人post的时候调用注册的方法，当然不能忘记remove注册了的对象。 注册对象 [[NSNotificationCenter &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -81,6 +78,128 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/nsnotificationcenterxiao-jie.html/">NSNotificationCenter小结</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-10-12T23:41:11+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>12</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>11:41 pm</span></time>
+        
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><hr />
+
+<h2>NSNotification 消息机制</h2>
+
+<blockquote><p>最近在项目中发现这个NSNotification还是很好用的。那我就简单介绍一下步骤，先要注册对象，当有人post的时候调用注册的方法，当然不能忘记<code>remove</code>注册了的对象。</p></blockquote>
+
+<p>注册对象</p>
+
+
+
+
+<pre><code>
+[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(test) name:@"test" object:nil];
+}
+</code></pre>
+
+
+
+
+<p>当对象被post之后  会调用 写好的test方法</p>
+
+
+
+
+<pre><code>
+ [[NSNotificationCenter defaultCenter] postNotificationName:@"test" object:nil];
+    });
+</pre>
+
+
+<p></code></p>
+
+<p>删除对象</p>
+
+
+
+
+<pre><code>
+[[NSNotificationCenter defaultCenter] removeObserver:self name:@"test" object:nil];
+</code></pre>
+
+
+<p><code>注册和删除对象 一定要成对出现  ，当然也可以在dealloc里面 一起删除</code></p>
+
+<pre><code>
+- (void)dealloc{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [super dealloc];
+}
+</pre>
+
+
+<p></code></p>
+
+<p>在这个类的.h 文件中添加下面的的外部申明</p>
+
+
+
+
+<pre><code>
+extern NSString * const testNotification;
+</pre>
+
+
+<p></code></p>
+
+<p>在.m中定义常量</p>
+
+
+
+
+<pre><code>
+NSString * const testNotification = @"BNRColorChanged";
+</pre>
+
+
+<p></code></p>
+
+<p><code>如果安上面的申请方法 我们的注册 和 删除对象也可以改变一下</code></p>
+
+<pre><code>
+
+[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(test) name:testNotification object:nil];
+}
+
+post 删除 同理
+
+</pre>
+
+
+<p></code></p>
+
+<h4>See You</h4>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
