@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>NSNotificationCenter小结 - 有所为，有所不为</title>
+  <title>ios8之UIAlertController - 有所为，有所不为</title>
   <meta name="author" content="张昊煜">
 
   
-  <meta name="description" content="NSNotification 消息机制 最近在项目中发现这个NSNotification还是很好用的。那我就简单介绍一下步骤，先要注册对象，当有人post的时候调用注册的方法，当然不能忘记remove注册了的对象。 注册对象 [[NSNotificationCenter &hellip;">
+  <meta name="description" content="UIAlertController UIAlertController 作为ios8新出现的control还是很值得学习的，它融合了之前的UIAlertView 和 UIActionSheet. 先来写个简单的小例子 UIAlertController *alertController = [ &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://zhyu37.github.io/blog/nsnotificationcenterxiao-jie.html/">
+  <link rel="canonical" href="http://zhyu37.github.io/blog/ios8zhi-uialertcontroller.html/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="有所为，有所不为" type="application/atom+xml">
@@ -82,7 +82,7 @@
   <header>
     
       
-        <h1 class="entry-title">NSNotificationCenter小结</h1>
+        <h1 class="entry-title">ios8之UIAlertController</h1>
       
     
     
@@ -92,7 +92,7 @@
 
 
 
-<time class='entry-date' datetime='2015-10-12T23:41:11+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>12</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>11:41 pm</span></time>
+<time class='entry-date' datetime='2015-10-13T17:16:02+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>13</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>5:16 pm</span></time>
         
         
       </p>
@@ -102,97 +102,98 @@
 
 <div class="entry-content"><hr />
 
-<h2>NSNotification 消息机制</h2>
+<h2>UIAlertController</h2>
 
-<blockquote><p>最近在项目中发现这个NSNotification还是很好用的。那我就简单介绍一下步骤，先要注册对象，当有人post的时候调用注册的方法，当然不能忘记<code>remove</code>注册了的对象。</p></blockquote>
+<blockquote><p>UIAlertController 作为ios8新出现的control还是很值得学习的，它融合了之前的UIAlertView 和  UIActionSheet.</p></blockquote>
 
-<p>注册对象</p>
+<P>先来写个简单的小例子</P>
 
 
 
 
 <pre><code>
-[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(test) name:@"test" object:nil];
+UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"title" message:@"message" preferredStyle:UIAlertControllerStyleAlert];
+
+UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+            
+}];
+
+ UIAlertAction *commitAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+ 
+}];
+
+[alertController addAction:cancelAction];
+[alertController addAction:commitAction];
+[self presentViewController:alertController animated:YES completion:nil];
+</pre>
+
+
+<p></code></p>
+
+<p><img src="/Users/zhanghaoyu/octopress/source/_posts/image/UIAlertConller1.png" alt="样例" /></p>
+
+<p>在UIAlertController中添加一个输入框</p>
+
+
+
+
+<pre><code>
+@property (nonatomic, strong) UIAlertAction *secureTextAlertAction;
+</pre>
+
+
+<p></code></p>
+
+<pre><code>
+UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"title" message:@"message" preferredStyle:UIAlertControllerStyleAlert];
+
+ // Add the text field for the secure text entry.
+    [alertController addTextFieldWithConfigurationHandler:^(UITextField *textField) {
+        // Listen for changes to the text field's text so that we can toggle the current
+        // action's enabled property based on whether the user has entered a sufficiently
+        // secure entry.
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleTextFieldTextDidChangeNotification:) name:UITextFieldTextDidChangeNotification object:textField];
+        //每输入一个字符就会变成点
+         textField.secureTextEntry = YES;
+ }];
+
+UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:UITextFieldTextDidChangeNotification object:alertController.textFields.firstObject];
+    }];
+
+ UIAlertAction *commitAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UITextFieldTextDidChangeNotification object:alertController.textFields.firstObject];
+}];
+
+// The text field initially has no text in the text field, so we'll disable it.
+    commitAction.enabled = NO;
+    
+// Hold onto the secure text alert action to toggle the enabled/disabled state when the text changed.
+    self.secureTextAlertAction = commitAction;
+
+[alertController addAction:cancelAction];
+[alertController addAction:commitAction];
+[self presentViewController:alertController animated:YES completion:nil];
+
+</pre>
+
+
+<p></code></p>
+
+<pre><code>
+- (void)handleTextFieldTextDidChangeNotification:(NSNotification *)notification
+{
+    UITextField *textField = notification.object;
+    
+   // Enforce a minimum length of >= 5 characters for secure text alerts.
+    self.secureTextAlertAction.enabled = textField.text.length >= 5;
 }
-</code></pre>
-
-
-
-
-<p>当对象被post之后  会调用 写好的test方法</p>
-
-
-
-
-<pre><code>
- [[NSNotificationCenter defaultCenter] postNotificationName:@"test" object:nil];
-    });
 </pre>
 
 
 <p></code></p>
 
-<p>删除对象</p>
-
-
-
-
-<pre><code>
-[[NSNotificationCenter defaultCenter] removeObserver:self name:@"test" object:nil];
-</code></pre>
-
-
-<p><code>注册和删除对象 一定要成对出现  ，当然也可以在dealloc里面 一起删除</code></p>
-
-<pre><code>
-- (void)dealloc{
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-    [super dealloc];
-}
-</pre>
-
-
-<p></code></p>
-
-<p>在这个类的.h 文件中添加下面的的外部申明</p>
-
-
-
-
-<pre><code>
-extern NSString * const testNotification;
-</pre>
-
-
-<p></code></p>
-
-<p>在.m中定义常量</p>
-
-
-
-
-<pre><code>
-NSString * const testNotification = @"BNRColorChanged";
-</pre>
-
-
-<p></code></p>
-
-<p><code>如果安上面的申请方法 我们的注册 和 删除对象也可以改变一下</code></p>
-
-<pre><code>
-
-[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(test) name:testNotification object:nil];
-}
-
-post 删除 同理
-
-</pre>
-
-
-<p></code></p>
-
-<h4>See You</h4>
+<h3>See You</h3>
 </div>
 
 
@@ -215,7 +216,7 @@ post 删除 同理
 
 
 
-<time class='entry-date' datetime='2015-10-12T23:41:11+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>12</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>11:41 pm</span></time>
+<time class='entry-date' datetime='2015-10-13T17:16:02+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>13</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>5:16 pm</span></time>
       
       
 
@@ -224,7 +225,7 @@ post 删除 同理
     
       <div class="sharing">
   
-  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://zhyu37.github.io/blog/nsnotificationcenterxiao-jie.html/" data-via="" data-counturl="http://zhyu37.github.io/blog/nsnotificationcenterxiao-jie.html/" >Tweet</a>
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://zhyu37.github.io/blog/ios8zhi-uialertcontroller.html/" data-via="" data-counturl="http://zhyu37.github.io/blog/ios8zhi-uialertcontroller.html/" >Tweet</a>
   
   
   
@@ -233,10 +234,8 @@ post 删除 同理
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/effective-objective-c-2-dot-0-10-dot-zai-ji-you-lei-zhong-shi-yong-guan-lian-dui-xiang-cun-fang-zi-ding-yi-shu-ju.html/" title="Previous Post: Effective Objective-C 2.0--10.在既有类中使用关联对象存放自定义数据">&laquo; Effective Objective-C 2.0--10.在既有类中使用关联对象存放自定义数据</a>
+        <a class="basic-alignment left" href="/blog/nsnotificationcenterxiao-jie.html/" title="Previous Post: NSNotificationCenter小结">&laquo; NSNotificationCenter小结</a>
       
-      
-        <a class="basic-alignment right" href="/blog/ios8zhi-uialertcontroller.html/" title="Next Post: ios8之UIAlertController">ios8之UIAlertController &raquo;</a>
       
     </p>
   </footer>

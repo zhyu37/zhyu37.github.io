@@ -4,7 +4,7 @@
   <title><![CDATA[有所为，有所不为]]></title>
   <link href="http://zhyu37.github.io/atom.xml" rel="self"/>
   <link href="http://zhyu37.github.io/"/>
-  <updated>2015-10-12T23:42:46+08:00</updated>
+  <updated>2015-10-13T17:21:32+08:00</updated>
   <id>http://zhyu37.github.io/</id>
   <author>
     <name><![CDATA[张昊煜]]></name>
@@ -12,6 +12,108 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[ios8之UIAlertController]]></title>
+    <link href="http://zhyu37.github.io/blog/ios8zhi-uialertcontroller.html/"/>
+    <updated>2015-10-13T17:16:02+08:00</updated>
+    <id>http://zhyu37.github.io/blog/ios8zhi-uialertcontroller</id>
+    <content type="html"><![CDATA[<hr />
+
+<h2>UIAlertController</h2>
+
+<blockquote><p>UIAlertController 作为ios8新出现的control还是很值得学习的，它融合了之前的UIAlertView 和  UIActionSheet.</p></blockquote>
+
+<P>先来写个简单的小例子</P>
+
+
+
+
+<pre><code>
+UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"title" message:@"message" preferredStyle:UIAlertControllerStyleAlert];
+
+UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+            
+}];
+
+ UIAlertAction *commitAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+ 
+}];
+
+[alertController addAction:cancelAction];
+[alertController addAction:commitAction];
+[self presentViewController:alertController animated:YES completion:nil];
+</pre>
+
+
+<p></code></p>
+
+<p><img src="http://zhyu37.github.io/Users/zhanghaoyu/octopress/source/_posts/image/UIAlertConller1.png" alt="样例" /></p>
+
+<p>在UIAlertController中添加一个输入框</p>
+
+
+
+
+<pre><code>
+@property (nonatomic, strong) UIAlertAction *secureTextAlertAction;
+</pre>
+
+
+<p></code></p>
+
+<pre><code>
+UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"title" message:@"message" preferredStyle:UIAlertControllerStyleAlert];
+
+ // Add the text field for the secure text entry.
+    [alertController addTextFieldWithConfigurationHandler:^(UITextField *textField) {
+        // Listen for changes to the text field's text so that we can toggle the current
+        // action's enabled property based on whether the user has entered a sufficiently
+        // secure entry.
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleTextFieldTextDidChangeNotification:) name:UITextFieldTextDidChangeNotification object:textField];
+        //每输入一个字符就会变成点
+         textField.secureTextEntry = YES;
+ }];
+
+UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:UITextFieldTextDidChangeNotification object:alertController.textFields.firstObject];
+    }];
+
+ UIAlertAction *commitAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UITextFieldTextDidChangeNotification object:alertController.textFields.firstObject];
+}];
+
+// The text field initially has no text in the text field, so we'll disable it.
+    commitAction.enabled = NO;
+    
+// Hold onto the secure text alert action to toggle the enabled/disabled state when the text changed.
+    self.secureTextAlertAction = commitAction;
+
+[alertController addAction:cancelAction];
+[alertController addAction:commitAction];
+[self presentViewController:alertController animated:YES completion:nil];
+
+</pre>
+
+
+<p></code></p>
+
+<pre><code>
+- (void)handleTextFieldTextDidChangeNotification:(NSNotification *)notification
+{
+    UITextField *textField = notification.object;
+    
+   // Enforce a minimum length of >= 5 characters for secure text alerts.
+    self.secureTextAlertAction.enabled = textField.text.length >= 5;
+}
+</pre>
+
+
+<p></code></p>
+
+<h3>See You</h3>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[NSNotificationCenter小结]]></title>
