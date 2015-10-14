@@ -7,7 +7,7 @@ categories:
 ---
 =====
 ##UIAlertController
->UIAlertController 作为ios8新出现的control还是很值得学习的，它融合了之前的UIAlertView 和  UIActionSheet.
+>UIAlertController 作为ios8新出现的controller还是很值得学习的，它融合了之前的UIAlertView 和  UIActionSheet.
 
 <P>先来写个简单的小例子</P>
 
