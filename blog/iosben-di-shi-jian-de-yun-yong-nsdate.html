@@ -1,0 +1,303 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>ios本地时间的运用NSDate - 有所为，有所不为</title>
+  <meta name="author" content="张昊煜">
+
+  
+  <meta name="description" content="ios本地时间的运用NSDate 看来NSDate之后感慨大一时候，在ACM中写敢于时间的问题，想想感觉当时太单纯，哈哈。 NSDate的初始化 //获取当前日期
+NSDate *now = [NSDate date]; //如果想获取几天后的时间， &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://zhyu37.github.io/blog/iosben-di-shi-jian-de-yun-yong-nsdate.html/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="有所为，有所不为" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=Fjalla+One" rel="stylesheet" type="text/css">
+<!--- MathJax Configuration -->
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+</head>
+
+<body   class="collapse-sidebar sidebar-footer" >
+  <header role="banner"><hgroup>
+  <h1><a href="/">有所为，有所不为</a></h1>
+  
+    <h2>张昊煜</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscribe" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS" target="_blank"><svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="25" height="25" viewbox="0 0 100 100"><path class="social" d="M 13.310204,73.332654 C 5.967347,73.332654 0,79.322448 0,86.621428 c 0,7.338776 5.967347,13.262246 13.310204,13.262246 7.370408,0 13.328572,-5.92245 13.328572,-13.262246 0,-7.29898 -5.958164,-13.288774 -13.328572,-13.288774 z M 0.01530612,33.978572 V 53.143878 C 12.493878,53.143878 24.229592,58.02347 33.068368,66.865306 41.894898,75.685714 46.767346,87.47449 46.767346,100 h 19.25 C 66.017346,63.592858 36.4,33.979592 0.01530612,33.978572 l 0,0 z M 0.03877552,0 V 19.17449 C 44.54796,19.17551 80.77551,55.437756 80.77551,100 H 100 C 100,44.87653 55.15102,0 0.03877552,0 z"></path></svg></a></li>
+  
+</ul>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    
+      <form action="https://www.google.com/search" method="get">
+        <fieldset role="search">
+          <input type="hidden" name="sitesearch" value="zhyu37.github.io" />
+    
+          <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+        </fieldset>
+      </form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      
+        <h1 class="entry-title">ios本地时间的运用NSDate</h1>
+      
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-10-15T00:06:15+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>15</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>12:06 am</span></time>
+        
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><hr />
+
+<h2>ios本地时间的运用NSDate</h2>
+
+<blockquote><p>看来NSDate之后感慨大一时候，在ACM中写敢于时间的问题，想想感觉当时太单纯，哈哈。</p></blockquote>
+
+<p>NSDate的初始化</p>
+
+
+
+
+<pre><code>
+//获取当前日期
+NSDate *now = [NSDate date];
+
+//如果想获取几天后的时间，如果放在大一我还在傻乎乎的判断每个月有多少天哪一年是闰年，当然傻乎乎的时光是美好的。。。。。
+NSTimeInterval day = 24 * 60 * 60; 
+
+NSDate *will = [[NSDate alloc] initWithTimeInterval:day sinceDate:[NSDate date]];
+
+//如果出现了 时区的问题
+NSTimeZone *zone = [NSTimeZone systemTimeZone];
+         
+NSInteger interval = [zone secondsFromGMTForDate: date];
+         
+NSDate *localDate = [date  dateByAddingTimeInterval: interval];
+
+</pre>
+
+
+<p></code></p>
+
+<p>当然NSDate -> NSString 的转换也是不可或缺的</p>
+
+
+
+
+<pre><code>
+NSDateFormatter *dateFormatter =[[NSDateFormatter alloc] init];
+ 
+// 设置日期格式
+[dateFormatter setDateFormat:@"年月日 YYYY/mm/dd 时间 hh:mm:ss"];
+         
+NSString *dateString = [dateFormatter stringFromDate:[NSDate date]];
+         
+// 打印结果：dateString = 年月日 2013/10/16 时间 05:15:43
+        NSLog(@"dateString = %@",dateString);
+         
+// 设置日期格式
+[dateFormatter setDateFormat:@"YYYY-MM-dd"];
+         
+NSString *year = [dateFormatter stringFromDate:[NSDate date]];
+         
+// 打印结果：年月日 year = 2013-08-16
+NSLog(@"年月日 year = %@",year);
+         
+// 设置时间格式
+[dateFormatter setDateFormat:@"hh:mm:ss"];
+         
+NSString *time = [dateFormatter stringFromDate:[NSDate date]];
+
+// 打印结果：时间 time = 05:15:43
+NSLog(@"时间 time = %@",time);
+</pre>
+
+
+<p></code></p>
+
+<p>两个时间的比较</p>
+
+
+
+
+<pre><code>
+// 当前时间
+NSDate *currentDate = [NSDate date];
+         
+// 比当前时间晚一个小时的时间
+NSDate *laterDate = [[NSDate alloc] initWithTimeInterval:60*60 sinceDate:[NSDate date]];
+         
+// 比当前时间早一个小时的时间
+NSDate *earlierDate = [[NSDate alloc] initWithTimeInterval:-60*60 sinceDate:[NSDate date]];
+         
+// 比较哪个时间迟
+if ([currentDate laterDate:laterDate]) {
+// 打印结果：current-2013-08-16 09:25:54 +0000比later-2013-08-16 10:25:54 +0000晚
+NSLog(@"current-%@比later-%@晚",currentDate,laterDate);
+}
+         
+// 比较哪个时间早
+if ([currentDate earlierDate:earlierDate]) {
+// 打印结果：current-2013-08-16 09:25:54 +0000 比 earlier-2013-08-16 08:25:54 +0000 
+NSLog(@"current-%@ 比 earlier-%@ 早",currentDate,earlierDate);
+}
+         
+if([currentDatecompare:earlierDate]==NSOrderedDescending) 
+{
+// 打印结果
+NSLog(@"current 晚");
+}
+if ([currentDate compare:currentDate]==NSOrderedSame) 
+{
+// 打印结果
+NSLog(@"时间相等");
+}
+if ([currentDate compare:laterDate]==NSOrderedAscending) {
+// 打印结果
+NSLog(@"current 早");
+}
+</pre>
+
+
+<p></code></p>
+
+<h2>See You</h2>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+
+
+  <span class="byline author vcard">Authored by <span class="fn">
+  
+    张昊煜
+  
+  </span></span>
+
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-10-15T00:06:15+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>15</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>12:06 am</span></time>
+      
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://zhyu37.github.io/blog/iosben-di-shi-jian-de-yun-yong-nsdate.html/" data-via="" data-counturl="http://zhyu37.github.io/blog/iosben-di-shi-jian-de-yun-yong-nsdate.html/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/cai-niao-de-nu-li-zhen-shi-xiang-mu-de-da.html/" title="Previous Post: 菜鸟的努力——真实项目的搭">&laquo; 菜鸟的努力——真实项目的搭</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+
+</div>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2015 - 张昊煜 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a> | Themed with <a href="https://github.com/lucaslew/whitespace">Whitespace</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

@@ -4,7 +4,7 @@
   <title><![CDATA[有所为，有所不为]]></title>
   <link href="http://zhyu37.github.io/atom.xml" rel="self"/>
   <link href="http://zhyu37.github.io/"/>
-  <updated>2015-10-14T23:39:10+08:00</updated>
+  <updated>2015-10-15T00:07:28+08:00</updated>
   <id>http://zhyu37.github.io/</id>
   <author>
     <name><![CDATA[张昊煜]]></name>
@@ -12,6 +12,129 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[ios本地时间的运用NSDate]]></title>
+    <link href="http://zhyu37.github.io/blog/iosben-di-shi-jian-de-yun-yong-nsdate.html/"/>
+    <updated>2015-10-15T00:06:15+08:00</updated>
+    <id>http://zhyu37.github.io/blog/iosben-di-shi-jian-de-yun-yong-nsdate</id>
+    <content type="html"><![CDATA[<hr />
+
+<h2>ios本地时间的运用NSDate</h2>
+
+<blockquote><p>看来NSDate之后感慨大一时候，在ACM中写敢于时间的问题，想想感觉当时太单纯，哈哈。</p></blockquote>
+
+<p>NSDate的初始化</p>
+
+
+
+
+<pre><code>
+//获取当前日期
+NSDate *now = [NSDate date];
+
+//如果想获取几天后的时间，如果放在大一我还在傻乎乎的判断每个月有多少天哪一年是闰年，当然傻乎乎的时光是美好的。。。。。
+NSTimeInterval day = 24 * 60 * 60; 
+
+NSDate *will = [[NSDate alloc] initWithTimeInterval:day sinceDate:[NSDate date]];
+
+//如果出现了 时区的问题
+NSTimeZone *zone = [NSTimeZone systemTimeZone];
+         
+NSInteger interval = [zone secondsFromGMTForDate: date];
+         
+NSDate *localDate = [date  dateByAddingTimeInterval: interval];
+
+</pre>
+
+
+<p></code></p>
+
+<p>当然NSDate -> NSString 的转换也是不可或缺的</p>
+
+
+
+
+<pre><code>
+NSDateFormatter *dateFormatter =[[NSDateFormatter alloc] init];
+ 
+// 设置日期格式
+[dateFormatter setDateFormat:@"年月日 YYYY/mm/dd 时间 hh:mm:ss"];
+         
+NSString *dateString = [dateFormatter stringFromDate:[NSDate date]];
+         
+// 打印结果：dateString = 年月日 2013/10/16 时间 05:15:43
+        NSLog(@"dateString = %@",dateString);
+         
+// 设置日期格式
+[dateFormatter setDateFormat:@"YYYY-MM-dd"];
+         
+NSString *year = [dateFormatter stringFromDate:[NSDate date]];
+         
+// 打印结果：年月日 year = 2013-08-16
+NSLog(@"年月日 year = %@",year);
+         
+// 设置时间格式
+[dateFormatter setDateFormat:@"hh:mm:ss"];
+         
+NSString *time = [dateFormatter stringFromDate:[NSDate date]];
+
+// 打印结果：时间 time = 05:15:43
+NSLog(@"时间 time = %@",time);
+</pre>
+
+
+<p></code></p>
+
+<p>两个时间的比较</p>
+
+
+
+
+<pre><code>
+// 当前时间
+NSDate *currentDate = [NSDate date];
+         
+// 比当前时间晚一个小时的时间
+NSDate *laterDate = [[NSDate alloc] initWithTimeInterval:60*60 sinceDate:[NSDate date]];
+         
+// 比当前时间早一个小时的时间
+NSDate *earlierDate = [[NSDate alloc] initWithTimeInterval:-60*60 sinceDate:[NSDate date]];
+         
+// 比较哪个时间迟
+if ([currentDate laterDate:laterDate]) {
+// 打印结果：current-2013-08-16 09:25:54 +0000比later-2013-08-16 10:25:54 +0000晚
+NSLog(@"current-%@比later-%@晚",currentDate,laterDate);
+}
+         
+// 比较哪个时间早
+if ([currentDate earlierDate:earlierDate]) {
+// 打印结果：current-2013-08-16 09:25:54 +0000 比 earlier-2013-08-16 08:25:54 +0000 
+NSLog(@"current-%@ 比 earlier-%@ 早",currentDate,earlierDate);
+}
+         
+if([currentDatecompare:earlierDate]==NSOrderedDescending) 
+{
+// 打印结果
+NSLog(@"current 晚");
+}
+if ([currentDate compare:currentDate]==NSOrderedSame) 
+{
+// 打印结果
+NSLog(@"时间相等");
+}
+if ([currentDate compare:laterDate]==NSOrderedAscending) {
+// 打印结果
+NSLog(@"current 早");
+}
+</pre>
+
+
+<p></code></p>
+
+<h2>See You</h2>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[菜鸟的努力——真实项目的搭]]></title>
