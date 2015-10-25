@@ -5,12 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>UIPickerView - 有所为，有所不为</title>
+  <title>Ios Auto Layout - 有所为，有所不为</title>
   <meta name="author" content="张昊煜">
 
   
-  <meta name="description" content="UIPickerView UIPickerView是一个类似于选择器的东西。 UIPickerViewDelegate //pikerView 的长度
-(CGFloat)pickerView:(UIPickerView *)pickerView widthForComponent:( &hellip;">
+  <meta name="description" content="Ios Auto Layout 一开始 学的时候frame的绝对位置确实比autLayout好用，但是随着iphone 的尺寸越来越多 就会发现在4寸屏上适配成功，发现到plus 上就不对了。so 我选择了autoLayout 因为他是相对布局 所以它更适合 尺寸的变换和 竖屏横屏的切换。 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -19,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://zhyu37.github.io/blog/uipickerview.html/">
+  <link rel="canonical" href="http://zhyu37.github.io/blog/ios-auto-layout.html/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="有所为，有所不为" type="application/atom+xml">
@@ -83,7 +82,7 @@
   <header>
     
       
-        <h1 class="entry-title">UIPickerView</h1>
+        <h1 class="entry-title">Ios Auto Layout</h1>
       
     
     
@@ -93,7 +92,7 @@
 
 
 
-<time class='entry-date' datetime='2015-10-22T23:25:30+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>22</span><span class='date-suffix'>nd</span>, <span class='date-year'>2015</span></span> <span class='time'>11:25 pm</span></time>
+<time class='entry-date' datetime='2015-10-25T20:27:46+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>25</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>8:27 pm</span></time>
         
         
       </p>
@@ -103,63 +102,64 @@
 
 <div class="entry-content"><hr />
 
-<h2>UIPickerView</h2>
+<h2>Ios Auto Layout</h2>
 
-<blockquote><p>UIPickerView是一个类似于选择器的东西。</p></blockquote>
+<blockquote><p>一开始 学的时候frame的绝对位置确实比autLayout好用，但是随着iphone 的尺寸越来越多 就会发现在4寸屏上适配成功，发现到plus 上就不对了。so 我选择了autoLayout 因为他是相对布局 所以它更适合 尺寸的变换和 竖屏横屏的切换。但也不能说frame 没用处。</p></blockquote>
 
-<ul>
-<li>UIPickerViewDelegate
-
-<ul>
-<li>//pikerView 的长度
-(CGFloat)pickerView:(UIPickerView *)pickerView widthForComponent:(NSInteger)component;</li>
-<li>//pickerView 的宽度
-(CGFloat)pickerView:(UIPickerView *)pickerView rowHeightForComponent:(NSInteger)component;</li>
-<li>//pickerView 里面的信息
-(NSString <em>)pickerView:(UIPickerView </em>)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component;</li>
-<li>//当被点击后执行
-(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component;</li>
-</ul>
-</li>
-<li>UIPickerViewDataSource
-
-<ul>
-<li>//pickerView 的个数
-(NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView</li>
-<li>//每个pickerView 的行数
-(NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component</li>
-</ul>
-</li>
-</ul>
+<p>autolayout的VFL(Visual Format Language)语法</p>
 
 
-<p>pickerView初始化</p>
 
 
 <pre><code>
-@property (nonatomic, strong) UIPickerView *pickerView;
+NSString *vfl = @"V:|-5-[_view]-10-[_imageView(20)]-10-[_backBtn]-5-|";
 
-
-- (void)viewDidLoad {
-// 显示选中框 default = NO
-    self.pickerView.showsSelectionIndicator=YES;
-    self.pickerView.dataSource = self;
-    self.pickerView.delegate = self;
-    [self.view addSubview:self.pickerView];
-}
-
-
-- (UIPickerView *)pickerView
-{
-    if (!_pickerView) {
-        _pickerView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 0, 320, 480)];
-    }
-    return _pickerView;
-}
+//其实这段话就是说，在垂直方向从上到下，view离父视图5点，imageView距离view 10点，同时imageView是20点高，backBtn离imageView底部10点，距离父视图底部5点。
 </pre>
 
 
 <p></code></p>
+
+<p>手动Constraint书写</p>
+
+
+<pre><code>
+[self.view addConstraint: [NSLayoutConstraint constraintWithItem:blueView
+attribute:NSLayoutAttributeLeft
+relatedBy:NSLayoutRelationEqual
+toItem:redView
+attribute:NSLayoutAttributeLeft
+multiplier:1
+constant:0]];
+</pre>
+
+
+<p></code></p>
+
+<blockquote><p>通过上面的 讲解  发现AutoLayout还需要花费经历 再去学习一番。SO 我在github上发现了一位大神写的第三方的东西<code>Masonry</code>.<a href="https://github.com/SnapKit/Masonry">https://github.com/SnapKit/Masonry</a><br/>
+开源项目Masonry旨在让自动布局（Auto Layout）的代码更简洁、可读性更强。</p>
+
+<p>Masonry ，“一个轻量级的布局框架，采用更优雅的语法封装自动布局”，不需要使用XIB和Storyboard。它的创造者Jonas Budelmann 论证 了尽管自动布局很强大，但它很快就变得冗长而不可读。</p>
+
+<p>Masonry是一种领域特定语言（DSL），为自动布局的所有功能提供便捷的方法，包括建立和修改约束、存取属性、设置优先级以及调试支持。</p></blockquote>
+
+<p>view的x位于父视图中心，y距顶部5，width为10，hight为20。还是同样地意思 我用这种框架来写一下</p>
+
+
+<pre><code>
+[view mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(self.mas_centerX);
+        make.top.equalTo(self.mas_top).offset(5);
+        make.width.equalTo(@(10));
+        make.height.equalTo(@(20));
+    }];
+</pre>
+
+
+<p></code></p>
+
+<p>感觉还是很好用的</p>
+
 
 <h2>See You</h2>
 </div>
@@ -184,7 +184,7 @@
 
 
 
-<time class='entry-date' datetime='2015-10-22T23:25:30+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>22</span><span class='date-suffix'>nd</span>, <span class='date-year'>2015</span></span> <span class='time'>11:25 pm</span></time>
+<time class='entry-date' datetime='2015-10-25T20:27:46+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>25</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>8:27 pm</span></time>
       
       
 
@@ -193,7 +193,7 @@
     
       <div class="sharing">
   
-  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://zhyu37.github.io/blog/uipickerview.html/" data-via="" data-counturl="http://zhyu37.github.io/blog/uipickerview.html/" >Tweet</a>
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://zhyu37.github.io/blog/ios-auto-layout.html/" data-via="" data-counturl="http://zhyu37.github.io/blog/ios-auto-layout.html/" >Tweet</a>
   
   
   
@@ -202,10 +202,8 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/iosduan-wei-xin-zhi-fu-demo.html/" title="Previous Post: ios端 微信支付Demo">&laquo; ios端 微信支付Demo</a>
+        <a class="basic-alignment left" href="/blog/uipickerview.html/" title="Previous Post: UIPickerView">&laquo; UIPickerView</a>
       
-      
-        <a class="basic-alignment right" href="/blog/ios-auto-layout.html/" title="Next Post: Ios Auto Layout">Ios Auto Layout &raquo;</a>
       
     </p>
   </footer>

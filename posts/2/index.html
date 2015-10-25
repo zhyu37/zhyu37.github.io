@@ -5,12 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>UIPickerView - 有所为，有所不为</title>
+  <title>有所为，有所不为</title>
   <meta name="author" content="张昊煜">
 
   
-  <meta name="description" content="UIPickerView UIPickerView是一个类似于选择器的东西。 UIPickerViewDelegate //pikerView 的长度
-(CGFloat)pickerView:(UIPickerView *)pickerView widthForComponent:( &hellip;">
+  <meta name="description" content="Today, I finally had my blog, I want to say &ldquo;hello world&rdquo;.
+">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -19,7 +19,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://zhyu37.github.io/blog/uipickerview.html/">
+  <link rel="canonical" href="http://zhyu37.github.io/posts/2/index.html">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="有所为，有所不为" type="application/atom+xml">
@@ -77,14 +77,15 @@
 </nav>
   <div id="main">
     <div id="content">
-      <div>
-<article class="hentry" role="article">
+      <div class="blog-index">
   
+  
+  
+    <article>
+      
   <header>
     
-      
-        <h1 class="entry-title">UIPickerView</h1>
-      
+      <h1 class="entry-title"><a href="/blog/hello-world.html/">Hello World</a></h1>
     
     
       <p class="meta">
@@ -93,7 +94,7 @@
 
 
 
-<time class='entry-date' datetime='2015-10-22T23:25:30+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>22</span><span class='date-suffix'>nd</span>, <span class='date-year'>2015</span></span> <span class='time'>11:25 pm</span></time>
+<time class='entry-date' datetime='2015-10-09T15:29:56+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>9</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>3:29 pm</span></time>
         
         
       </p>
@@ -101,118 +102,27 @@
   </header>
 
 
-<div class="entry-content"><hr />
-
-<h2>UIPickerView</h2>
-
-<blockquote><p>UIPickerView是一个类似于选择器的东西。</p></blockquote>
-
-<ul>
-<li>UIPickerViewDelegate
-
-<ul>
-<li>//pikerView 的长度
-(CGFloat)pickerView:(UIPickerView *)pickerView widthForComponent:(NSInteger)component;</li>
-<li>//pickerView 的宽度
-(CGFloat)pickerView:(UIPickerView *)pickerView rowHeightForComponent:(NSInteger)component;</li>
-<li>//pickerView 里面的信息
-(NSString <em>)pickerView:(UIPickerView </em>)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component;</li>
-<li>//当被点击后执行
-(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component;</li>
-</ul>
-</li>
-<li>UIPickerViewDataSource
-
-<ul>
-<li>//pickerView 的个数
-(NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView</li>
-<li>//每个pickerView 的行数
-(NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component</li>
-</ul>
-</li>
-</ul>
-
-
-<p>pickerView初始化</p>
-
-
-<pre><code>
-@property (nonatomic, strong) UIPickerView *pickerView;
-
-
-- (void)viewDidLoad {
-// 显示选中框 default = NO
-    self.pickerView.showsSelectionIndicator=YES;
-    self.pickerView.dataSource = self;
-    self.pickerView.delegate = self;
-    [self.view addSubview:self.pickerView];
-}
-
-
-- (UIPickerView *)pickerView
-{
-    if (!_pickerView) {
-        _pickerView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 0, 320, 480)];
-    }
-    return _pickerView;
-}
-</pre>
-
-
-<p></code></p>
-
-<h2>See You</h2>
+  <div class="entry-content"><p>Today, I finally had my blog, I want to say &ldquo;hello world&rdquo;.</p>
 </div>
-
-
-  <footer>
-    <p class="meta">
-      
+  
   
 
 
-
-  <span class="byline author vcard">Authored by <span class="fn">
+    </article>
   
-    张昊煜
-  
-  </span></span>
-
-
-      
-
-
-
-
-<time class='entry-date' datetime='2015-10-22T23:25:30+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>22</span><span class='date-suffix'>nd</span>, <span class='date-year'>2015</span></span> <span class='time'>11:25 pm</span></time>
-      
-      
-
-
-    </p>
+  <div class="pagination">
     
-      <div class="sharing">
-  
-  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://zhyu37.github.io/blog/uipickerview.html/" data-via="" data-counturl="http://zhyu37.github.io/blog/uipickerview.html/" >Tweet</a>
-  
-  
-  
-</div>
-
+    <a href="/blog/archives">Blog Archives</a>
     
-    <p class="meta">
-      
-        <a class="basic-alignment left" href="/blog/iosduan-wei-xin-zhi-fu-demo.html/" title="Previous Post: ios端 微信支付Demo">&laquo; ios端 微信支付Demo</a>
-      
-      
-        <a class="basic-alignment right" href="/blog/ios-auto-layout.html/" title="Next Post: Ios Auto Layout">Ios Auto Layout &raquo;</a>
-      
-    </p>
-  </footer>
-</article>
-
-
+    <a class="next" href="/index.html">Newer &rarr;</a>
+    
+  </div>
 </div>
+<aside class="sidebar">
+  
+    
+  
+</aside>
 
     </div>
   </div>
