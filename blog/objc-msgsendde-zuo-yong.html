@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>textGame - 有所为，有所不为</title>
+  <title>objc_msgSend的作用 - 有所为，有所不为</title>
   <meta name="author" content="张昊煜">
 
   
-  <meta name="description" content="一个能看出你是否长大的测试 一男人M要与未婚妻F相会结婚，但两人一河相隔，M必须要借船过河才能见到F，于是他开始四处找船。 这时见一个女子L刚好有船，M跟L借，L遇到M后爱上了他，就问：我爱上你了，你爱我吗？M比较诚实，说：对不起，我有未婚妻，我不能爱你。这么一来，L死活是不把船借给M， &hellip;">
+  <meta name="description" content="第十一条 objc_msgSend的作用 objc_msgSend是obj-c中经常用到的一个功能，当你在对象上调用方法时就用用到这个——消息传递。 id returnValue = [someObject messageName:parameter]; someObject 是对象 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://zhyu37.github.io/blog/textgame.html/">
+  <link rel="canonical" href="http://zhyu37.github.io/blog/objc-msgsendde-zuo-yong.html/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="有所为，有所不为" type="application/atom+xml">
@@ -82,7 +82,7 @@
   <header>
     
       
-        <h1 class="entry-title">textGame</h1>
+        <h1 class="entry-title">objc_msgSend的作用</h1>
       
     
     
@@ -92,7 +92,7 @@
 
 
 
-<time class='entry-date' datetime='2015-11-01T20:24:45+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>1</span><span class='date-suffix'>st</span>, <span class='date-year'>2015</span></span> <span class='time'>8:24 pm</span></time>
+<time class='entry-date' datetime='2015-11-01T21:51:47+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>1</span><span class='date-suffix'>st</span>, <span class='date-year'>2015</span></span> <span class='time'>9:51 pm</span></time>
         
         
       </p>
@@ -102,25 +102,38 @@
 
 <div class="entry-content"><hr />
 
-<h2>一个能看出你是否长大的测试</h2>
+<h2>第十一条  objc_msgSend的作用</h2>
 
-<p><img src="../images/2015image1.png" alt="Alt text" /></p>
+<blockquote><p>objc_msgSend是obj-c中经常用到的一个功能，当你在对象上调用方法时就用用到这个——消息传递。</p></blockquote>
 
-<blockquote><p>一男人M要与未婚妻F相会结婚，但两人一河相隔，M必须要借船过河才能见到F，于是他开始四处找船。 这时见一个女子L刚好有船，M跟L借，L遇到M后爱上了他，就问：我爱上你了，你爱我吗？M比较诚实，说：对不起，我有未婚妻，我不能爱你。这么一来，L死活是不把船借给M，她的理由是：我爱你，你不爱我，这不公平，我不会借你的！M很沮丧，继续找船，刚好见一位叫S的女子，就向她借船，S说：我借给你没问题，但有个条件，我很喜欢你，你是不是喜欢我所谓，但你必须留下陪我一晚， 不然我不借你。M很为难，L不借他船，S如果再不借他的话就过不去河与F相见了，据说这个地方只有这两条船。为了彼岸的未婚妻，他不得不同意了S的要求， 与S有了NB。次日，S遵守承诺把船借给了M。 见到未婚妻F后，M一直心里有事，考虑了很久，终于决定把向L和S借船的故事跟F说了。可惜，F听了非常伤心，一气之下与M分了手，她觉得M不忠，不能原谅。F失恋了，很受打击。 这时他的生活里出现了位女子E，两人也开始恋爱了，但之前的故事一直让他耿耿于坏，E问M是不是有什么话要跟她说，于是，M一五一十地把他和L、S、F之间的故事讲了一遍。E听了后，说，我不会介意的，这些跟我没关系。
- <li>
-  <li>
-   <li>
-   <li>
-   <li>
-   <li>
-   <li>
-   <li>
- <li>
-   <li>
-   <li>
-    <li>
- <p>答案
-<img src="../images/2015image2.png" alt="Alt text" /></p></blockquote>
+<pre><code>
+id returnValue = [someObject messageName:parameter];
+</pre>
+
+
+<p></code>
+<li>someObject 是对象
+<li>messageName 为对象所属的方法
+<li>parameter 为方法所需要的参数</p>
+
+<p><code>messageName:parameter 叫选择子(selector)</code>   <br/>
+<code>someObject  叫接收者(receiver)</code></p>
+
+<blockquote><p>objc_msgSend的底层使用C写的，C的方法调用是<code>静态绑定(static bingding)</code>把方法硬编码到指令中，当需要时直接调用。C还可以使用<code>动态绑定(dynamic bingding)</code>在指令中只有一个函数调用指令，在运行期读取出来。objc是一门真正的动态语言.</p></blockquote>
+
+<pre><code>
+//objc 的底层会把id returnValue = [someObject messageName:parameter];转换成
+id returnValue = objc_msgSend(someObject,
+                                @selector(messageName),
+                                parameter);
+</pre>
+
+
+<p></code></p>
+
+<blockquote><p>在objc_msgSend中还用到了<code>尾调用优化</code>就是在结尾的时候调用另一个函数时，编译器是生成调转另一个函数的指令码，不会推入堆栈中。</p></blockquote>
+
+<h2>See You</h2>
 </div>
 
 
@@ -143,7 +156,7 @@
 
 
 
-<time class='entry-date' datetime='2015-11-01T20:24:45+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>1</span><span class='date-suffix'>st</span>, <span class='date-year'>2015</span></span> <span class='time'>8:24 pm</span></time>
+<time class='entry-date' datetime='2015-11-01T21:51:47+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>1</span><span class='date-suffix'>st</span>, <span class='date-year'>2015</span></span> <span class='time'>9:51 pm</span></time>
       
       
 
@@ -152,7 +165,7 @@
     
       <div class="sharing">
   
-  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://zhyu37.github.io/blog/textgame.html/" data-via="" data-counturl="http://zhyu37.github.io/blog/textgame.html/" >Tweet</a>
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://zhyu37.github.io/blog/objc-msgsendde-zuo-yong.html/" data-via="" data-counturl="http://zhyu37.github.io/blog/objc-msgsendde-zuo-yong.html/" >Tweet</a>
   
   
   
@@ -161,10 +174,8 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/ios-auto-layout.html/" title="Previous Post: Ios Auto Layout">&laquo; Ios Auto Layout</a>
+        <a class="basic-alignment left" href="/blog/textgame.html/" title="Previous Post: textGame">&laquo; textGame</a>
       
-      
-        <a class="basic-alignment right" href="/blog/objc-msgsendde-zuo-yong.html/" title="Next Post: objc_msgSend的作用">objc_msgSend的作用 &raquo;</a>
       
     </p>
   </footer>

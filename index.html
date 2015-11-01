@@ -9,7 +9,7 @@
   <meta name="author" content="张昊煜">
 
   
-  <meta name="description" content="一个能看出你是否长大的测试 一男人M要与未婚妻F相会结婚，但两人一河相隔，M必须要借船过河才能见到F，于是他开始四处找船。 这时见一个女子L刚好有船，M跟L借，L遇到M后爱上了他，就问：我爱上你了，你爱我吗？M比较诚实，说：对不起，我有未婚妻，我不能爱你。这么一来，L死活是不把船借给M， &hellip;">
+  <meta name="description" content="第十一条 objc_msgSend的作用 objc_msgSend是obj-c中经常用到的一个功能，当你在对象上调用方法时就用用到这个——消息传递。 id returnValue = [someObject messageName:parameter]; someObject 是对象 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -84,6 +84,69 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/objc-msgsendde-zuo-yong.html/">objc_msgSend的作用</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-11-01T21:51:47+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>1</span><span class='date-suffix'>st</span>, <span class='date-year'>2015</span></span> <span class='time'>9:51 pm</span></time>
+        
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><hr />
+
+<h2>第十一条  objc_msgSend的作用</h2>
+
+<blockquote><p>objc_msgSend是obj-c中经常用到的一个功能，当你在对象上调用方法时就用用到这个——消息传递。</p></blockquote>
+
+<pre><code>
+id returnValue = [someObject messageName:parameter];
+</pre>
+
+
+<p></code>
+<li>someObject 是对象
+<li>messageName 为对象所属的方法
+<li>parameter 为方法所需要的参数</p>
+
+<p><code>messageName:parameter 叫选择子(selector)</code>   <br/>
+<code>someObject  叫接收者(receiver)</code></p>
+
+<blockquote><p>objc_msgSend的底层使用C写的，C的方法调用是<code>静态绑定(static bingding)</code>把方法硬编码到指令中，当需要时直接调用。C还可以使用<code>动态绑定(dynamic bingding)</code>在指令中只有一个函数调用指令，在运行期读取出来。objc是一门真正的动态语言.</p></blockquote>
+
+<pre><code>
+//objc 的底层会把id returnValue = [someObject messageName:parameter];转换成
+id returnValue = objc_msgSend(someObject,
+                                @selector(messageName),
+                                parameter);
+</pre>
+
+
+<p></code></p>
+
+<blockquote><p>在objc_msgSend中还用到了<code>尾调用优化</code>就是在结尾的时候调用另一个函数时，编译器是生成调转另一个函数的指令码，不会推入堆栈中。</p></blockquote>
+
+<h2>See You</h2>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/textgame.html/">textGame</a></h1>
     
     
@@ -107,10 +170,21 @@
 
 <p><img src="../images/2015image1.png" alt="Alt text" /></p>
 
-<blockquote><p>一男人M要与未婚妻F相会结婚，但两人一河相隔，M必须要借船过河才能见到F，于是他开始四处找船。 这时见一个女子L刚好有船，M跟L借，L遇到M后爱上了他，就问：我爱上你了，你爱我吗？M比较诚实，说：对不起，我有未婚妻，我不能爱你。这么一来，L死活是不把船借给M，她的理由是：我爱你，你不爱我，这不公平，我不会借你的！M很沮丧，继续找船，刚好见一位叫S的女子，就向她借船，S说：我借给你没问题，但有个条件，我很喜欢你，你是不是喜欢我所谓，但你必须留下陪我一晚， 不然我不借你。M很为难，L不借他船，S如果再不借他的话就过不去河与F相见了，据说这个地方只有这两条船。为了彼岸的未婚妻，他不得不同意了S的要求， 与S有了NB。次日，S遵守承诺把船借给了M。 见到未婚妻F后，M一直心里有事，考虑了很久，终于决定把向L和S借船的故事跟F说了。可惜，F听了非常伤心，一气之下与M分了手，她觉得M不忠，不能原谅。F失恋了，很受打击。 这时他的生活里出现了位女子E，两人也开始恋爱了，但之前的故事一直让他耿耿于坏，E问M是不是有什么话要跟她说，于是，M一五一十地把他和L、S、F之间的故事讲了一遍。E听了后，说，我不会介意的，这些跟我没关系。</p></blockquote>
-
-<p> <p>答案
-<img src="../images/2015image2.png" alt="Alt text" /></p>
+<blockquote><p>一男人M要与未婚妻F相会结婚，但两人一河相隔，M必须要借船过河才能见到F，于是他开始四处找船。 这时见一个女子L刚好有船，M跟L借，L遇到M后爱上了他，就问：我爱上你了，你爱我吗？M比较诚实，说：对不起，我有未婚妻，我不能爱你。这么一来，L死活是不把船借给M，她的理由是：我爱你，你不爱我，这不公平，我不会借你的！M很沮丧，继续找船，刚好见一位叫S的女子，就向她借船，S说：我借给你没问题，但有个条件，我很喜欢你，你是不是喜欢我所谓，但你必须留下陪我一晚， 不然我不借你。M很为难，L不借他船，S如果再不借他的话就过不去河与F相见了，据说这个地方只有这两条船。为了彼岸的未婚妻，他不得不同意了S的要求， 与S有了NB。次日，S遵守承诺把船借给了M。 见到未婚妻F后，M一直心里有事，考虑了很久，终于决定把向L和S借船的故事跟F说了。可惜，F听了非常伤心，一气之下与M分了手，她觉得M不忠，不能原谅。F失恋了，很受打击。 这时他的生活里出现了位女子E，两人也开始恋爱了，但之前的故事一直让他耿耿于坏，E问M是不是有什么话要跟她说，于是，M一五一十地把他和L、S、F之间的故事讲了一遍。E听了后，说，我不会介意的，这些跟我没关系。
+ <li>
+  <li>
+   <li>
+   <li>
+   <li>
+   <li>
+   <li>
+   <li>
+ <li>
+   <li>
+   <li>
+    <li>
+ <p>答案
+<img src="../images/2015image2.png" alt="Alt text" /></p></blockquote>
 </div>
   
   
@@ -1845,94 +1919,6 @@ post 删除 同理
 <p></code></p>
 
 <h4>See You</h4>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/effective-objective-c-2-dot-0-10-dot-zai-ji-you-lei-zhong-shi-yong-guan-lian-dui-xiang-cun-fang-zi-ding-yi-shu-ju.html/">Effective Objective-C 2.0--10.在既有类中使用关联对象存放自定义数据</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-10-10T00:47:52+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>10</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>12:47 am</span></time>
-        
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>当我们想在对象中存放其他信息时，一般会采用创建其子类后改用这个子类对象。然而并非所有情况都可以这么做。so Object-c中有一个强大的特性——关联对象(Associated Object)</p>
-
-<p>关联策略</p>
-
-<p>关联策略
-等价属性
-说明</p>
-
-<p>OBJC_ASSOCIATION_ASSIGN
-@property (assign) or @property (unsafe_unretained)
-弱引用关联对象</p>
-
-<p>OBJC_ASSOCIATION_RETAIN_NONATOMIC
-@property (strong, nonatomic)
-强引用关联对象，且为非原子操作</p>
-
-<p>OBJC_ASSOCIATION_COPY_NONATOMIC
-@property (copy, nonatomic)
-复制关联对象，且为非原子操作</p>
-
-<p>OBJC_ASSOCIATION_RETAIN
-@property (strong, atomic)
-强引用关联对象，且为原子操作</p>
-
-<p>OBJC_ASSOCIATION_COPY
-@property (copy, atomic)
-复制关联对象，且为原子操作</p>
-
-<p>其中，第 2
- 种与第 4
- 种、第 3
- 种与第 5
- 种关联策略的唯一差别就在于操作是否具有原子性。由于操作的原子性不在本文的讨论范围内，所以下面的实验和讨论就以前三种以例进行展开。</p>
-
-<p>方法</p>
-
-<p>//以给定的键和策略为某对象设置关联对象值
-void objc setAssociatedObject(id object, const void *key, id value, objc AssociationPolicy policy);</p>
-
-<p>//根据给给定的键从某对象中获取相应地关联对象值
- id objc getAssociatedObject(id object, const void *key);</p>
-
-<p>//移除所指定对象的全部关联对象
-void objc removeAssociatedObjects(id object);</p>
-
-<p>key 值</p>
-
-<p>关于前两个函数中的 key
- 值是我们需要重点关注的一个点，这个 key 值必须保证是一个对象级别（为什么是对象级别？看完下面的章节你就会明白了）的唯一常量。一般来说，有以下三种推荐的 key
- 值：</p>
-
-<ol>
-<li>声明 static char kAssociatedObjectKey;，使用 &amp;kAssociatedObjectKey 作为 key 值;</li>
-<li>声明 static void *kAssociatedObjectKey = &kAssociatedObjectKey; ，使用 kAssociatedObjectKey 作为 key值；</li>
-<li>用 selector，使用 getter方法的名称作为 key值</li>
-</ol>
-
-
-<p>我们把对象想象成NSDicitionary,把关联对象想象成字典的条目。存取关联对象的值就相当于NSDicitionary中调用[object setObject:value forKey:key]和[object setObjectForKey:key]。两者之间有个最重要的差别key(键) 是一个不透明的指针。所以通常使用静态全局变量做键。</p>
 </div>
   
   
