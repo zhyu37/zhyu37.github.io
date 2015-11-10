@@ -4,7 +4,7 @@
   <title><![CDATA[有所为，有所不为]]></title>
   <link href="http://zhyu37.github.io/atom.xml" rel="self"/>
   <link href="http://zhyu37.github.io/"/>
-  <updated>2015-11-09T13:10:32+08:00</updated>
+  <updated>2015-11-10T09:21:47+08:00</updated>
   <id>http://zhyu37.github.io/</id>
   <author>
     <name><![CDATA[张昊煜]]></name>
@@ -12,6 +12,34 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[查询类的类型]]></title>
+    <link href="http://zhyu37.github.io/blog/li-jie-lei-dui-xiang-de-yong-yi.html/"/>
+    <updated>2015-11-10T09:20:25+08:00</updated>
+    <id>http://zhyu37.github.io/blog/li-jie-lei-dui-xiang-de-yong-yi</id>
+    <content type="html"><![CDATA[<hr />
+
+<h2>第十四条 理解“类对象”的用意</h2>
+
+<blockquote><p>每个实例都用一个指向Class对象的指针，用来表示其类型。如果对象类型无法在编译期确定，那么就应该使用类型信息查询方法来探知。尽量使用类型信息查询方法来确定对象类型，而不要直接比较类对象，因为某些对象可能实现了消息转发功能。</p></blockquote>
+
+<pre><code>
+NSMutableDictionary *dict = [NSMutableDictionary new];
+//判断对象是否是否个特定类的实例
+[dict isMemberofClass:[NSDictionary class]];//NO
+[dict isMemberofClass:[NSMutableDictionary class]];//Yes
+//判断对象是否为某个类或其派生类的实例
+[dict isKindofClass:[NSDictionary class]];//Yes
+[dict isKindofClass:[NSArray class]];//No
+</pre>
+
+
+<p></code></p>
+
+<h2>See You</h2>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Method Swizzling]]></title>

@@ -9,7 +9,7 @@
   <meta name="author" content="张昊煜">
 
   
-  <meta name="description" content="NSNotification 消息机制 最近在项目中发现这个NSNotification还是很好用的。那我就简单介绍一下步骤，先要注册对象，当有人post的时候调用注册的方法，当然不能忘记remove注册了的对象。 注册对象 [[NSNotificationCenter &hellip;">
+  <meta name="description" content="UIAlertController UIAlertController 作为ios8新出现的controller还是很值得学习的，它融合了之前的UIAlertView 和 UIActionSheet. 先来写个简单的小例子 UIAlertController *alertController &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -78,6 +78,129 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/ios8zhi-uialertcontroller.html/">ios8之UIAlertController</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-10-13T17:16:02+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>13</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>5:16 pm</span></time>
+        
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><hr />
+
+<h2>UIAlertController</h2>
+
+<blockquote><p>UIAlertController 作为ios8新出现的controller还是很值得学习的，它融合了之前的UIAlertView 和  UIActionSheet.</p></blockquote>
+
+<P>先来写个简单的小例子</P>
+
+
+
+
+<pre><code>
+UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"title" message:@"message" preferredStyle:UIAlertControllerStyleAlert];
+
+UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+            
+}];
+
+ UIAlertAction *commitAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+ 
+}];
+
+[alertController addAction:cancelAction];
+[alertController addAction:commitAction];
+[self presentViewController:alertController animated:YES completion:nil];
+</pre>
+
+
+<p></code></p>
+
+<p><img src="/Users/zhanghaoyu/octopress/source/_posts/image/UIAlertConller1.png" alt="样例" /></p>
+
+<p>在UIAlertController中添加一个输入框</p>
+
+
+
+
+<pre><code>
+@property (nonatomic, strong) UIAlertAction *secureTextAlertAction;
+</pre>
+
+
+<p></code></p>
+
+<pre><code>
+UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"title" message:@"message" preferredStyle:UIAlertControllerStyleAlert];
+
+ // Add the text field for the secure text entry.
+    [alertController addTextFieldWithConfigurationHandler:^(UITextField *textField) {
+        // Listen for changes to the text field's text so that we can toggle the current
+        // action's enabled property based on whether the user has entered a sufficiently
+        // secure entry.
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleTextFieldTextDidChangeNotification:) name:UITextFieldTextDidChangeNotification object:textField];
+        //每输入一个字符就会变成点
+         textField.secureTextEntry = YES;
+ }];
+
+UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:UITextFieldTextDidChangeNotification object:alertController.textFields.firstObject];
+    }];
+
+ UIAlertAction *commitAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UITextFieldTextDidChangeNotification object:alertController.textFields.firstObject];
+}];
+
+// The text field initially has no text in the text field, so we'll disable it.
+    commitAction.enabled = NO;
+    
+// Hold onto the secure text alert action to toggle the enabled/disabled state when the text changed.
+    self.secureTextAlertAction = commitAction;
+
+[alertController addAction:cancelAction];
+[alertController addAction:commitAction];
+[self presentViewController:alertController animated:YES completion:nil];
+
+</pre>
+
+
+<p></code></p>
+
+<pre><code>
+- (void)handleTextFieldTextDidChangeNotification:(NSNotification *)notification
+{
+    UITextField *textField = notification.object;
+    
+   // Enforce a minimum length of >= 5 characters for secure text alerts.
+    self.secureTextAlertAction.enabled = textField.text.length >= 5;
+}
+</pre>
+
+
+<p></code></p>
+
+<h3>See You</h3>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>

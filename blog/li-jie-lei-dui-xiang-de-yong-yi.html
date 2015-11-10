@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Method Swizzling - 有所为，有所不为</title>
+  <title>查询类的类型 - 有所为，有所不为</title>
   <meta name="author" content="张昊煜">
 
   
-  <meta name="description" content="第十三条 用“方法调配技术”调试“黑盒方法” 在没有一个类的源码时，例如调用别人API时。想改变其中一个方法的实现，除了继承重写、借助重类名方法之外，现在还发现了一种新的方法——Method Swizzling。 一个NSString类的例子 //头文件 #import //具体实现 //1. &hellip;">
+  <meta name="description" content="第十四条 理解“类对象”的用意 每个实例都用一个指向Class对象的指针，用来表示其类型。如果对象类型无法在编译期确定，那么就应该使用类型信息查询方法来探知。尽量使用类型信息查询方法来确定对象类型，而不要直接比较类对象，因为某些对象可能实现了消息转发功能。 NSMutableDictionary &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://zhyu37.github.io/blog/method-swizzling.html/">
+  <link rel="canonical" href="http://zhyu37.github.io/blog/li-jie-lei-dui-xiang-de-yong-yi.html/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="有所为，有所不为" type="application/atom+xml">
@@ -82,7 +82,7 @@
   <header>
     
       
-        <h1 class="entry-title">Method Swizzling</h1>
+        <h1 class="entry-title">查询类的类型</h1>
       
     
     
@@ -92,7 +92,7 @@
 
 
 
-<time class='entry-date' datetime='2015-11-09T13:08:45+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>9</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>1:08 pm</span></time>
+<time class='entry-date' datetime='2015-11-10T09:20:25+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>10</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>9:20 am</span></time>
         
         
       </p>
@@ -102,47 +102,24 @@
 
 <div class="entry-content"><hr />
 
-<h2>第十三条  用“方法调配技术”调试“黑盒方法”</h2>
+<h2>第十四条 理解“类对象”的用意</h2>
 
-<blockquote><p>在没有一个类的源码时，例如调用别人API时。想改变其中一个方法的实现，除了继承重写、借助重类名方法之外，现在还发现了一种新的方法——Method Swizzling。</p></blockquote>
-
-<p>一个NSString类的例子</p>
-
+<blockquote><p>每个实例都用一个指向Class对象的指针，用来表示其类型。如果对象类型无法在编译期确定，那么就应该使用类型信息查询方法来探知。尽量使用类型信息查询方法来确定对象类型，而不要直接比较类对象，因为某些对象可能实现了消息转发功能。</p></blockquote>
 
 <pre><code>
-//头文件 
-#import  <objc/runtime.h>
-
-//具体实现
- //1.测试字符串
-    NSString *str = @"Hello World";
-    
-//2.打印正常方法调用的值
-    NSLog(@"%@ %@",[str lowercaseString],[str uppercaseString]);
-    
-Method originalMethod = class_getInstanceMethod([NSString class], @selector(lowercaseString));
-    Method swappedMethod = class_getInstanceMethod([NSString class], @selector(uppercaseString));
-    method_exchangeImplementations(originalMethod, swappedMethod);
-    
- //4.打印方法调配后的值
-    NSLog(@"%@ %@",[str lowercaseString],[str uppercaseString]);
+NSMutableDictionary *dict = [NSMutableDictionary new];
+//判断对象是否是否个特定类的实例
+[dict isMemberofClass:[NSDictionary class]];//NO
+[dict isMemberofClass:[NSMutableDictionary class]];//Yes
+//判断对象是否为某个类或其派生类的实例
+[dict isKindofClass:[NSDictionary class]];//Yes
+[dict isKindofClass:[NSArray class]];//No
 </pre>
 
 
 <p></code></p>
 
-<p><p>打印结果
-<pre><code>
-2015-11-09 12:49:23.361 ChangeMethods[810:459887] hello world HELLO WORLD
-2015-11-09 12:49:23.362 ChangeMethods[810:459887] HELLO WORLD hello world
-</pre></code></p>
-
-<blockquote><p>在Objective-C中调用一个方法，其实是向一个对象发送消息，查找消息的唯一依据是selector的名字。利用Objective-C的动态特性，可以实现在运行时偷换selector对应的方法实现，达到给方法挂钩的目的。
-每个类都有一个方法列表，存放着selector的名字和方法实现的映射关系。IMP有点类似函数指针，指向具体的Method实现。我们可以利用 method_exchangeImplementations 来交换2个方法中的IMP，
-我们可以利用 class_replaceMethod 来修改类，
-我们可以利用 method_setImplementation 来直接设置某个方法的IMP</p>
-
-<h2>See You</h2></blockquote>
+<h2>See You</h2>
 </div>
 
 
@@ -165,7 +142,7 @@ Method originalMethod = class_getInstanceMethod([NSString class], @selector(lowe
 
 
 
-<time class='entry-date' datetime='2015-11-09T13:08:45+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>9</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>1:08 pm</span></time>
+<time class='entry-date' datetime='2015-11-10T09:20:25+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>10</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>9:20 am</span></time>
       
       
 
@@ -174,7 +151,7 @@ Method originalMethod = class_getInstanceMethod([NSString class], @selector(lowe
     
       <div class="sharing">
   
-  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://zhyu37.github.io/blog/method-swizzling.html/" data-via="" data-counturl="http://zhyu37.github.io/blog/method-swizzling.html/" >Tweet</a>
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://zhyu37.github.io/blog/li-jie-lei-dui-xiang-de-yong-yi.html/" data-via="" data-counturl="http://zhyu37.github.io/blog/li-jie-lei-dui-xiang-de-yong-yi.html/" >Tweet</a>
   
   
   
@@ -183,10 +160,8 @@ Method originalMethod = class_getInstanceMethod([NSString class], @selector(lowe
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/objc-msgsendde-zuo-yong.html/" title="Previous Post: objc_msgSend的作用">&laquo; objc_msgSend的作用</a>
+        <a class="basic-alignment left" href="/blog/method-swizzling.html/" title="Previous Post: Method Swizzling">&laquo; Method Swizzling</a>
       
-      
-        <a class="basic-alignment right" href="/blog/li-jie-lei-dui-xiang-de-yong-yi.html/" title="Next Post: 查询类的类型">查询类的类型 &raquo;</a>
       
     </p>
   </footer>
