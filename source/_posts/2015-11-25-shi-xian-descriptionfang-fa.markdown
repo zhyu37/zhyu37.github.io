@@ -25,7 +25,7 @@ object = (
 object = <EOCPerson: 0x7fd9a1660600>
 
 </pre></code>
->但是 这样的打印 如果不需要 类名 和 地址的话 ，这个打印毫无意义。so 我们需要腹泻 description方法。
+>但是 这样的打印 如果不需要 类名 和 地址的话 ，这个打印毫无意义。so 我们需要复写 description方法。
 
 <pre><code>
 EOCPerson *person = [[EOCPerson alloc] initWithFirstName:@"Bob" lastName:@"Smith"];
