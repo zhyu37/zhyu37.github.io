@@ -4,7 +4,7 @@
   <title><![CDATA[有所为，有所不为]]></title>
   <link href="http://zhyu37.github.io/atom.xml" rel="self"/>
   <link href="http://zhyu37.github.io/"/>
-  <updated>2015-11-10T09:22:23+08:00</updated>
+  <updated>2015-11-25T16:06:08+08:00</updated>
   <id>http://zhyu37.github.io/</id>
   <author>
     <name><![CDATA[张昊煜]]></name>
@@ -12,6 +12,58 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[实现description方法]]></title>
+    <link href="http://zhyu37.github.io/blog/shi-xian-descriptionfang-fa.html/"/>
+    <updated>2015-11-25T16:05:11+08:00</updated>
+    <id>http://zhyu37.github.io/blog/shi-xian-descriptionfang-fa</id>
+    <content type="html"><![CDATA[<hr />
+
+<h2>实现description方法</h2>
+
+<blockquote><p>当想打印对象的信息时，对象会收到description消息，该方法返回的描述信息回取代“格式字符串”里的“%@”。</p></blockquote>
+
+<p><p>
+<pre><code>
+NSArray *object = @[@&ldquo;a string, @(123)&rdquo;];
+NSLog(@&ldquo;object = %@&rdquo;,object);</p>
+
+<p>//如果是打印 会输出
+object = (
+    &ldquo;a string&rdquo;,
+    123
+)</p>
+
+<p>//如果在自定义的类上这么做  则会打印
+object = &lt;EOCPerson: 0x7fd9a1660600></p>
+
+<p></pre></code></p>
+
+<blockquote><p>但是 这样的打印 如果不需要 类名 和 地址的话 ，这个打印毫无意义。so 我们需要腹泻 description方法。</p></blockquote>
+
+<p><pre><code>
+EOCPerson *person = [[EOCPerson alloc] initWithFirstName:@&ldquo;Bob&rdquo; lastName:@&ldquo;Smith&rdquo;];
+NSLog(@&ldquo;person = %@&rdquo;, person);</p>
+
+<p>该类的description方法通常是这样实现的
+-(NSString*) description{
+    return [NSStringstringWithFormat:@&ldquo;&lt;%@: %p, \&rdquo;%@ %@\&ldquo;>&rdquo;,[self class], self, <em>firstName, </em>lastName];
+}</p>
+
+<p>//打印结果
+person = &lt;EOCPerson: 0x7fd9a1660600, &ldquo;Bob Smith&rdquo;>
+</pre></code></p>
+
+<blockquote><p><code>作者建议:</code>在新实现的description方法中，也应该像默认的实现那样，打印出类的名字和指针地址，因为这些内容有时也会用到。NSArray类的对象就没有打印这两项内容，显然没有固定规律可循。<code>用NSDicionary来实现此功能可以使代码更以维护.</code></p></blockquote>
+
+<p><p>debugDescription</p>
+
+<blockquote><p>此方法的用意与description非常相似。区别在于前者是开发者在调试器中以控制台命令打印对象时才调用的。用法和description类似.</p></blockquote>
+
+<h2>See You</h2>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[查询类的类型]]></title>

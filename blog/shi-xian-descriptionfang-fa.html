@@ -5,11 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>查询类的类型 - 有所为，有所不为</title>
+  <title>实现description方法 - 有所为，有所不为</title>
   <meta name="author" content="张昊煜">
 
   
-  <meta name="description" content="第十四条 理解“类对象”的用意 每个实例都用一个指向Class对象的指针，用来表示其类型。如果对象类型无法在编译期确定，那么就应该使用类型信息查询方法来探知。尽量使用类型信息查询方法来确定对象类型，而不要直接比较类对象，因为某些对象可能实现了消息转发功能。 NSMutableDictionary &hellip;">
+  <meta name="description" content="实现description方法 当想打印对象的信息时，对象会收到description消息，该方法返回的描述信息回取代“格式字符串”里的“%@”。 NSArray *object = @[@&ldquo;a string, @(123)&rdquo;];
+NSLog(@&ldquo;object &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +19,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://zhyu37.github.io/blog/li-jie-lei-dui-xiang-de-yong-yi.html/">
+  <link rel="canonical" href="http://zhyu37.github.io/blog/shi-xian-descriptionfang-fa.html/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="有所为，有所不为" type="application/atom+xml">
@@ -82,7 +83,7 @@
   <header>
     
       
-        <h1 class="entry-title">查询类的类型</h1>
+        <h1 class="entry-title">实现description方法</h1>
       
     
     
@@ -92,7 +93,7 @@
 
 
 
-<time class='entry-date' datetime='2015-11-10T09:20:25+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>10</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>9:20 am</span></time>
+<time class='entry-date' datetime='2015-11-25T16:05:11+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>25</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>4:05 pm</span></time>
         
         
       </p>
@@ -102,22 +103,46 @@
 
 <div class="entry-content"><hr />
 
-<h2>第十四条 理解“类对象”的用意</h2>
+<h2>实现description方法</h2>
 
-<blockquote><p>每个实例都用一个指向Class对象的指针，用来表示其类型。如果对象类型无法在编译期确定，那么就应该使用类型信息查询方法来探知。尽量使用类型信息查询方法来确定对象类型，而不要直接比较类对象，因为某些对象可能实现了消息转发功能。</p></blockquote>
+<blockquote><p>当想打印对象的信息时，对象会收到description消息，该方法返回的描述信息回取代“格式字符串”里的“%@”。</p></blockquote>
 
+<p><p>
 <pre><code>
-NSMutableDictionary *dict = [NSMutableDictionary new];
-//判断对象是否是否个特定类的实例
-[dict isMemberofClass:[NSDictionary class]];//NO
-[dict isMemberofClass:[NSMutableDictionary class]];//Yes
-//判断对象是否为某个类或其派生类的实例
-[dict isKindofClass:[NSDictionary class]];//Yes
-[dict isKindofClass:[NSArray class]];//No
-</pre>
+NSArray *object = @[@&ldquo;a string, @(123)&rdquo;];
+NSLog(@&ldquo;object = %@&rdquo;,object);</p>
 
+<p>//如果是打印 会输出
+object = (
+    &ldquo;a string&rdquo;,
+    123
+)</p>
 
-<p></code></p>
+<p>//如果在自定义的类上这么做  则会打印
+object = &lt;EOCPerson: 0x7fd9a1660600></p>
+
+<p></pre></code></p>
+
+<blockquote><p>但是 这样的打印 如果不需要 类名 和 地址的话 ，这个打印毫无意义。so 我们需要腹泻 description方法。</p></blockquote>
+
+<p><pre><code>
+EOCPerson *person = [[EOCPerson alloc] initWithFirstName:@&ldquo;Bob&rdquo; lastName:@&ldquo;Smith&rdquo;];
+NSLog(@&ldquo;person = %@&rdquo;, person);</p>
+
+<p>该类的description方法通常是这样实现的
+-(NSString*) description{
+    return [NSStringstringWithFormat:@&ldquo;&lt;%@: %p, \&rdquo;%@ %@\&ldquo;>&rdquo;,[self class], self, <em>firstName, </em>lastName];
+}</p>
+
+<p>//打印结果
+person = &lt;EOCPerson: 0x7fd9a1660600, &ldquo;Bob Smith&rdquo;>
+</pre></code></p>
+
+<blockquote><p><code>作者建议:</code>在新实现的description方法中，也应该像默认的实现那样，打印出类的名字和指针地址，因为这些内容有时也会用到。NSArray类的对象就没有打印这两项内容，显然没有固定规律可循。<code>用NSDicionary来实现此功能可以使代码更以维护.</code></p></blockquote>
+
+<p><p>debugDescription</p>
+
+<blockquote><p>此方法的用意与description非常相似。区别在于前者是开发者在调试器中以控制台命令打印对象时才调用的。用法和description类似.</p></blockquote>
 
 <h2>See You</h2>
 </div>
@@ -142,7 +167,7 @@ NSMutableDictionary *dict = [NSMutableDictionary new];
 
 
 
-<time class='entry-date' datetime='2015-11-10T09:20:25+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>10</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>9:20 am</span></time>
+<time class='entry-date' datetime='2015-11-25T16:05:11+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>25</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>4:05 pm</span></time>
       
       
 
@@ -151,7 +176,7 @@ NSMutableDictionary *dict = [NSMutableDictionary new];
     
       <div class="sharing">
   
-  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://zhyu37.github.io/blog/li-jie-lei-dui-xiang-de-yong-yi.html/" data-via="" data-counturl="http://zhyu37.github.io/blog/li-jie-lei-dui-xiang-de-yong-yi.html/" >Tweet</a>
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://zhyu37.github.io/blog/shi-xian-descriptionfang-fa.html/" data-via="" data-counturl="http://zhyu37.github.io/blog/shi-xian-descriptionfang-fa.html/" >Tweet</a>
   
   
   
@@ -160,10 +185,8 @@ NSMutableDictionary *dict = [NSMutableDictionary new];
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/method-swizzling.html/" title="Previous Post: Method Swizzling">&laquo; Method Swizzling</a>
+        <a class="basic-alignment left" href="/blog/li-jie-lei-dui-xiang-de-yong-yi.html/" title="Previous Post: 查询类的类型">&laquo; 查询类的类型</a>
       
-      
-        <a class="basic-alignment right" href="/blog/shi-xian-descriptionfang-fa.html/" title="Next Post: 实现description方法">实现description方法 &raquo;</a>
       
     </p>
   </footer>
