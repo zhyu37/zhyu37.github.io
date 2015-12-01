@@ -9,8 +9,7 @@
   <meta name="author" content="张昊煜">
 
   
-  <meta name="description" content="实现description方法 当想打印对象的信息时，对象会收到description消息，该方法返回的描述信息回取代“格式字符串”里的“%@”。 NSArray *object = @[@&ldquo;a string, @(123)&rdquo;];
-NSLog(@&ldquo;object &hellip;">
+  <meta name="description" content="iOS开发之深拷贝与浅拷贝 如有错误请大家多多指教，请大家多关注 https://github.com/zhyu37 对象拷贝分为两种方式：浅拷贝和深拷贝，其实就是copy和retain的区别。copy是创建一个新对象，而retain是创建一个指针，引用计数加1.copy属性表示两个对象内容相同 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -79,6 +78,163 @@ NSLog(@&ldquo;object &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/ioskai-fa-zhi-shen-kao-bei-,-qian-kao-bei.html/">iOS开发之深拷贝、浅拷贝</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-12-01T17:01:32+08:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>1</span><span class='date-suffix'>st</span>, <span class='date-year'>2015</span></span> <span class='time'>5:01 pm</span></time>
+        
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><hr />
+
+<h2>iOS开发之深拷贝与浅拷贝</h2>
+
+<p><p>
+<code>如有错误请大家多多指教，请大家多关注 https://github.com/zhyu37</code></p>
+
+<blockquote><p>对象拷贝分为两种方式：浅拷贝和深拷贝，其实就是copy和retain的区别。copy是创建一个新对象，而retain是创建一个指针，引用计数加1.<code>copy属性</code>表示两个对象内容相同，新对象的retain引用计数为1，和旧的对象毫无关系了。<code>retain属性</code>仅仅是复制了旧对象的指针，内容相同，但是retain引用计数为2.总体来说就是浅拷贝就是指针的复制，深拷贝是真正的创建了新对象。</p>
+
+<h4>非集合对象的copy与mutableCopy方法</h4>
+
+<p><p>这里指的是NSString,NSNumber等等一类的对象。
+<pre><code>
+NSString <em>string = @&ldquo;origin&rdquo;;
+NSString </em>stringCopy = [string copy];
+NSMutableString <em>stringMCopy = [string mutableCopy];
+//可以看到 stringCopy 和 string 的地址是一样，进行了指针拷贝；而 stringMCopy 的地址和 string 不一样，进行了内容拷贝；
+</pre></code>
+<p>再看下面的例子
+<pre><code>
+NSMutableString </em>string = [NSMutableString stringWithString: @&ldquo;origion&rdquo;];
+NSString <em>stringCopy = [string copy];
+NSMutableString </em>mStringCopy = [string copy];
+NSMutableString *stringMCopy = [string mutableCopy];[mStringCopy appendString:@&ldquo;mm&rdquo;];//error
+[string appendString:@&ldquo; origion!&rdquo;];
+[stringMCopy appendString:@&ldquo;!!&rdquo;];
+//以上四个NSString对象所分配的内存都是不一样的。但是对于mStringCopy其实是个imutable对象，所以上述会报错。
+对于系统的非容器类对象，我们可以认为，如果对一不可变对象复制，copy是指针复制（浅拷贝）和mutableCopy就是对象复制（深拷贝）。如果是对可变对象复制，都是深拷贝，但是copy返回的对象是不可变的。
+</pre></code></p></blockquote>
+
+<p><p></p>
+
+<h4>集合对象的深拷贝和浅拷贝</h4>
+
+<p>指NSArray，NSDictionary等。对于容器类本身，上面讨论的结论也是适用的，需要探讨的是复制后容器内对象的变化。
+<p>
+<pre><code>
+ //copy返回不可变对象，mutablecopy返回可变对象
+ NSArray <em>array1 = [NSArray arrayWithObjects:@&ldquo;a&rdquo;,@&ldquo;b&rdquo;,@&ldquo;c&rdquo;,nil];
+ NSArray </em>arrayCopy1 = [array1 copy];
+ //arrayCopy1是和array同一个NSArray对象（指向相同的对象），包括array里面的元素也是指向相同的指针
+    NSLog(@&ldquo;array1 retain count: %d&rdquo;,[array1 retainCount]);
+    NSLog(@&ldquo;array1 retain count: %d&rdquo;,[arrayCopy1 retainCount]);
+ NSMutableArray <em>mArrayCopy1 = [array1 mutableCopy];
+ //mArrayCopy1是array1的可变副本，指向的对象和array1不同，但是其中的元素和array1中的元素指向的是同一个对象。mArrayCopy1还可以修改自己的对象
+[mArrayCopy1 addObject:@&ldquo;de&rdquo;];
+[mArrayCopy1 removeObjectAtIndex:0];
+//array1和arrayCopy1是指针复制，而mArrayCopy1是对象复制，mArrayCopy1还可以改变期内的元素：删除或添加。但是注意的是，容器内的元素内容都是指针复制。
+</pre></code>
+<p>下一个例子
+<pre><code>
+NSArray </em>mArray1 = [NSArray arrayWithObjects:[NSMutableString stringWithString:@&ldquo;a&rdquo;],@&ldquo;b&rdquo;,@&ldquo;c&rdquo;,nil];
+NSArray <em>mArrayCopy2 = [mArray1 copy];
+NSLog(@&ldquo;mArray1 retain count: %d&rdquo;,[mArray1 retainCount]);
+NSMutableArray </em>mArrayMCopy1 = [mArray1 mutableCopy];
+NSLog(@&ldquo;mArray1 retain count: %d&rdquo;,[mArray1 retainCount]);
+//mArrayCopy2,mArrayMCopy1和mArray1指向的都是不一样的对象，但是其中的元素都是一样的对象——同一个指针
+//一下做测试
+NSMutableString <em>testString = [mArray1 objectAtIndex:0];
+//testString = @&ldquo;1a1&rdquo;;
+//这样会改变testString的指针，其实是将@“1a1”临时对象赋给了testString
+[testString appendString:@&ldquo; tail&rdquo;];
+//这样以上三个数组的首元素都被改变了
+//由此可见，对于容器而言，其元素对象始终是指针复制。如果需要元素对象也是对象复制，就需要实现深拷贝。
+</pre></code>
+<p>深拷贝
+<pre><code>
+NSArray </em>array = [NSArray arrayWithObjects:[NSMutableString stringWithString:@&ldquo;first&rdquo;],[NSStringstringWithString:@&ldquo;b&rdquo;],@&ldquo;c&rdquo;,nil];
+NSArray <em>deepCopyArray=[[NSArray alloc] initWithArray: array copyItems: YES];
+NSArray</em> trueDeepCopyArray = [NSKeyedUnarchiver unarchiveObjectWithData:
+[NSKeyedArchiver archivedDataWithRootObject: array]];
+//trueDeepCopyArray是完全意义上的深拷贝，而deepCopyArray则不是，对于deepCopyArray内的不可变元素其还是指针复制。或者我们自己实现深拷贝的方法。因为如果容器的某一元素是不可变的，那你复制完后该对象仍旧是不能改变的，因此只需要指针复制即可。除非你对容器内的元素重新赋值，否则指针复制即已足够。
+</pre></code></p>
+
+<h4>自定义对象</h4>
+
+<p>如果是我们定义的对象，那么我们自己要实现NSCopying,NSMutableCopying这样就能调用copy和mutablecopy了。
+<pre><code>
+@interface MyObj : NSObject&lt;NSCopying,NSMutableCopying>
+{
+         NSMutableString <em>name;
+         NSString </em>imutableStr;
+         int age;
+}
+@property (nonatomic, retain) NSMutableString <em>name;
+@property (nonatomic, retain) NSString </em>imutableStr;
+@property (nonatomic) int age;
+@end
+@implementation MyObj
+@synthesize name;
+@synthesize age;
+@synthesize imutableStr;
+- (id)init
+{
+         if (self = [super init])
+         {
+                   self.name = [[NSMutableString alloc]init];
+                   self.imutableStr = [[NSString alloc]init];
+                   age = -1;
+         }
+         return self;
+}
+- (void)dealloc
+{
+         [name release];
+         [imutableStr release];
+         [super dealloc];
+}
+- (id)copyWithZone:(NSZone <em>)zone
+{
+         MyObj </em>copy = [[[self class] allocWithZone:zone] init];
+         copy->name = [name copy];
+         copy->imutableStr = [imutableStr copy];
+//       copy->name = [name copyWithZone:zone];;
+//       copy->imutableStr = [name copyWithZone:zone];//
+         copy->age = age;
+         return copy;
+}
+- (id)mutableCopyWithZone:(NSZone <em>)zone
+{
+         MyObj </em>copy = NSCopyObject(self, 0, zone);
+         copy->name = [self.name mutableCopy];
+         copy->age = age;
+         return copy;
+}
+</pre></code></p>
+
+<h2>See You</h2>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1493,150 +1649,6 @@ myObj.myBlock =  ^{
 <p><a href="http://blog.xcodev.com/archives/objective-c-naming/">http://blog.xcodev.com/archives/objective-c-naming/</a></p>
 
 <p><a href="https://github.com/objc-zen/objc-zen-book">https://github.com/objc-zen/objc-zen-book</a></p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/iosben-di-shi-jian-de-yun-yong-nsdate.html/">ios本地时间的运用NSDate</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-10-15T00:06:15+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>15</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>12:06 am</span></time>
-        
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><hr />
-
-<h2>ios本地时间的运用NSDate</h2>
-
-<blockquote><p>看来NSDate之后感慨大一时候，在ACM中写敢于时间的问题，想想感觉当时太单纯，哈哈。</p></blockquote>
-
-<p>NSDate的初始化</p>
-
-
-
-
-<pre><code>
-//获取当前日期
-NSDate *now = [NSDate date];
-
-//如果想获取几天后的时间，如果放在大一我还在傻乎乎的判断每个月有多少天哪一年是闰年，当然傻乎乎的时光是美好的。。。。。
-NSTimeInterval day = 24 * 60 * 60; 
-
-NSDate *will = [[NSDate alloc] initWithTimeInterval:day sinceDate:[NSDate date]];
-
-//如果出现了 时区的问题
-NSTimeZone *zone = [NSTimeZone systemTimeZone];
-         
-NSInteger interval = [zone secondsFromGMTForDate: date];
-         
-NSDate *localDate = [date  dateByAddingTimeInterval: interval];
-
-</pre>
-
-
-<p></code></p>
-
-<p>当然NSDate -> NSString 的转换也是不可或缺的</p>
-
-
-
-
-<pre><code>
-NSDateFormatter *dateFormatter =[[NSDateFormatter alloc] init];
- 
-// 设置日期格式
-[dateFormatter setDateFormat:@"年月日 YYYY/mm/dd 时间 hh:mm:ss"];
-         
-NSString *dateString = [dateFormatter stringFromDate:[NSDate date]];
-         
-// 打印结果：dateString = 年月日 2013/10/16 时间 05:15:43
-        NSLog(@"dateString = %@",dateString);
-         
-// 设置日期格式
-[dateFormatter setDateFormat:@"YYYY-MM-dd"];
-         
-NSString *year = [dateFormatter stringFromDate:[NSDate date]];
-         
-// 打印结果：年月日 year = 2013-08-16
-NSLog(@"年月日 year = %@",year);
-         
-// 设置时间格式
-[dateFormatter setDateFormat:@"hh:mm:ss"];
-         
-NSString *time = [dateFormatter stringFromDate:[NSDate date]];
-
-// 打印结果：时间 time = 05:15:43
-NSLog(@"时间 time = %@",time);
-</pre>
-
-
-<p></code></p>
-
-<p>两个时间的比较</p>
-
-
-
-
-<pre><code>
-// 当前时间
-NSDate *currentDate = [NSDate date];
-         
-// 比当前时间晚一个小时的时间
-NSDate *laterDate = [[NSDate alloc] initWithTimeInterval:60*60 sinceDate:[NSDate date]];
-         
-// 比当前时间早一个小时的时间
-NSDate *earlierDate = [[NSDate alloc] initWithTimeInterval:-60*60 sinceDate:[NSDate date]];
-         
-// 比较哪个时间迟
-if ([currentDate laterDate:laterDate]) {
-// 打印结果：current-2013-08-16 09:25:54 +0000比later-2013-08-16 10:25:54 +0000晚
-NSLog(@"current-%@比later-%@晚",currentDate,laterDate);
-}
-         
-// 比较哪个时间早
-if ([currentDate earlierDate:earlierDate]) {
-// 打印结果：current-2013-08-16 09:25:54 +0000 比 earlier-2013-08-16 08:25:54 +0000 
-NSLog(@"current-%@ 比 earlier-%@ 早",currentDate,earlierDate);
-}
-         
-if([currentDatecompare:earlierDate]==NSOrderedDescending) 
-{
-// 打印结果
-NSLog(@"current 晚");
-}
-if ([currentDate compare:currentDate]==NSOrderedSame) 
-{
-// 打印结果
-NSLog(@"时间相等");
-}
-if ([currentDate compare:laterDate]==NSOrderedAscending) {
-// 打印结果
-NSLog(@"current 早");
-}
-</pre>
-
-
-<p></code></p>
-
-<h2>See You</h2>
 </div>
   
   

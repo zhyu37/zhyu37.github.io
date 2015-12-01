@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>http://zhyu37.github.io/blog/ioskai-fa-zhi-shen-kao-bei-,-qian-kao-bei.html/</loc>
+    <lastmod>2015-12-01T17:01:32+08:00</lastmod>
+  </url>
+  <url>
     <loc>http://zhyu37.github.io/blog/shi-xian-descriptionfang-fa.html/</loc>
     <lastmod>2015-11-25T16:05:11+08:00</lastmod>
   </url>
@@ -69,8 +73,5 @@
   </url>
   <url>
     <loc>http://zhyu37.github.io/</loc>
-  </url>
-  <url>
-    <loc>http://zhyu37.github.io/posts/2/</loc>
   </url>
 </urlset>
