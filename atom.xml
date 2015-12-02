@@ -4,7 +4,7 @@
   <title><![CDATA[有所为，有所不为]]></title>
   <link href="http://zhyu37.github.io/atom.xml" rel="self"/>
   <link href="http://zhyu37.github.io/"/>
-  <updated>2015-12-01T17:02:59+08:00</updated>
+  <updated>2015-12-02T17:05:29+08:00</updated>
   <id>http://zhyu37.github.io/</id>
   <author>
     <name><![CDATA[张昊煜]]></name>
@@ -12,6 +12,53 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS开发初始化]]></title>
+    <link href="http://zhyu37.github.io/blog/ioskai-fa-chu-shi-hua.html/"/>
+    <updated>2015-12-01T19:49:45+08:00</updated>
+    <id>http://zhyu37.github.io/blog/ioskai-fa-chu-shi-hua</id>
+    <content type="html"><![CDATA[<hr />
+
+<h2>iOS开发中new和alloc的区别</h2>
+
+<p><p>
+<code>概括的说alloc可以自定义init,new相当于采用默认的初始化</code></p>
+
+<blockquote><ol>
+<li>一般很少用到[className new],我们一般用到的都是[[className alloc] init].但是不代表没用用的。</li>
+<li>这两个的区别是[className new]基本等同于[[className alloc] init]；区别只在于alloc分配内存的时候使用了zone.
+<code>这个zone是个什么东东呢？</code>
+它是给对象分配内存的时候，把关联的对象分配到一个相邻的内存区域内，以便于调用时消耗很少的代价，提升了程序处理速度；
+下面是源代码
+<pre><code>
++new
+{
+id newObject = (<em>_alloc)((Class)self, 0);
+Class metaClass = self->isa;
+if (class_getVersion(metaClass) > 1)
+return [newObject init];
+else
+return newObject;
+}
+//而 alloc/init 像这样：
++alloc
+{
+return (</em>_zoneAlloc)((Class)self, 0, malloc_default_zone());<br/>
+}
+-init
+{
+return self;
+}
+</pre></code></li>
+<li>为什么不推荐使用new呢？
+<p>因为如果使用new的话就只能采用默认的Init了，显然显示初始化比隐藏初始化好。两者没有什么太大的区别。</li>
+</ol>
+</blockquote>
+
+<h2>See You</h2>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS开发之深拷贝、浅拷贝]]></title>
