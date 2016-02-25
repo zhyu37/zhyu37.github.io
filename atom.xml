@@ -4,7 +4,7 @@
   <title><![CDATA[有所为，有所不为]]></title>
   <link href="http://zhyu37.github.io/atom.xml" rel="self"/>
   <link href="http://zhyu37.github.io/"/>
-  <updated>2015-12-02T17:05:29+08:00</updated>
+  <updated>2016-02-25T08:13:23+08:00</updated>
   <id>http://zhyu37.github.io/</id>
   <author>
     <name><![CDATA[张昊煜]]></name>
@@ -12,6 +12,47 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[手势与触摸1.1]]></title>
+    <link href="http://zhyu37.github.io/blog/shou-shi-yu-hong-mo-1-dot-1.html/"/>
+    <updated>2016-02-25T08:10:59+08:00</updated>
+    <id>http://zhyu37.github.io/blog/shou-shi-yu-hong-mo-1-dot-1</id>
+    <content type="html"><![CDATA[<hr />
+
+<h2>1.1手势与触摸-触摸</h2>
+
+<blockquote><p>用户触摸屏幕时，应用程序会寻找相关的对象来处理此操作。触摸事件将在视图之间传递，直到某个对象负责相应开始。
+每个触摸操作信息都保存到UITouch对象中，而这样<code>一组</code>UITouch则放在UIEvent对象里传递。每个UIEvent对象都代表着一次触摸事件，其中包含<code>一个或多个</code>UITouch。具体取决于两个因素：1. 开发者是否开启了多点触摸。2. 实际触摸了几个点。应用程序会在视图类或者控制类里收到触摸事件，而这两种类都继承了UIResponder类。开发者可以自己决定在哪个类里面响应事件。但初学者都想试着在<code>在非响应者类里实现底层的手势控制</code>但可能会遇到很多麻烦。在视图类中有两个好处：1. 可以提升封装度。 2. 便于绘制。在控制类中也有不用把主要处理逻辑放在其他类中实现的好处。</p></blockquote>
+
+<h4><p>触摸的生命周期</h4>
+
+<pre>
+UITouchPhaseBegan——用户一旦触摸即进入此阶段。
+UITouchPhaseMoved——用户的手指在屏幕中移动。
+UITouchPhaseStationary——自上一个事件发生之后，用户仍然在触摸着屏幕表面没有移动。
+UITouchPhaseEnded——当用户手指从屏幕上移走时。
+UITouchPhaseCancelled——如果IOS系统不再追踪某个触摸操作。`相关视图已经从视窗里移走`。（划出界面）
+</pre>
+
+
+<h4><p>UIResponder类中的触摸事件响应方法</h4>
+
+<pre>
+touchesBegan:withEvent——用户一旦触摸
+touchesMoved:withEvent——用户的手指在屏幕中移动
+touchesEnded:withEvent——当用户手指从屏幕上移走时
+touchesCancelled:withEvent——如果IOS系统不再追踪某个触摸操作。
+</pre>
+
+
+<p><code>视图有个模式叫做exclusive touch，当把exclusiveTouch的属性设置为YES时这个视窗的其他视图就收不到触摸事件了。</code></p>
+
+<p>To be continued</p>
+
+<p>See You</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS开发初始化]]></title>

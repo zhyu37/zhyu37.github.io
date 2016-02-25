@@ -5,11 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Ios Auto Layout - 有所为，有所不为</title>
+  <title>手势与触摸1.1 - 有所为，有所不为</title>
   <meta name="author" content="张昊煜">
 
   
-  <meta name="description" content="Ios Auto Layout 一开始 学的时候frame的绝对位置确实比autLayout好用，但是随着iphone 的尺寸越来越多 就会发现在4寸屏上适配成功，发现到plus 上就不对了。so 我选择了autoLayout 因为他是相对布局 所以它更适合 尺寸的变换和 竖屏横屏的切换。 &hellip;">
+  <meta name="description" content="1.1手势与触摸-触摸 用户触摸屏幕时，应用程序会寻找相关的对象来处理此操作。触摸事件将在视图之间传递，直到某个对象负责相应开始。
+每个触摸操作信息都保存到UITouch对象中，而这样一组UITouch则放在UIEvent对象里传递。每个UIEvent对象都代表着一次触摸事件， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +19,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://zhyu37.github.io/blog/ios-auto-layout.html/">
+  <link rel="canonical" href="http://zhyu37.github.io/blog/shou-shi-yu-hong-mo-1-dot-1.html/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="有所为，有所不为" type="application/atom+xml">
@@ -82,7 +83,7 @@
   <header>
     
       
-        <h1 class="entry-title">Ios Auto Layout</h1>
+        <h1 class="entry-title">手势与触摸1.1</h1>
       
     
     
@@ -92,7 +93,7 @@
 
 
 
-<time class='entry-date' datetime='2015-10-25T20:27:46+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>25</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>8:27 pm</span></time>
+<time class='entry-date' datetime='2016-02-25T08:10:59+08:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>25</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>8:10 am</span></time>
         
         
       </p>
@@ -102,66 +103,37 @@
 
 <div class="entry-content"><hr />
 
-<h2>Ios Auto Layout</h2>
+<h2>1.1手势与触摸-触摸</h2>
 
-<blockquote><p>一开始 学的时候frame的绝对位置确实比autLayout好用，但是随着iphone 的尺寸越来越多 就会发现在4寸屏上适配成功，发现到plus 上就不对了。so 我选择了autoLayout 因为他是相对布局 所以它更适合 尺寸的变换和 竖屏横屏的切换。但也不能说frame 没用处。</p></blockquote>
+<blockquote><p>用户触摸屏幕时，应用程序会寻找相关的对象来处理此操作。触摸事件将在视图之间传递，直到某个对象负责相应开始。
+每个触摸操作信息都保存到UITouch对象中，而这样<code>一组</code>UITouch则放在UIEvent对象里传递。每个UIEvent对象都代表着一次触摸事件，其中包含<code>一个或多个</code>UITouch。具体取决于两个因素：1. 开发者是否开启了多点触摸。2. 实际触摸了几个点。应用程序会在视图类或者控制类里收到触摸事件，而这两种类都继承了UIResponder类。开发者可以自己决定在哪个类里面响应事件。但初学者都想试着在<code>在非响应者类里实现底层的手势控制</code>但可能会遇到很多麻烦。在视图类中有两个好处：1. 可以提升封装度。 2. 便于绘制。在控制类中也有不用把主要处理逻辑放在其他类中实现的好处。</p></blockquote>
 
-<p>autolayout的VFL(Visual Format Language)语法</p>
+<h4><p>触摸的生命周期</h4>
 
-
-
-
-<pre><code>
-NSString *vfl = @"V:|-5-[_view]-10-[_imageView(20)]-10-[_backBtn]-5-|";
-
-//其实这段话就是说，在垂直方向从上到下，view离父视图5点，imageView距离view 10点，同时imageView是20点高，backBtn离imageView底部10点，距离父视图底部5点。
+<pre>
+UITouchPhaseBegan——用户一旦触摸即进入此阶段。
+UITouchPhaseMoved——用户的手指在屏幕中移动。
+UITouchPhaseStationary——自上一个事件发生之后，用户仍然在触摸着屏幕表面没有移动。
+UITouchPhaseEnded——当用户手指从屏幕上移走时。
+UITouchPhaseCancelled——如果IOS系统不再追踪某个触摸操作。`相关视图已经从视窗里移走`。（划出界面）
 </pre>
 
 
-<p></code></p>
+<h4><p>UIResponder类中的触摸事件响应方法</h4>
 
-<p>手动Constraint书写</p>
-
-
-<pre><code>
-[self.view addConstraint: [NSLayoutConstraint constraintWithItem:blueView
-attribute:NSLayoutAttributeLeft
-relatedBy:NSLayoutRelationEqual
-toItem:redView
-attribute:NSLayoutAttributeLeft
-multiplier:1
-constant:0]];
+<pre>
+touchesBegan:withEvent——用户一旦触摸
+touchesMoved:withEvent——用户的手指在屏幕中移动
+touchesEnded:withEvent——当用户手指从屏幕上移走时
+touchesCancelled:withEvent——如果IOS系统不再追踪某个触摸操作。
 </pre>
 
 
-<p></code></p>
+<p><code>视图有个模式叫做exclusive touch，当把exclusiveTouch的属性设置为YES时这个视窗的其他视图就收不到触摸事件了。</code></p>
 
-<blockquote><p>通过上面的 讲解  发现AutoLayout还需要花费经历 再去学习一番。SO 我在github上发现了一位大神写的第三方的东西<code>Masonry</code>.<a href="https://github.com/SnapKit/Masonry">https://github.com/SnapKit/Masonry</a><br/>
-开源项目Masonry旨在让自动布局（Auto Layout）的代码更简洁、可读性更强。</p>
+<p>To be continued</p>
 
-<p>Masonry ，“一个轻量级的布局框架，采用更优雅的语法封装自动布局”，不需要使用XIB和Storyboard。它的创造者Jonas Budelmann 论证 了尽管自动布局很强大，但它很快就变得冗长而不可读。</p>
-
-<p>Masonry是一种领域特定语言（DSL），为自动布局的所有功能提供便捷的方法，包括建立和修改约束、存取属性、设置优先级以及调试支持。</p></blockquote>
-
-<p>view的x位于父视图中心，y距顶部5，width为10，hight为20。还是同样地意思 我用这种框架来写一下</p>
-
-
-<pre><code>
-[view mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(self.mas_centerX);
-        make.top.equalTo(self.mas_top).offset(5);
-        make.width.equalTo(@(10));
-        make.height.equalTo(@(20));
-    }];
-</pre>
-
-
-<p></code></p>
-
-<p>感觉还是很好用的</p>
-
-
-<h2>See You</h2>
+<p>See You</p>
 </div>
 
 
@@ -184,7 +156,7 @@ constant:0]];
 
 
 
-<time class='entry-date' datetime='2015-10-25T20:27:46+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>25</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>8:27 pm</span></time>
+<time class='entry-date' datetime='2016-02-25T08:10:59+08:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>25</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>8:10 am</span></time>
       
       
 
@@ -193,7 +165,7 @@ constant:0]];
     
       <div class="sharing">
   
-  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://zhyu37.github.io/blog/ios-auto-layout.html/" data-via="" data-counturl="http://zhyu37.github.io/blog/ios-auto-layout.html/" >Tweet</a>
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://zhyu37.github.io/blog/shou-shi-yu-hong-mo-1-dot-1.html/" data-via="" data-counturl="http://zhyu37.github.io/blog/shou-shi-yu-hong-mo-1-dot-1.html/" >Tweet</a>
   
   
   
@@ -202,10 +174,8 @@ constant:0]];
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/uipickerview.html/" title="Previous Post: UIPickerView">&laquo; UIPickerView</a>
+        <a class="basic-alignment left" href="/blog/ioskai-fa-chu-shi-hua.html/" title="Previous Post: iOS开发初始化">&laquo; iOS开发初始化</a>
       
-      
-        <a class="basic-alignment right" href="/blog/textgame.html/" title="Next Post: textGame">textGame &raquo;</a>
       
     </p>
   </footer>
