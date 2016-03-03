@@ -5,12 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>手势与触摸1.1 - 有所为，有所不为</title>
+  <title>iOS时间戳转时间 - 有所为，有所不为</title>
   <meta name="author" content="张昊煜">
 
   
-  <meta name="description" content="1.1手势与触摸-触摸 用户触摸屏幕时，应用程序会寻找相关的对象来处理此操作。触摸事件将在视图之间传递，直到某个对象负责相应开始。
-每个触摸操作信息都保存到UITouch对象中，而这样一组UITouch则放在UIEvent对象里传递。每个UIEvent对象都代表着一次触摸事件， &hellip;">
+  <meta name="description" content="iOS时间戳转时间 IOS项目中会遇到时间转的问题，当从服务端传回时间到客户端，而这个时间确是时间戳，并且是13位，如果是普通的字符串比如“2015-09-24 19:00:000” 这样转化是比较简单，但是时间戳不是这样的，ios生成的时间戳是10位，所以说需要进行转换。以下有几种方式： &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -19,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://zhyu37.github.io/blog/shou-shi-yu-hong-mo-1-dot-1.html/">
+  <link rel="canonical" href="http://zhyu37.github.io/blog/iosshi-jian-chuo-zhuan-shi-jian.html/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="有所为，有所不为" type="application/atom+xml">
@@ -83,7 +82,7 @@
   <header>
     
       
-        <h1 class="entry-title">手势与触摸1.1</h1>
+        <h1 class="entry-title">iOS时间戳转时间</h1>
       
     
     
@@ -93,7 +92,7 @@
 
 
 
-<time class='entry-date' datetime='2016-02-25T08:10:59+08:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>25</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>8:10 am</span></time>
+<time class='entry-date' datetime='2016-03-03T17:08:17+08:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>3</span><span class='date-suffix'>rd</span>, <span class='date-year'>2016</span></span> <span class='time'>5:08 pm</span></time>
         
         
       </p>
@@ -103,37 +102,35 @@
 
 <div class="entry-content"><hr />
 
-<h2>1.1手势与触摸-触摸</h2>
+<h3>iOS时间戳转时间</h3>
 
-<blockquote><p>用户触摸屏幕时，应用程序会寻找相关的对象来处理此操作。触摸事件将在视图之间传递，直到某个对象负责相应开始。
-每个触摸操作信息都保存到UITouch对象中，而这样<code>一组</code>UITouch则放在UIEvent对象里传递。每个UIEvent对象都代表着一次触摸事件，其中包含<code>一个或多个</code>UITouch。具体取决于两个因素：1. 开发者是否开启了多点触摸。2. 实际触摸了几个点。应用程序会在视图类或者控制类里收到触摸事件，而这两种类都继承了UIResponder类。开发者可以自己决定在哪个类里面响应事件。但初学者都想试着在<code>在非响应者类里实现底层的手势控制</code>但可能会遇到很多麻烦。在视图类中有两个好处：1. 可以提升封装度。 2. 便于绘制。在控制类中也有不用把主要处理逻辑放在其他类中实现的好处。</p></blockquote>
+<blockquote><p>IOS项目中会遇到时间转的问题，当从服务端传回时间到客户端，而这个时间确是时间戳，并且是13位，如果是普通的字符串比如“2015-09-24 19:00:000” 这样转化是比较简单，但是时间戳不是这样的，ios生成的时间戳是10位，所以说需要进行转换。以下有几种方式：</p></blockquote>
 
-<h4><p>触摸的生命周期</h4>
+<p><p>第一种：
+<pre><code>
+NSString * timeStampString = @&ldquo;1423189125874&rdquo;;
+    NSDate *date = [NSDate dateWithTimeIntervalSince1970:[timeStampString doubleValue] / 1000];
+    NSLog(@&ldquo;%f&rdquo;, ([date timeIntervalSince1970] * 1000.0));
+</pre></code></p>
 
-<pre>
-UITouchPhaseBegan——用户一旦触摸即进入此阶段。
-UITouchPhaseMoved——用户的手指在屏幕中移动。
-UITouchPhaseStationary——自上一个事件发生之后，用户仍然在触摸着屏幕表面没有移动。
-UITouchPhaseEnded——当用户手指从屏幕上移走时。
-UITouchPhaseCancelled——如果IOS系统不再追踪某个触摸操作。`相关视图已经从视窗里移走`。（划出界面）
-</pre>
+<p><p>第二种：
+<pre><code>
+   NSString * timeStampString = @&ldquo;1423189125874&rdquo;;
+   NSTimeInterval <em>interval=[[timeStampString substringToIndex:10] doubleValue];
+   NSDate *date = [NSDate dateWithTimeIntervalSince1970:</em>interval];
+   NSLog(@&ldquo;%@&rdquo;, date);</p>
 
+<p>//格式化时间：</p>
 
-<h4><p>UIResponder类中的触摸事件响应方法</h4>
+<p>   NSString * timeStampString = @&ldquo;1423189125874&rdquo;;
+   NSTimeInterval <em>interval=[timeStampString doubleValue] / 1000.0;
+   NSDate *date = [NSDate dateWithTimeIntervalSince1970:</em>interval];
+   NSDateFormatter *objDateformat = [[NSDateFormatter alloc] init];
+   [objDateformat setDateFormat:@&ldquo;yyyy-MM-dd HH:mm:ss.SSS&rdquo;];
+   NSLog(@&ldquo;%@&rdquo;, [objDateformat stringFromDate: date]);
+</pre></code></p>
 
-<pre>
-touchesBegan:withEvent——用户一旦触摸
-touchesMoved:withEvent——用户的手指在屏幕中移动
-touchesEnded:withEvent——当用户手指从屏幕上移走时
-touchesCancelled:withEvent——如果IOS系统不再追踪某个触摸操作。
-</pre>
-
-
-<p><code>视图有个模式叫做exclusive touch，当把exclusiveTouch的属性设置为YES时这个视窗的其他视图就收不到触摸事件了。</code></p>
-
-<p>To be continued</p>
-
-<p>See You</p>
+<h2>See You</h2>
 </div>
 
 
@@ -156,7 +153,7 @@ touchesCancelled:withEvent——如果IOS系统不再追踪某个触摸操作。
 
 
 
-<time class='entry-date' datetime='2016-02-25T08:10:59+08:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>25</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>8:10 am</span></time>
+<time class='entry-date' datetime='2016-03-03T17:08:17+08:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>3</span><span class='date-suffix'>rd</span>, <span class='date-year'>2016</span></span> <span class='time'>5:08 pm</span></time>
       
       
 
@@ -165,7 +162,7 @@ touchesCancelled:withEvent——如果IOS系统不再追踪某个触摸操作。
     
       <div class="sharing">
   
-  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://zhyu37.github.io/blog/shou-shi-yu-hong-mo-1-dot-1.html/" data-via="" data-counturl="http://zhyu37.github.io/blog/shou-shi-yu-hong-mo-1-dot-1.html/" >Tweet</a>
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://zhyu37.github.io/blog/iosshi-jian-chuo-zhuan-shi-jian.html/" data-via="" data-counturl="http://zhyu37.github.io/blog/iosshi-jian-chuo-zhuan-shi-jian.html/" >Tweet</a>
   
   
   
@@ -174,10 +171,8 @@ touchesCancelled:withEvent——如果IOS系统不再追踪某个触摸操作。
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/ioskai-fa-chu-shi-hua.html/" title="Previous Post: iOS开发初始化">&laquo; iOS开发初始化</a>
+        <a class="basic-alignment left" href="/blog/shou-shi-yu-hong-mo-1-dot-1.html/" title="Previous Post: 手势与触摸1.1">&laquo; 手势与触摸1.1</a>
       
-      
-        <a class="basic-alignment right" href="/blog/iosshi-jian-chuo-zhuan-shi-jian.html/" title="Next Post: iOS时间戳转时间">iOS时间戳转时间 &raquo;</a>
       
     </p>
   </footer>

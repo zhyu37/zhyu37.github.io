@@ -4,7 +4,7 @@
   <title><![CDATA[有所为，有所不为]]></title>
   <link href="http://zhyu37.github.io/atom.xml" rel="self"/>
   <link href="http://zhyu37.github.io/"/>
-  <updated>2016-02-25T08:13:23+08:00</updated>
+  <updated>2016-03-03T17:09:45+08:00</updated>
   <id>http://zhyu37.github.io/</id>
   <author>
     <name><![CDATA[张昊煜]]></name>
@@ -12,6 +12,45 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS时间戳转时间]]></title>
+    <link href="http://zhyu37.github.io/blog/iosshi-jian-chuo-zhuan-shi-jian.html/"/>
+    <updated>2016-03-03T17:08:17+08:00</updated>
+    <id>http://zhyu37.github.io/blog/iosshi-jian-chuo-zhuan-shi-jian</id>
+    <content type="html"><![CDATA[<hr />
+
+<h3>iOS时间戳转时间</h3>
+
+<blockquote><p>IOS项目中会遇到时间转的问题，当从服务端传回时间到客户端，而这个时间确是时间戳，并且是13位，如果是普通的字符串比如“2015-09-24 19:00:000” 这样转化是比较简单，但是时间戳不是这样的，ios生成的时间戳是10位，所以说需要进行转换。以下有几种方式：</p></blockquote>
+
+<p><p>第一种：
+<pre><code>
+NSString * timeStampString = @&ldquo;1423189125874&rdquo;;
+    NSDate *date = [NSDate dateWithTimeIntervalSince1970:[timeStampString doubleValue] / 1000];
+    NSLog(@&ldquo;%f&rdquo;, ([date timeIntervalSince1970] * 1000.0));
+</pre></code></p>
+
+<p><p>第二种：
+<pre><code>
+   NSString * timeStampString = @&ldquo;1423189125874&rdquo;;
+   NSTimeInterval <em>interval=[[timeStampString substringToIndex:10] doubleValue];
+   NSDate *date = [NSDate dateWithTimeIntervalSince1970:</em>interval];
+   NSLog(@&ldquo;%@&rdquo;, date);</p>
+
+<p>//格式化时间：</p>
+
+<p>   NSString * timeStampString = @&ldquo;1423189125874&rdquo;;
+   NSTimeInterval <em>interval=[timeStampString doubleValue] / 1000.0;
+   NSDate *date = [NSDate dateWithTimeIntervalSince1970:</em>interval];
+   NSDateFormatter *objDateformat = [[NSDateFormatter alloc] init];
+   [objDateformat setDateFormat:@&ldquo;yyyy-MM-dd HH:mm:ss.SSS&rdquo;];
+   NSLog(@&ldquo;%@&rdquo;, [objDateformat stringFromDate: date]);
+</pre></code></p>
+
+<h2>See You</h2>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[手势与触摸1.1]]></title>

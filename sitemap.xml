@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>http://zhyu37.github.io/blog/iosshi-jian-chuo-zhuan-shi-jian.html/</loc>
+    <lastmod>2016-03-03T17:08:17+08:00</lastmod>
+  </url>
+  <url>
     <loc>http://zhyu37.github.io/blog/shou-shi-yu-hong-mo-1-dot-1.html/</loc>
     <lastmod>2016-02-25T08:10:59+08:00</lastmod>
   </url>
@@ -81,5 +85,8 @@
   </url>
   <url>
     <loc>http://zhyu37.github.io/</loc>
+  </url>
+  <url>
+    <loc>http://zhyu37.github.io/posts/2/</loc>
   </url>
 </urlset>
