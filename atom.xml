@@ -4,7 +4,7 @@
   <title><![CDATA[有所为，有所不为]]></title>
   <link href="http://zhyu37.github.io/atom.xml" rel="self"/>
   <link href="http://zhyu37.github.io/"/>
-  <updated>2016-03-03T17:09:45+08:00</updated>
+  <updated>2016-03-05T02:48:49+08:00</updated>
   <id>http://zhyu37.github.io/</id>
   <author>
     <name><![CDATA[张昊煜]]></name>
@@ -12,6 +12,160 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[修改个人信息时候多组UITextField提交数据]]></title>
+    <link href="http://zhyu37.github.io/blog/xiu-gai-ge-ren-xin-xi-shi-hou-duo-zu-uitextfieldti-jiao.html/"/>
+    <updated>2016-03-05T02:47:43+08:00</updated>
+    <id>http://zhyu37.github.io/blog/xiu-gai-ge-ren-xin-xi-shi-hou-duo-zu-uitextfieldti-jiao</id>
+    <content type="html"><![CDATA[<hr />
+
+<h2>修改个人信息时候多组UITextField提交数据</h2>
+
+<p><img src="../images/QQ20160305-0.png" alt="Alt text" /></p>
+
+<blockquote><p>个人经历：在写个人信息修改的时候发现，如果使用UITableView动态添加Cell时，提交修改信息无法通过[self.tableView reloadData];刷新UITableView来获取跟新的数据，因为提交数据的接口也是在提交按钮的事件里面无法先刷新再提交So问题来了。</p></blockquote>
+
+<p><p>通过浅拷贝来拷贝对应UITextField组件来获取数据
+<pre><code>
+//右上角的编辑/确定 按钮
+-(void)rightBarBtnClick:(UIBarButtonItem *)sender
+{</p>
+
+<p>   if ([sender.title isEqualToString:@&ldquo;编辑&rdquo;]) {
+        [sender setTitle:@&ldquo;确定&rdquo;];
+        self.editing = YES;
+        [self.tableView reloadData];
+    } else {
+        [sender setTitle:@&ldquo;编辑&rdquo;];
+        self.editing = NO;</p>
+
+<p>   //向服务器发送数据
+   [APHTTPMine changePeopleWithid:[APGlobal sharedAPGlobal].user.userId email:[APGlobal sharedAPGlobal].user.email name:self.nameTextField.text phone:self.phoneTextField.text collegeId:[NSNumber numberWithInteger:self.collegeId] grade:self.gradeTextField.text major:self.majorTextField.text wechat:self.wechatTextField.text headImgUrl:self.headImgUrl success:^(AFHTTPRequestOperation <em>operation, id response) {
+   //本地缓存必要数据
+   [APGlobal sharedAPGlobal].user.name = self.nameTextField.text;
+            [APGlobal sharedAPGlobal].user.school = self.school;
+            [APGlobal sharedAPGlobal].user.grade = self.gradeTextField.text;
+            [APGlobal sharedAPGlobal].user.major = self.majorTextField.text;
+            [APGlobal sharedAPGlobal].user.phone = self.phoneTextField.text;
+            [APGlobal sharedAPGlobal].user.weichat = self.wechatTextField.text;
+            [APGlobal sharedAPGlobal].user.headImgUrl = self.headImgUrl;
+            [APGlobal sharedAPGlobal].user.collegeId = [NSNumber numberWithInteger:self.collegeId];
+            //更新数据 并刷新
+            [self setupInitInformation];
+            [self.tableView reloadData];
+        } failure:^(AFHTTPRequestOperation </em>operation, NSError *error) {</p>
+
+<p>   }];</p>
+
+<p>  }</p>
+
+<p>}</p>
+
+<p>//初始化的时候会调用 更新数据的时候也会调用
+-(void)setupInitInformation
+{
+    self.name = [APGlobal sharedAPGlobal].user.name;
+    self.school = [APGlobal sharedAPGlobal].user.school;
+    self.grade = [APGlobal sharedAPGlobal].user.grade;
+    self.major = [APGlobal sharedAPGlobal].user.major;
+    self.phone = [APGlobal sharedAPGlobal].user.phone;
+    self.wechat = [APGlobal sharedAPGlobal].user.weichat;
+    self.headImgUrl = [APGlobal sharedAPGlobal].user.headImgUrl;
+    self.collegeId = [[APGlobal sharedAPGlobal].user.collegeId integerValue];
+}</p>
+
+<p>//#pragma mark - UITableViewDataSource</p>
+
+<p>-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return 6;
+}</p>
+
+<p>-(UITableViewCell <em>)tableView:(UITableView </em>)tableView cellForRowAtIndexPath:(NSIndexPath <em>)indexPath
+{
+    APMinePersonInformationTableViewCell </em>cell = [tableView dequeueReusableCellWithIdentifier:[APMinePersonInformationTableViewCell cellIdentifier]];
+    cell.cellPersonLabel.delegate = self;
+    [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+    cell.cellPersonLabel.enabled = NO;
+    cell.cellPersonLabel.borderStyle = UITextBorderStyleNone;
+    switch (indexPath.row) {
+        case 0:
+            if (self.editing) {//编辑状态
+                cell.cellPersonLabel.enabled = YES;
+                cell.cellPersonLabel.borderStyle = UITextBorderStyleRoundedRect;
+                cell.cellPersonLabel.keyboardType = UIKeyboardTypeDefault;
+                self.nameTextField = cell.cellPersonLabel;</p>
+
+<p>  }else{//非编辑状态
+                cell.cellInformationLabel.text = @&ldquo;姓名:&rdquo;;
+                cell.cellPersonLabel.text = self.name;
+            }
+            break;
+        case 1:
+            if (self.editing) {
+                cell.cellPersonLabel.text = self.school;
+            }else{
+                cell.cellInformationLabel.text = @&ldquo;学校:&rdquo;;
+                cell.cellPersonLabel.text = self.school;
+            }
+            break;
+        case 2:
+            if (self.editing) {
+                cell.cellPersonLabel.enabled = YES;
+                cell.cellPersonLabel.borderStyle = UITextBorderStyleRoundedRect;
+                cell.cellPersonLabel.keyboardType = UIKeyboardTypeDefault;
+                self.gradeTextField = cell.cellPersonLabel;
+            }else{
+                cell.cellInformationLabel.text = @&ldquo;年级:&rdquo;;
+                cell.cellPersonLabel.text = [NSString stringWithFormat:@&ldquo;%@&rdquo;,self.grade];
+            }
+            break;
+        case 3:
+            if (self.editing) {
+                cell.cellPersonLabel.enabled = YES;
+                cell.cellPersonLabel.borderStyle = UITextBorderStyleRoundedRect;
+                cell.cellPersonLabel.keyboardType = UIKeyboardTypeDefault;
+                self.majorTextField = cell.cellPersonLabel;
+            }else{
+                cell.cellInformationLabel.text = @&ldquo;专业:&rdquo;;
+                cell.cellPersonLabel.text = [NSString stringWithFormat:@&ldquo;%@&rdquo;,self.major];
+            }
+            break;
+        case 4:
+            if (self.editing) {
+                cell.cellPersonLabel.enabled = YES;
+                cell.cellPersonLabel.borderStyle = UITextBorderStyleRoundedRect;
+                cell.cellPersonLabel.keyboardType = UIKeyboardTypePhonePad;
+                self.phoneTextField = cell.cellPersonLabel;
+            }else{
+                cell.cellInformationLabel.text = @&ldquo;电话号码:&rdquo;;
+                cell.cellPersonLabel.text = self.phone;
+            }
+            break;
+        case 5:
+            if (self.editing) {
+                cell.cellPersonLabel.enabled = YES;
+                cell.cellPersonLabel.borderStyle = UITextBorderStyleRoundedRect;
+                cell.cellPersonLabel.keyboardType = UIKeyboardTypeNumberPad;
+                self.wechatTextField = cell.cellPersonLabel;
+            }else{
+                cell.cellInformationLabel.text = @&ldquo;微信号:&rdquo;;
+                cell.cellPersonLabel.text = [NSString stringWithFormat:@&ldquo;%@&rdquo;,self.wechat];
+            }
+            break;
+        default:
+            break;
+    }</p>
+
+<p>   return cell;
+}</p>
+
+<p></pre></code></p>
+
+<h2>See You</h2>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS时间戳转时间]]></title>
@@ -2241,15 +2395,6 @@ if (failure) {
 } progress:nil];</p>
 
 <p>}</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Hello World]]></title>
-    <link href="http://zhyu37.github.io/blog/hello-world.html/"/>
-    <updated>2015-10-09T15:29:56+08:00</updated>
-    <id>http://zhyu37.github.io/blog/hello-world</id>
-    <content type="html"><![CDATA[<p>Today, I finally had my blog, I want to say &ldquo;hello world&rdquo;.</p>
 ]]></content>
   </entry>
   

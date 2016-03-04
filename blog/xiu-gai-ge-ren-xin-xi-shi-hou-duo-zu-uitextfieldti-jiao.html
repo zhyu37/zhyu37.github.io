@@ -1,0 +1,333 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>修改个人信息时候多组UITextField提交数据 - 有所为，有所不为</title>
+  <meta name="author" content="张昊煜">
+
+  
+  <meta name="description" content="修改个人信息时候多组UITextField提交数据 个人经历：在写个人信息修改的时候发现，如果使用UITableView动态添加Cell时，提交修改信息无法通过[self.tableView reloadData];刷新UITableView来获取跟新的数据， &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://zhyu37.github.io/blog/xiu-gai-ge-ren-xin-xi-shi-hou-duo-zu-uitextfieldti-jiao.html/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="有所为，有所不为" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=Fjalla+One" rel="stylesheet" type="text/css">
+<!--- MathJax Configuration -->
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+</head>
+
+<body   class="collapse-sidebar sidebar-footer" >
+  <header role="banner"><hgroup>
+  <h1><a href="/">有所为，有所不为</a></h1>
+  
+    <h2>张昊煜</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscribe" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS" target="_blank"><svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="25" height="25" viewbox="0 0 100 100"><path class="social" d="M 13.310204,73.332654 C 5.967347,73.332654 0,79.322448 0,86.621428 c 0,7.338776 5.967347,13.262246 13.310204,13.262246 7.370408,0 13.328572,-5.92245 13.328572,-13.262246 0,-7.29898 -5.958164,-13.288774 -13.328572,-13.288774 z M 0.01530612,33.978572 V 53.143878 C 12.493878,53.143878 24.229592,58.02347 33.068368,66.865306 41.894898,75.685714 46.767346,87.47449 46.767346,100 h 19.25 C 66.017346,63.592858 36.4,33.979592 0.01530612,33.978572 l 0,0 z M 0.03877552,0 V 19.17449 C 44.54796,19.17551 80.77551,55.437756 80.77551,100 H 100 C 100,44.87653 55.15102,0 0.03877552,0 z"></path></svg></a></li>
+  
+</ul>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    
+      <form action="https://www.google.com/search" method="get">
+        <fieldset role="search">
+          <input type="hidden" name="sitesearch" value="zhyu37.github.io" />
+    
+          <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+        </fieldset>
+      </form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      
+        <h1 class="entry-title">修改个人信息时候多组UITextField提交数据</h1>
+      
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-03-05T02:47:43+08:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>5</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>2:47 am</span></time>
+        
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><hr />
+
+<h2>修改个人信息时候多组UITextField提交数据</h2>
+
+<p><img src="../images/QQ20160305-0.png" alt="Alt text" /></p>
+
+<blockquote><p>个人经历：在写个人信息修改的时候发现，如果使用UITableView动态添加Cell时，提交修改信息无法通过[self.tableView reloadData];刷新UITableView来获取跟新的数据，因为提交数据的接口也是在提交按钮的事件里面无法先刷新再提交So问题来了。</p></blockquote>
+
+<p><p>通过浅拷贝来拷贝对应UITextField组件来获取数据
+<pre><code>
+//右上角的编辑/确定 按钮
+-(void)rightBarBtnClick:(UIBarButtonItem *)sender
+{</p>
+
+<p>   if ([sender.title isEqualToString:@&ldquo;编辑&rdquo;]) {
+        [sender setTitle:@&ldquo;确定&rdquo;];
+        self.editing = YES;
+        [self.tableView reloadData];
+    } else {
+        [sender setTitle:@&ldquo;编辑&rdquo;];
+        self.editing = NO;</p>
+
+<p>   //向服务器发送数据
+   [APHTTPMine changePeopleWithid:[APGlobal sharedAPGlobal].user.userId email:[APGlobal sharedAPGlobal].user.email name:self.nameTextField.text phone:self.phoneTextField.text collegeId:[NSNumber numberWithInteger:self.collegeId] grade:self.gradeTextField.text major:self.majorTextField.text wechat:self.wechatTextField.text headImgUrl:self.headImgUrl success:^(AFHTTPRequestOperation <em>operation, id response) {
+   //本地缓存必要数据
+   [APGlobal sharedAPGlobal].user.name = self.nameTextField.text;
+            [APGlobal sharedAPGlobal].user.school = self.school;
+            [APGlobal sharedAPGlobal].user.grade = self.gradeTextField.text;
+            [APGlobal sharedAPGlobal].user.major = self.majorTextField.text;
+            [APGlobal sharedAPGlobal].user.phone = self.phoneTextField.text;
+            [APGlobal sharedAPGlobal].user.weichat = self.wechatTextField.text;
+            [APGlobal sharedAPGlobal].user.headImgUrl = self.headImgUrl;
+            [APGlobal sharedAPGlobal].user.collegeId = [NSNumber numberWithInteger:self.collegeId];
+            //更新数据 并刷新
+            [self setupInitInformation];
+            [self.tableView reloadData];
+        } failure:^(AFHTTPRequestOperation </em>operation, NSError *error) {</p>
+
+<p>   }];</p>
+
+<p>  }</p>
+
+<p>}</p>
+
+<p>//初始化的时候会调用 更新数据的时候也会调用
+-(void)setupInitInformation
+{
+    self.name = [APGlobal sharedAPGlobal].user.name;
+    self.school = [APGlobal sharedAPGlobal].user.school;
+    self.grade = [APGlobal sharedAPGlobal].user.grade;
+    self.major = [APGlobal sharedAPGlobal].user.major;
+    self.phone = [APGlobal sharedAPGlobal].user.phone;
+    self.wechat = [APGlobal sharedAPGlobal].user.weichat;
+    self.headImgUrl = [APGlobal sharedAPGlobal].user.headImgUrl;
+    self.collegeId = [[APGlobal sharedAPGlobal].user.collegeId integerValue];
+}</p>
+
+<p>//#pragma mark - UITableViewDataSource</p>
+
+<p>-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return 6;
+}</p>
+
+<p>-(UITableViewCell <em>)tableView:(UITableView </em>)tableView cellForRowAtIndexPath:(NSIndexPath <em>)indexPath
+{
+    APMinePersonInformationTableViewCell </em>cell = [tableView dequeueReusableCellWithIdentifier:[APMinePersonInformationTableViewCell cellIdentifier]];
+    cell.cellPersonLabel.delegate = self;
+    [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+    cell.cellPersonLabel.enabled = NO;
+    cell.cellPersonLabel.borderStyle = UITextBorderStyleNone;
+    switch (indexPath.row) {
+        case 0:
+            if (self.editing) {//编辑状态
+                cell.cellPersonLabel.enabled = YES;
+                cell.cellPersonLabel.borderStyle = UITextBorderStyleRoundedRect;
+                cell.cellPersonLabel.keyboardType = UIKeyboardTypeDefault;
+                self.nameTextField = cell.cellPersonLabel;</p>
+
+<p>  }else{//非编辑状态
+                cell.cellInformationLabel.text = @&ldquo;姓名:&rdquo;;
+                cell.cellPersonLabel.text = self.name;
+            }
+            break;
+        case 1:
+            if (self.editing) {
+                cell.cellPersonLabel.text = self.school;
+            }else{
+                cell.cellInformationLabel.text = @&ldquo;学校:&rdquo;;
+                cell.cellPersonLabel.text = self.school;
+            }
+            break;
+        case 2:
+            if (self.editing) {
+                cell.cellPersonLabel.enabled = YES;
+                cell.cellPersonLabel.borderStyle = UITextBorderStyleRoundedRect;
+                cell.cellPersonLabel.keyboardType = UIKeyboardTypeDefault;
+                self.gradeTextField = cell.cellPersonLabel;
+            }else{
+                cell.cellInformationLabel.text = @&ldquo;年级:&rdquo;;
+                cell.cellPersonLabel.text = [NSString stringWithFormat:@&ldquo;%@&rdquo;,self.grade];
+            }
+            break;
+        case 3:
+            if (self.editing) {
+                cell.cellPersonLabel.enabled = YES;
+                cell.cellPersonLabel.borderStyle = UITextBorderStyleRoundedRect;
+                cell.cellPersonLabel.keyboardType = UIKeyboardTypeDefault;
+                self.majorTextField = cell.cellPersonLabel;
+            }else{
+                cell.cellInformationLabel.text = @&ldquo;专业:&rdquo;;
+                cell.cellPersonLabel.text = [NSString stringWithFormat:@&ldquo;%@&rdquo;,self.major];
+            }
+            break;
+        case 4:
+            if (self.editing) {
+                cell.cellPersonLabel.enabled = YES;
+                cell.cellPersonLabel.borderStyle = UITextBorderStyleRoundedRect;
+                cell.cellPersonLabel.keyboardType = UIKeyboardTypePhonePad;
+                self.phoneTextField = cell.cellPersonLabel;
+            }else{
+                cell.cellInformationLabel.text = @&ldquo;电话号码:&rdquo;;
+                cell.cellPersonLabel.text = self.phone;
+            }
+            break;
+        case 5:
+            if (self.editing) {
+                cell.cellPersonLabel.enabled = YES;
+                cell.cellPersonLabel.borderStyle = UITextBorderStyleRoundedRect;
+                cell.cellPersonLabel.keyboardType = UIKeyboardTypeNumberPad;
+                self.wechatTextField = cell.cellPersonLabel;
+            }else{
+                cell.cellInformationLabel.text = @&ldquo;微信号:&rdquo;;
+                cell.cellPersonLabel.text = [NSString stringWithFormat:@&ldquo;%@&rdquo;,self.wechat];
+            }
+            break;
+        default:
+            break;
+    }</p>
+
+<p>   return cell;
+}</p>
+
+<p></pre></code></p>
+
+<h2>See You</h2>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+
+
+  <span class="byline author vcard">Authored by <span class="fn">
+  
+    张昊煜
+  
+  </span></span>
+
+
+      
+
+
+
+
+<time class='entry-date' datetime='2016-03-05T02:47:43+08:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>5</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>2:47 am</span></time>
+      
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://zhyu37.github.io/blog/xiu-gai-ge-ren-xin-xi-shi-hou-duo-zu-uitextfieldti-jiao.html/" data-via="" data-counturl="http://zhyu37.github.io/blog/xiu-gai-ge-ren-xin-xi-shi-hou-duo-zu-uitextfieldti-jiao.html/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/iosshi-jian-chuo-zhuan-shi-jian.html/" title="Previous Post: iOS时间戳转时间">&laquo; iOS时间戳转时间</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+
+</div>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 张昊煜 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a> | Themed with <a href="https://github.com/lucaslew/whitespace">Whitespace</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

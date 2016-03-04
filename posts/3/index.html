@@ -5,11 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>iOS时间戳转时间 - 有所为，有所不为</title>
+  <title>有所为，有所不为</title>
   <meta name="author" content="张昊煜">
 
   
-  <meta name="description" content="iOS时间戳转时间 IOS项目中会遇到时间转的问题，当从服务端传回时间到客户端，而这个时间确是时间戳，并且是13位，如果是普通的字符串比如“2015-09-24 19:00:000” 这样转化是比较简单，但是时间戳不是这样的，ios生成的时间戳是10位，所以说需要进行转换。以下有几种方式： &hellip;">
+  <meta name="description" content="Today, I finally had my blog, I want to say &ldquo;hello world&rdquo;.
+">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +19,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://zhyu37.github.io/blog/iosshi-jian-chuo-zhuan-shi-jian.html/">
+  <link rel="canonical" href="http://zhyu37.github.io/posts/3/index.html">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="有所为，有所不为" type="application/atom+xml">
@@ -76,14 +77,15 @@
 </nav>
   <div id="main">
     <div id="content">
-      <div>
-<article class="hentry" role="article">
+      <div class="blog-index">
   
+  
+  
+    <article>
+      
   <header>
     
-      
-        <h1 class="entry-title">iOS时间戳转时间</h1>
-      
+      <h1 class="entry-title"><a href="/blog/hello-world.html/">Hello World</a></h1>
     
     
       <p class="meta">
@@ -92,7 +94,7 @@
 
 
 
-<time class='entry-date' datetime='2016-03-03T17:08:17+08:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>3</span><span class='date-suffix'>rd</span>, <span class='date-year'>2016</span></span> <span class='time'>5:08 pm</span></time>
+<time class='entry-date' datetime='2015-10-09T15:29:56+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>9</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>3:29 pm</span></time>
         
         
       </p>
@@ -100,88 +102,27 @@
   </header>
 
 
-<div class="entry-content"><hr />
-
-<h3>iOS时间戳转时间</h3>
-
-<blockquote><p>IOS项目中会遇到时间转的问题，当从服务端传回时间到客户端，而这个时间确是时间戳，并且是13位，如果是普通的字符串比如“2015-09-24 19:00:000” 这样转化是比较简单，但是时间戳不是这样的，ios生成的时间戳是10位，所以说需要进行转换。以下有几种方式：</p></blockquote>
-
-<p><p>第一种：
-<pre><code>
-NSString * timeStampString = @&ldquo;1423189125874&rdquo;;
-    NSDate *date = [NSDate dateWithTimeIntervalSince1970:[timeStampString doubleValue] / 1000];
-    NSLog(@&ldquo;%f&rdquo;, ([date timeIntervalSince1970] * 1000.0));
-</pre></code></p>
-
-<p><p>第二种：
-<pre><code>
-   NSString * timeStampString = @&ldquo;1423189125874&rdquo;;
-   NSTimeInterval <em>interval=[[timeStampString substringToIndex:10] doubleValue];
-   NSDate *date = [NSDate dateWithTimeIntervalSince1970:</em>interval];
-   NSLog(@&ldquo;%@&rdquo;, date);</p>
-
-<p>//格式化时间：</p>
-
-<p>   NSString * timeStampString = @&ldquo;1423189125874&rdquo;;
-   NSTimeInterval <em>interval=[timeStampString doubleValue] / 1000.0;
-   NSDate *date = [NSDate dateWithTimeIntervalSince1970:</em>interval];
-   NSDateFormatter *objDateformat = [[NSDateFormatter alloc] init];
-   [objDateformat setDateFormat:@&ldquo;yyyy-MM-dd HH:mm:ss.SSS&rdquo;];
-   NSLog(@&ldquo;%@&rdquo;, [objDateformat stringFromDate: date]);
-</pre></code></p>
-
-<h2>See You</h2>
+  <div class="entry-content"><p>Today, I finally had my blog, I want to say &ldquo;hello world&rdquo;.</p>
 </div>
-
-
-  <footer>
-    <p class="meta">
-      
+  
   
 
 
-
-  <span class="byline author vcard">Authored by <span class="fn">
+    </article>
   
-    张昊煜
-  
-  </span></span>
-
-
-      
-
-
-
-
-<time class='entry-date' datetime='2016-03-03T17:08:17+08:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>3</span><span class='date-suffix'>rd</span>, <span class='date-year'>2016</span></span> <span class='time'>5:08 pm</span></time>
-      
-      
-
-
-    </p>
+  <div class="pagination">
     
-      <div class="sharing">
-  
-  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://zhyu37.github.io/blog/iosshi-jian-chuo-zhuan-shi-jian.html/" data-via="" data-counturl="http://zhyu37.github.io/blog/iosshi-jian-chuo-zhuan-shi-jian.html/" >Tweet</a>
-  
-  
-  
-</div>
-
+    <a href="/blog/archives">Blog Archives</a>
     
-    <p class="meta">
-      
-        <a class="basic-alignment left" href="/blog/shou-shi-yu-hong-mo-1-dot-1.html/" title="Previous Post: 手势与触摸1.1">&laquo; 手势与触摸1.1</a>
-      
-      
-        <a class="basic-alignment right" href="/blog/xiu-gai-ge-ren-xin-xi-shi-hou-duo-zu-uitextfieldti-jiao.html/" title="Next Post: 修改个人信息时候多组UITextField提交数据">修改个人信息时候多组UITextField提交数据 &raquo;</a>
-      
-    </p>
-  </footer>
-</article>
-
-
+    <a class="next" href="/posts/2">Newer &rarr;</a>
+    
+  </div>
 </div>
+<aside class="sidebar">
+  
+    
+  
+</aside>
 
     </div>
   </div>

@@ -9,7 +9,7 @@
   <meta name="author" content="张昊煜">
 
   
-  <meta name="description" content="iOS时间戳转时间 IOS项目中会遇到时间转的问题，当从服务端传回时间到客户端，而这个时间确是时间戳，并且是13位，如果是普通的字符串比如“2015-09-24 19:00:000” 这样转化是比较简单，但是时间戳不是这样的，ios生成的时间戳是10位，所以说需要进行转换。以下有几种方式： &hellip;">
+  <meta name="description" content="修改个人信息时候多组UITextField提交数据 个人经历：在写个人信息修改的时候发现，如果使用UITableView动态添加Cell时，提交修改信息无法通过[self.tableView reloadData];刷新UITableView来获取跟新的数据， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -78,6 +78,181 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/xiu-gai-ge-ren-xin-xi-shi-hou-duo-zu-uitextfieldti-jiao.html/">修改个人信息时候多组UITextField提交数据</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-03-05T02:47:43+08:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>5</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>2:47 am</span></time>
+        
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><hr />
+
+<h2>修改个人信息时候多组UITextField提交数据</h2>
+
+<p><img src="../images/QQ20160305-0.png" alt="Alt text" /></p>
+
+<blockquote><p>个人经历：在写个人信息修改的时候发现，如果使用UITableView动态添加Cell时，提交修改信息无法通过[self.tableView reloadData];刷新UITableView来获取跟新的数据，因为提交数据的接口也是在提交按钮的事件里面无法先刷新再提交So问题来了。</p></blockquote>
+
+<p><p>通过浅拷贝来拷贝对应UITextField组件来获取数据
+<pre><code>
+//右上角的编辑/确定 按钮
+-(void)rightBarBtnClick:(UIBarButtonItem *)sender
+{</p>
+
+<p>   if ([sender.title isEqualToString:@&ldquo;编辑&rdquo;]) {
+        [sender setTitle:@&ldquo;确定&rdquo;];
+        self.editing = YES;
+        [self.tableView reloadData];
+    } else {
+        [sender setTitle:@&ldquo;编辑&rdquo;];
+        self.editing = NO;</p>
+
+<p>   //向服务器发送数据
+   [APHTTPMine changePeopleWithid:[APGlobal sharedAPGlobal].user.userId email:[APGlobal sharedAPGlobal].user.email name:self.nameTextField.text phone:self.phoneTextField.text collegeId:[NSNumber numberWithInteger:self.collegeId] grade:self.gradeTextField.text major:self.majorTextField.text wechat:self.wechatTextField.text headImgUrl:self.headImgUrl success:^(AFHTTPRequestOperation <em>operation, id response) {
+   //本地缓存必要数据
+   [APGlobal sharedAPGlobal].user.name = self.nameTextField.text;
+            [APGlobal sharedAPGlobal].user.school = self.school;
+            [APGlobal sharedAPGlobal].user.grade = self.gradeTextField.text;
+            [APGlobal sharedAPGlobal].user.major = self.majorTextField.text;
+            [APGlobal sharedAPGlobal].user.phone = self.phoneTextField.text;
+            [APGlobal sharedAPGlobal].user.weichat = self.wechatTextField.text;
+            [APGlobal sharedAPGlobal].user.headImgUrl = self.headImgUrl;
+            [APGlobal sharedAPGlobal].user.collegeId = [NSNumber numberWithInteger:self.collegeId];
+            //更新数据 并刷新
+            [self setupInitInformation];
+            [self.tableView reloadData];
+        } failure:^(AFHTTPRequestOperation </em>operation, NSError *error) {</p>
+
+<p>   }];</p>
+
+<p>  }</p>
+
+<p>}</p>
+
+<p>//初始化的时候会调用 更新数据的时候也会调用
+-(void)setupInitInformation
+{
+    self.name = [APGlobal sharedAPGlobal].user.name;
+    self.school = [APGlobal sharedAPGlobal].user.school;
+    self.grade = [APGlobal sharedAPGlobal].user.grade;
+    self.major = [APGlobal sharedAPGlobal].user.major;
+    self.phone = [APGlobal sharedAPGlobal].user.phone;
+    self.wechat = [APGlobal sharedAPGlobal].user.weichat;
+    self.headImgUrl = [APGlobal sharedAPGlobal].user.headImgUrl;
+    self.collegeId = [[APGlobal sharedAPGlobal].user.collegeId integerValue];
+}</p>
+
+<p>//#pragma mark - UITableViewDataSource</p>
+
+<p>-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return 6;
+}</p>
+
+<p>-(UITableViewCell <em>)tableView:(UITableView </em>)tableView cellForRowAtIndexPath:(NSIndexPath <em>)indexPath
+{
+    APMinePersonInformationTableViewCell </em>cell = [tableView dequeueReusableCellWithIdentifier:[APMinePersonInformationTableViewCell cellIdentifier]];
+    cell.cellPersonLabel.delegate = self;
+    [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+    cell.cellPersonLabel.enabled = NO;
+    cell.cellPersonLabel.borderStyle = UITextBorderStyleNone;
+    switch (indexPath.row) {
+        case 0:
+            if (self.editing) {//编辑状态
+                cell.cellPersonLabel.enabled = YES;
+                cell.cellPersonLabel.borderStyle = UITextBorderStyleRoundedRect;
+                cell.cellPersonLabel.keyboardType = UIKeyboardTypeDefault;
+                self.nameTextField = cell.cellPersonLabel;</p>
+
+<p>  }else{//非编辑状态
+                cell.cellInformationLabel.text = @&ldquo;姓名:&rdquo;;
+                cell.cellPersonLabel.text = self.name;
+            }
+            break;
+        case 1:
+            if (self.editing) {
+                cell.cellPersonLabel.text = self.school;
+            }else{
+                cell.cellInformationLabel.text = @&ldquo;学校:&rdquo;;
+                cell.cellPersonLabel.text = self.school;
+            }
+            break;
+        case 2:
+            if (self.editing) {
+                cell.cellPersonLabel.enabled = YES;
+                cell.cellPersonLabel.borderStyle = UITextBorderStyleRoundedRect;
+                cell.cellPersonLabel.keyboardType = UIKeyboardTypeDefault;
+                self.gradeTextField = cell.cellPersonLabel;
+            }else{
+                cell.cellInformationLabel.text = @&ldquo;年级:&rdquo;;
+                cell.cellPersonLabel.text = [NSString stringWithFormat:@&ldquo;%@&rdquo;,self.grade];
+            }
+            break;
+        case 3:
+            if (self.editing) {
+                cell.cellPersonLabel.enabled = YES;
+                cell.cellPersonLabel.borderStyle = UITextBorderStyleRoundedRect;
+                cell.cellPersonLabel.keyboardType = UIKeyboardTypeDefault;
+                self.majorTextField = cell.cellPersonLabel;
+            }else{
+                cell.cellInformationLabel.text = @&ldquo;专业:&rdquo;;
+                cell.cellPersonLabel.text = [NSString stringWithFormat:@&ldquo;%@&rdquo;,self.major];
+            }
+            break;
+        case 4:
+            if (self.editing) {
+                cell.cellPersonLabel.enabled = YES;
+                cell.cellPersonLabel.borderStyle = UITextBorderStyleRoundedRect;
+                cell.cellPersonLabel.keyboardType = UIKeyboardTypePhonePad;
+                self.phoneTextField = cell.cellPersonLabel;
+            }else{
+                cell.cellInformationLabel.text = @&ldquo;电话号码:&rdquo;;
+                cell.cellPersonLabel.text = self.phone;
+            }
+            break;
+        case 5:
+            if (self.editing) {
+                cell.cellPersonLabel.enabled = YES;
+                cell.cellPersonLabel.borderStyle = UITextBorderStyleRoundedRect;
+                cell.cellPersonLabel.keyboardType = UIKeyboardTypeNumberPad;
+                self.wechatTextField = cell.cellPersonLabel;
+            }else{
+                cell.cellInformationLabel.text = @&ldquo;微信号:&rdquo;;
+                cell.cellPersonLabel.text = [NSString stringWithFormat:@&ldquo;%@&rdquo;,self.wechat];
+            }
+            break;
+        default:
+            break;
+    }</p>
+
+<p>   return cell;
+}</p>
+
+<p></pre></code></p>
+
+<h2>See You</h2>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -726,97 +901,6 @@ id returnValue = objc_msgSend(someObject,
     <li>
  <p>答案
 <img src="../images/2015image2.png" alt="Alt text" /></p></blockquote>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/ios-auto-layout.html/">Ios Auto Layout</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-10-25T20:27:46+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>25</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>8:27 pm</span></time>
-        
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><hr />
-
-<h2>Ios Auto Layout</h2>
-
-<blockquote><p>一开始 学的时候frame的绝对位置确实比autLayout好用，但是随着iphone 的尺寸越来越多 就会发现在4寸屏上适配成功，发现到plus 上就不对了。so 我选择了autoLayout 因为他是相对布局 所以它更适合 尺寸的变换和 竖屏横屏的切换。但也不能说frame 没用处。</p></blockquote>
-
-<p>autolayout的VFL(Visual Format Language)语法</p>
-
-
-
-
-<pre><code>
-NSString *vfl = @"V:|-5-[_view]-10-[_imageView(20)]-10-[_backBtn]-5-|";
-
-//其实这段话就是说，在垂直方向从上到下，view离父视图5点，imageView距离view 10点，同时imageView是20点高，backBtn离imageView底部10点，距离父视图底部5点。
-</pre>
-
-
-<p></code></p>
-
-<p>手动Constraint书写</p>
-
-
-<pre><code>
-[self.view addConstraint: [NSLayoutConstraint constraintWithItem:blueView
-attribute:NSLayoutAttributeLeft
-relatedBy:NSLayoutRelationEqual
-toItem:redView
-attribute:NSLayoutAttributeLeft
-multiplier:1
-constant:0]];
-</pre>
-
-
-<p></code></p>
-
-<blockquote><p>通过上面的 讲解  发现AutoLayout还需要花费经历 再去学习一番。SO 我在github上发现了一位大神写的第三方的东西<code>Masonry</code>.<a href="https://github.com/SnapKit/Masonry">https://github.com/SnapKit/Masonry</a><br/>
-开源项目Masonry旨在让自动布局（Auto Layout）的代码更简洁、可读性更强。</p>
-
-<p>Masonry ，“一个轻量级的布局框架，采用更优雅的语法封装自动布局”，不需要使用XIB和Storyboard。它的创造者Jonas Budelmann 论证 了尽管自动布局很强大，但它很快就变得冗长而不可读。</p>
-
-<p>Masonry是一种领域特定语言（DSL），为自动布局的所有功能提供便捷的方法，包括建立和修改约束、存取属性、设置优先级以及调试支持。</p></blockquote>
-
-<p>view的x位于父视图中心，y距顶部5，width为10，hight为20。还是同样地意思 我用这种框架来写一下</p>
-
-
-<pre><code>
-[view mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(self.mas_centerX);
-        make.top.equalTo(self.mas_top).offset(5);
-        make.width.equalTo(@(10));
-        make.height.equalTo(@(20));
-    }];
-</pre>
-
-
-<p></code></p>
-
-<p>感觉还是很好用的</p>
-
-
-<h2>See You</h2>
 </div>
   
   
