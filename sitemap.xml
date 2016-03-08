@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>http://zhyu37.github.io/blog/iosjie-shou-boollei-xing-shu-ju-wen-ti.html/</loc>
+    <lastmod>2016-03-08T20:33:20+08:00</lastmod>
+  </url>
+  <url>
     <loc>http://zhyu37.github.io/blog/xiu-gai-ge-ren-xin-xi-shi-hou-duo-zu-uitextfieldti-jiao.html/</loc>
     <lastmod>2016-03-05T02:47:43+08:00</lastmod>
   </url>
@@ -89,5 +93,11 @@
   </url>
   <url>
     <loc>http://zhyu37.github.io/</loc>
+  </url>
+  <url>
+    <loc>http://zhyu37.github.io/posts/2/</loc>
+  </url>
+  <url>
+    <loc>http://zhyu37.github.io/posts/3/</loc>
   </url>
 </urlset>

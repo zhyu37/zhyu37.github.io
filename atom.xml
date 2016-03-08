@@ -4,7 +4,7 @@
   <title><![CDATA[有所为，有所不为]]></title>
   <link href="http://zhyu37.github.io/atom.xml" rel="self"/>
   <link href="http://zhyu37.github.io/"/>
-  <updated>2016-03-05T02:48:49+08:00</updated>
+  <updated>2016-03-08T20:33:58+08:00</updated>
   <id>http://zhyu37.github.io/</id>
   <author>
     <name><![CDATA[张昊煜]]></name>
@@ -12,6 +12,37 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS接收bool类型数据问题]]></title>
+    <link href="http://zhyu37.github.io/blog/iosjie-shou-boollei-xing-shu-ju-wen-ti.html/"/>
+    <updated>2016-03-08T20:33:20+08:00</updated>
+    <id>http://zhyu37.github.io/blog/iosjie-shou-boollei-xing-shu-ju-wen-ti</id>
+    <content type="html"><![CDATA[<hr />
+
+<h2>iOS接口获取BOOL问题</h2>
+
+<blockquote><p>在iOS接受的数据中有Bool类型时会出现true、false识别不了的情况，需要转一下格式在识别，比如改成int格式。</p></blockquote>
+
+<p>实例接收true数据</p>
+
+
+<p><img src="../images/QQ20160308-0.png" alt="Alt text" /></p>
+
+<blockquote><p>但是和false的数据都判断成YES所以需要转换一下。</p></blockquote>
+
+<pre><code>
+if ([[dict objectForKey:@"subjectStatus"] intValue] == 0) {
+                termType = 3;
+            }
+</pre>
+
+
+<p></code></p>
+
+<h2>See You</h2>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[修改个人信息时候多组UITextField提交数据]]></title>
@@ -2262,139 +2293,6 @@ void objc removeAssociatedObjects(id object);</p>
 
 
 <p>我们把对象想象成NSDicitionary,把关联对象想象成字典的条目。存取关联对象的值就相当于NSDicitionary中调用[object setObject:value forKey:key]和[object setObjectForKey:key]。两者之间有个最重要的差别key(键) 是一个不透明的指针。所以通常使用静态全局变量做键。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[菜鸟的努力-ios的HTTP搭建]]></title>
-    <link href="http://zhyu37.github.io/blog/cai-niao-de-nu-li-iosde-httpda-jian.html/"/>
-    <updated>2015-10-09T19:27:16+08:00</updated>
-    <id>http://zhyu37.github.io/blog/cai-niao-de-nu-li-iosde-httpda-jian</id>
-    <content type="html"><![CDATA[<p>写接口  当然要用AFNetWorking</p>
-
-<ol>
-<li><p> 既然想通过HTTP 连接服务器</p>
-
-<p> 需要写一个HTTPClient的文件  用来写发送get请求 和 发送post请求</p></li>
-<li><p>(AFHTTPRequestOperation <em>)sendGetRequestWithPathString:(NSString </em>)pathString</p>
-
-<p>  //在数据传输 之前 要进行暗号的 核对
-      tokened:(BOOL)tokened
-      //想要传给服务器的数据</p>
-
-<p>  params:(id)params
-      //当传输 成功之后 执行的</p>
-
-<p>   success:(TDCHTTPRequestSuccessBlock)success
-      //当传输  失败之后  执行的
-       failure:(TDCHTTPRequestFailureBlock)failure;</p></li>
-<li>(AFHTTPRequestOperation <em>)sendPostRequestWithPathString:(NSString </em>)pathString
-       tokened:(BOOL)tokened
-       params:(id)params
-       paramType:(JHHTTPParamType)paramType
-       success:(TDCHTTPRequestSuccessBlock)success
-       failure:(TDCHTTPRequestFailureBlock)failure;</li>
-</ol>
-
-
-<p>用到一个  JHHTTPClient   第三方的HTTPClient
-网盘链接   <a href="http://pan.baidu.com/s/1c0qcnD2">http://pan.baidu.com/s/1c0qcnD2</a></p>
-
-<p>HTTPClient.m 
-+ (AFHTTPRequestOperation <em>)sendGetRequestWithPathString:(NSString </em>)pathString tokened:(BOOL)tokened params:(id)params success:(TDCHTTPRequestSuccessBlock)success failure:(TDCHTTPRequestFailureBlock)failure
-    {</p>
-
-<p>//#define kHTTPServer  (@&ldquo;<a href="http://183.221.242.75:8089/APPInterface/">http://183.221.242.75:8089/APPInterface/</a>&rdquo;)</p>
-
-<p>return [JHHTTPClient sendBaseRequestWithBaseString:kHTTPServer
-    //pathString =  @&ldquo;user/Login.ashx?act=add_phone”;接口链接</p>
-
-<p>   pathString:pathString
-    //方法类型   Get Post  Put  Delete</p>
-
-<p>methodType:JHHTTPMethodTypeGet
-    //参数类型  Default Path KeyValue JSON XML</p>
-
-<p>  paramType:JHHTTPParamTypeDefault
-    //NSDictionary *params = @{@&ldquo;phone&rdquo;: phone};  传递 接口所需要 的参数</p>
-
-<p>   params:params                                          files:nil                                            headers:nil
-                                           success:^(AFHTTPRequestOperation *operation, id response) {
-    //这个 类是用来 保存 服务器 发送回来 除了数据 之外的 信息
-    //{&ldquo;Data&rdquo;:333409,&ldquo;code&rdquo;:0,&ldquo;Msg&rdquo;:&ldquo;&rdquo;,&ldquo;num&rdquo;:0}
-    //Data  为数据  Status 为</p>
-
-<p>   TDCModel *model = [TDCModel objectWithKeyValues:response];
-    //#define kHTTPSuccess (200) </p>
-
-<p>   if(kHTTPSuccess != model.code) {
-                                                       if (failure) {</p>
-
-<p>//
-   failure(operation, [TDCError errorWithCode:model.code description:model.message]);</p>
-
-<p>   }</p>
-
-<p>   }else {
-    if (success) {</p>
-
-<p>//#define kHTTPData (@&ldquo;Data&rdquo;)
-                                                     success(operation, [response objectForKey:kHTTPData]);</p>
-
-<p>}
- }
-}
-                                            failure:failure progress:nil];
-}</p>
-
-<ul>
-<li><p>(AFHTTPRequestOperation <em>)sendPostRequestWithPathString:(NSString </em>)pathString tokened:(BOOL)tokened params:(id)params paramType:(JHHTTPParamType)paramType success:(TDCHTTPRequestSuccessBlock)success failure:(TDCHTTPRequestFailureBlock)failure
-  {</p>
-
-<p>  return [JHHTTPClient sendBaseRequestWithBaseString:kHTTPServer
-                                   pathString:pathString
-                            methodType:JHHTTPMethodTypePost
-paramType:paramType
- params:params
-  files:nil
- headers:nil
-                                           success:^(AFHTTPRequestOperation <em>operation, id response) {
-TDCModel </em>model = [TDCModel objectWithKeyValues:response];</p></li>
-</ul>
-
-
-<p> if (model.code == 1 || model.code == 0) {</p>
-
-<p> if (success) {
-                                            success(operation, [response objectForKey:kHTTPData]);</p>
-
-<p> }</p>
-
-<p>  }else {</p>
-
-<p>  if (failure) {
- if ([model.message isEqualToString:@&ldquo;&rdquo;])
-{
-                                                    failure(operation, [TDCError errorWithCode:model.code description:@&ldquo;服务器内部错误&rdquo;]);</p>
-
-<p>}
-                                                       else
-{
-                                                            failure(operation, [TDCError errorWithCode:model.code description:model.message]);
- }
-}
-}
-}
-                                          failure:^(AFHTTPRequestOperation <em>operation, NSError </em>error) {
-if (3840 == error.code) {
-error = [TDCError errorWithCode:TDCErrorCodeServerInvalid description:kStringServerException];
-}
-if (failure) {
-                                            failure(operation, error);
-}
-} progress:nil];</p>
-
-<p>}</p>
 ]]></content>
   </entry>
   

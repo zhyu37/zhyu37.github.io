@@ -9,7 +9,7 @@
   <meta name="author" content="张昊煜">
 
   
-  <meta name="description" content="Ios Auto Layout 一开始 学的时候frame的绝对位置确实比autLayout好用，但是随着iphone 的尺寸越来越多 就会发现在4寸屏上适配成功，发现到plus 上就不对了。so 我选择了autoLayout 因为他是相对布局 所以它更适合 尺寸的变换和 竖屏横屏的切换。 &hellip;">
+  <meta name="description" content="一个能看出你是否长大的测试 一男人M要与未婚妻F相会结婚，但两人一河相隔，M必须要借船过河才能见到F，于是他开始四处找船。 这时见一个女子L刚好有船，M跟L借，L遇到M后爱上了他，就问：我爱上你了，你爱我吗？M比较诚实，说：对不起，我有未婚妻，我不能爱你。这么一来，L死活是不把船借给M， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -78,6 +78,56 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/textgame.html/">textGame</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-11-01T20:24:45+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>1</span><span class='date-suffix'>st</span>, <span class='date-year'>2015</span></span> <span class='time'>8:24 pm</span></time>
+        
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><hr />
+
+<h2>一个能看出你是否长大的测试</h2>
+
+<p><img src="../images/2015image1.png" alt="Alt text" /></p>
+
+<blockquote><p>一男人M要与未婚妻F相会结婚，但两人一河相隔，M必须要借船过河才能见到F，于是他开始四处找船。 这时见一个女子L刚好有船，M跟L借，L遇到M后爱上了他，就问：我爱上你了，你爱我吗？M比较诚实，说：对不起，我有未婚妻，我不能爱你。这么一来，L死活是不把船借给M，她的理由是：我爱你，你不爱我，这不公平，我不会借你的！M很沮丧，继续找船，刚好见一位叫S的女子，就向她借船，S说：我借给你没问题，但有个条件，我很喜欢你，你是不是喜欢我所谓，但你必须留下陪我一晚， 不然我不借你。M很为难，L不借他船，S如果再不借他的话就过不去河与F相见了，据说这个地方只有这两条船。为了彼岸的未婚妻，他不得不同意了S的要求， 与S有了NB。次日，S遵守承诺把船借给了M。 见到未婚妻F后，M一直心里有事，考虑了很久，终于决定把向L和S借船的故事跟F说了。可惜，F听了非常伤心，一气之下与M分了手，她觉得M不忠，不能原谅。F失恋了，很受打击。 这时他的生活里出现了位女子E，两人也开始恋爱了，但之前的故事一直让他耿耿于坏，E问M是不是有什么话要跟她说，于是，M一五一十地把他和L、S、F之间的故事讲了一遍。E听了后，说，我不会介意的，这些跟我没关系。
+ <li>
+  <li>
+   <li>
+   <li>
+   <li>
+   <li>
+   <li>
+   <li>
+ <li>
+   <li>
+   <li>
+    <li>
+ <p>答案
+<img src="../images/2015image2.png" alt="Alt text" /></p></blockquote>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1894,160 +1944,6 @@ void objc removeAssociatedObjects(id object);</p>
 
 
 <p>我们把对象想象成NSDicitionary,把关联对象想象成字典的条目。存取关联对象的值就相当于NSDicitionary中调用[object setObject:value forKey:key]和[object setObjectForKey:key]。两者之间有个最重要的差别key(键) 是一个不透明的指针。所以通常使用静态全局变量做键。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/cai-niao-de-nu-li-iosde-httpda-jian.html/">菜鸟的努力-ios的HTTP搭建</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-10-09T19:27:16+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>9</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>7:27 pm</span></time>
-        
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>写接口  当然要用AFNetWorking</p>
-
-<ol>
-<li><p> 既然想通过HTTP 连接服务器</p>
-
-<p> 需要写一个HTTPClient的文件  用来写发送get请求 和 发送post请求</p></li>
-<li><p>(AFHTTPRequestOperation <em>)sendGetRequestWithPathString:(NSString </em>)pathString</p>
-
-<p>  //在数据传输 之前 要进行暗号的 核对
-      tokened:(BOOL)tokened
-      //想要传给服务器的数据</p>
-
-<p>  params:(id)params
-      //当传输 成功之后 执行的</p>
-
-<p>   success:(TDCHTTPRequestSuccessBlock)success
-      //当传输  失败之后  执行的
-       failure:(TDCHTTPRequestFailureBlock)failure;</p></li>
-<li>(AFHTTPRequestOperation <em>)sendPostRequestWithPathString:(NSString </em>)pathString
-       tokened:(BOOL)tokened
-       params:(id)params
-       paramType:(JHHTTPParamType)paramType
-       success:(TDCHTTPRequestSuccessBlock)success
-       failure:(TDCHTTPRequestFailureBlock)failure;</li>
-</ol>
-
-
-<p>用到一个  JHHTTPClient   第三方的HTTPClient
-网盘链接   <a href="http://pan.baidu.com/s/1c0qcnD2">http://pan.baidu.com/s/1c0qcnD2</a></p>
-
-<p>HTTPClient.m 
-+ (AFHTTPRequestOperation <em>)sendGetRequestWithPathString:(NSString </em>)pathString tokened:(BOOL)tokened params:(id)params success:(TDCHTTPRequestSuccessBlock)success failure:(TDCHTTPRequestFailureBlock)failure
-    {</p>
-
-<p>//#define kHTTPServer  (@&ldquo;<a href="http://183.221.242.75:8089/APPInterface/">http://183.221.242.75:8089/APPInterface/</a>&rdquo;)</p>
-
-<p>return [JHHTTPClient sendBaseRequestWithBaseString:kHTTPServer
-    //pathString =  @&ldquo;user/Login.ashx?act=add_phone”;接口链接</p>
-
-<p>   pathString:pathString
-    //方法类型   Get Post  Put  Delete</p>
-
-<p>methodType:JHHTTPMethodTypeGet
-    //参数类型  Default Path KeyValue JSON XML</p>
-
-<p>  paramType:JHHTTPParamTypeDefault
-    //NSDictionary *params = @{@&ldquo;phone&rdquo;: phone};  传递 接口所需要 的参数</p>
-
-<p>   params:params                                          files:nil                                            headers:nil
-                                           success:^(AFHTTPRequestOperation *operation, id response) {
-    //这个 类是用来 保存 服务器 发送回来 除了数据 之外的 信息
-    //{&ldquo;Data&rdquo;:333409,&ldquo;code&rdquo;:0,&ldquo;Msg&rdquo;:&ldquo;&rdquo;,&ldquo;num&rdquo;:0}
-    //Data  为数据  Status 为</p>
-
-<p>   TDCModel *model = [TDCModel objectWithKeyValues:response];
-    //#define kHTTPSuccess (200) </p>
-
-<p>   if(kHTTPSuccess != model.code) {
-                                                       if (failure) {</p>
-
-<p>//
-   failure(operation, [TDCError errorWithCode:model.code description:model.message]);</p>
-
-<p>   }</p>
-
-<p>   }else {
-    if (success) {</p>
-
-<p>//#define kHTTPData (@&ldquo;Data&rdquo;)
-                                                     success(operation, [response objectForKey:kHTTPData]);</p>
-
-<p>}
- }
-}
-                                            failure:failure progress:nil];
-}</p>
-
-<ul>
-<li><p>(AFHTTPRequestOperation <em>)sendPostRequestWithPathString:(NSString </em>)pathString tokened:(BOOL)tokened params:(id)params paramType:(JHHTTPParamType)paramType success:(TDCHTTPRequestSuccessBlock)success failure:(TDCHTTPRequestFailureBlock)failure
-  {</p>
-
-<p>  return [JHHTTPClient sendBaseRequestWithBaseString:kHTTPServer
-                                   pathString:pathString
-                            methodType:JHHTTPMethodTypePost
-paramType:paramType
- params:params
-  files:nil
- headers:nil
-                                           success:^(AFHTTPRequestOperation <em>operation, id response) {
-TDCModel </em>model = [TDCModel objectWithKeyValues:response];</p></li>
-</ul>
-
-
-<p> if (model.code == 1 || model.code == 0) {</p>
-
-<p> if (success) {
-                                            success(operation, [response objectForKey:kHTTPData]);</p>
-
-<p> }</p>
-
-<p>  }else {</p>
-
-<p>  if (failure) {
- if ([model.message isEqualToString:@&ldquo;&rdquo;])
-{
-                                                    failure(operation, [TDCError errorWithCode:model.code description:@&ldquo;服务器内部错误&rdquo;]);</p>
-
-<p>}
-                                                       else
-{
-                                                            failure(operation, [TDCError errorWithCode:model.code description:model.message]);
- }
-}
-}
-}
-                                          failure:^(AFHTTPRequestOperation <em>operation, NSError </em>error) {
-if (3840 == error.code) {
-error = [TDCError errorWithCode:TDCErrorCodeServerInvalid description:kStringServerException];
-}
-if (failure) {
-                                            failure(operation, error);
-}
-} progress:nil];</p>
-
-<p>}</p>
 </div>
   
   
