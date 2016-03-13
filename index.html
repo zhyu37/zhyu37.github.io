@@ -9,7 +9,8 @@
   <meta name="author" content="张昊煜">
 
   
-  <meta name="description" content="iOS接口获取BOOL问题 在iOS接受的数据中有Bool类型时会出现true、false识别不了的情况，需要转一下格式在识别，比如改成int格式。 实例接收true数据 但是和false的数据都判断成YES所以需要转换一下。 if ([[dict objectForKey:@" &hellip;">
+  <meta name="description" content=" 错误：The operation couldn’t be completed 如果报这个错，大概是因为Bundle Identifier改动了。 只需要重置模拟器就好了 See You
+">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -82,6 +83,45 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/cuo-wu-the-operation-couldnt-be-completed.html/">错误: The Operation Couldn't Be Completed</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-03-14T00:55:41+08:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>14</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>12:55 am</span></time>
+        
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><hr />
+
+<h2>错误：The operation couldn’t be completed</h2>
+
+<blockquote><p>如果报这个错，大概是因为Bundle Identifier改动了。
+<img src="../images/21_413993_f07e2ce972211fe.png" alt="Alt text" />
+<code>只需要重置模拟器就好了</code>
+<img src="../images/21_505254_c149977c77f5390.png" alt="Alt text" /></p></blockquote>
+
+<h2>See You</h2>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -844,69 +884,6 @@ Method originalMethod = class_getInstanceMethod([NSString class], @selector(lowe
 我们可以利用 method_setImplementation 来直接设置某个方法的IMP</p>
 
 <h2>See You</h2></blockquote>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/objc-msgsendde-zuo-yong.html/">objc_msgSend的作用</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-11-01T21:51:47+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>1</span><span class='date-suffix'>st</span>, <span class='date-year'>2015</span></span> <span class='time'>9:51 pm</span></time>
-        
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><hr />
-
-<h2>第十一条  objc_msgSend的作用</h2>
-
-<blockquote><p>objc_msgSend是obj-c中经常用到的一个功能，当你在对象上调用方法时就用用到这个——消息传递。</p></blockquote>
-
-<pre><code>
-id returnValue = [someObject messageName:parameter];
-</pre>
-
-
-<p></code>
-<li>someObject 是对象
-<li>messageName 为对象所属的方法
-<li>parameter 为方法所需要的参数</p>
-
-<p><code>messageName:parameter 叫选择子(selector)</code>   <br/>
-<code>someObject  叫接收者(receiver)</code></p>
-
-<blockquote><p>objc_msgSend的底层使用C写的，C的方法调用是<code>静态绑定(static bingding)</code>把方法硬编码到指令中，当需要时直接调用。C还可以使用<code>动态绑定(dynamic bingding)</code>在指令中只有一个函数调用指令，在运行期读取出来。objc是一门真正的动态语言.</p></blockquote>
-
-<pre><code>
-//objc 的底层会把id returnValue = [someObject messageName:parameter];转换成
-id returnValue = objc_msgSend(someObject,
-                                @selector(messageName),
-                                parameter);
-</pre>
-
-
-<p></code></p>
-
-<blockquote><p>在objc_msgSend中还用到了<code>尾调用优化</code>就是在结尾的时候调用另一个函数时，编译器是生成调转另一个函数的指令码，不会推入堆栈中。</p></blockquote>
-
-<h2>See You</h2>
 </div>
   
   

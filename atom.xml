@@ -4,7 +4,7 @@
   <title><![CDATA[有所为，有所不为]]></title>
   <link href="http://zhyu37.github.io/atom.xml" rel="self"/>
   <link href="http://zhyu37.github.io/"/>
-  <updated>2016-03-09T15:02:21+08:00</updated>
+  <updated>2016-03-14T00:56:21+08:00</updated>
   <id>http://zhyu37.github.io/</id>
   <author>
     <name><![CDATA[张昊煜]]></name>
@@ -12,6 +12,24 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[错误: The Operation Couldn't Be Completed]]></title>
+    <link href="http://zhyu37.github.io/blog/cuo-wu-the-operation-couldnt-be-completed.html/"/>
+    <updated>2016-03-14T00:55:41+08:00</updated>
+    <id>http://zhyu37.github.io/blog/cuo-wu-the-operation-couldnt-be-completed</id>
+    <content type="html"><![CDATA[<hr />
+
+<h2>错误：The operation couldn’t be completed</h2>
+
+<blockquote><p>如果报这个错，大概是因为Bundle Identifier改动了。
+<img src="../images/21_413993_f07e2ce972211fe.png" alt="Alt text" />
+<code>只需要重置模拟器就好了</code>
+<img src="../images/21_505254_c149977c77f5390.png" alt="Alt text" /></p></blockquote>
+
+<h2>See You</h2>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS接收bool类型数据问题]]></title>
@@ -2226,73 +2244,6 @@ post 删除 同理
 <p></code></p>
 
 <h4>See You</h4>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Effective Objective-C 2.0--10.在既有类中使用关联对象存放自定义数据]]></title>
-    <link href="http://zhyu37.github.io/blog/effective-objective-c-2-dot-0-10-dot-zai-ji-you-lei-zhong-shi-yong-guan-lian-dui-xiang-cun-fang-zi-ding-yi-shu-ju.html/"/>
-    <updated>2015-10-10T00:47:52+08:00</updated>
-    <id>http://zhyu37.github.io/blog/effective-objective-c-2-dot-0-10-dot-zai-ji-you-lei-zhong-shi-yong-guan-lian-dui-xiang-cun-fang-zi-ding-yi-shu-ju</id>
-    <content type="html"><![CDATA[<p>当我们想在对象中存放其他信息时，一般会采用创建其子类后改用这个子类对象。然而并非所有情况都可以这么做。so Object-c中有一个强大的特性——关联对象(Associated Object)</p>
-
-<p>关联策略</p>
-
-<p>关联策略
-等价属性
-说明</p>
-
-<p>OBJC_ASSOCIATION_ASSIGN
-@property (assign) or @property (unsafe_unretained)
-弱引用关联对象</p>
-
-<p>OBJC_ASSOCIATION_RETAIN_NONATOMIC
-@property (strong, nonatomic)
-强引用关联对象，且为非原子操作</p>
-
-<p>OBJC_ASSOCIATION_COPY_NONATOMIC
-@property (copy, nonatomic)
-复制关联对象，且为非原子操作</p>
-
-<p>OBJC_ASSOCIATION_RETAIN
-@property (strong, atomic)
-强引用关联对象，且为原子操作</p>
-
-<p>OBJC_ASSOCIATION_COPY
-@property (copy, atomic)
-复制关联对象，且为原子操作</p>
-
-<p>其中，第 2
- 种与第 4
- 种、第 3
- 种与第 5
- 种关联策略的唯一差别就在于操作是否具有原子性。由于操作的原子性不在本文的讨论范围内，所以下面的实验和讨论就以前三种以例进行展开。</p>
-
-<p>方法</p>
-
-<p>//以给定的键和策略为某对象设置关联对象值
-void objc setAssociatedObject(id object, const void *key, id value, objc AssociationPolicy policy);</p>
-
-<p>//根据给给定的键从某对象中获取相应地关联对象值
- id objc getAssociatedObject(id object, const void *key);</p>
-
-<p>//移除所指定对象的全部关联对象
-void objc removeAssociatedObjects(id object);</p>
-
-<p>key 值</p>
-
-<p>关于前两个函数中的 key
- 值是我们需要重点关注的一个点，这个 key 值必须保证是一个对象级别（为什么是对象级别？看完下面的章节你就会明白了）的唯一常量。一般来说，有以下三种推荐的 key
- 值：</p>
-
-<ol>
-<li>声明 static char kAssociatedObjectKey;，使用 &amp;kAssociatedObjectKey 作为 key 值;</li>
-<li>声明 static void *kAssociatedObjectKey = &kAssociatedObjectKey; ，使用 kAssociatedObjectKey 作为 key值；</li>
-<li>用 selector，使用 getter方法的名称作为 key值</li>
-</ol>
-
-
-<p>我们把对象想象成NSDicitionary,把关联对象想象成字典的条目。存取关联对象的值就相当于NSDicitionary中调用[object setObject:value forKey:key]和[object setObjectForKey:key]。两者之间有个最重要的差别key(键) 是一个不透明的指针。所以通常使用静态全局变量做键。</p>
 ]]></content>
   </entry>
   
