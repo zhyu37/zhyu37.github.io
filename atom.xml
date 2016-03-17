@@ -4,7 +4,7 @@
   <title><![CDATA[有所为，有所不为]]></title>
   <link href="http://zhyu37.github.io/atom.xml" rel="self"/>
   <link href="http://zhyu37.github.io/"/>
-  <updated>2016-03-14T00:56:21+08:00</updated>
+  <updated>2016-03-17T08:42:30+08:00</updated>
   <id>http://zhyu37.github.io/</id>
   <author>
     <name><![CDATA[张昊煜]]></name>
@@ -12,6 +12,65 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[JavaWeb 第一天]]></title>
+    <link href="http://zhyu37.github.io/blog/javaweb-di-%5B%3F%5D-tian.html/"/>
+    <updated>2016-03-17T00:03:52+08:00</updated>
+    <id>http://zhyu37.github.io/blog/javaweb-di-[?]-tian</id>
+    <content type="html"><![CDATA[<hr />
+
+<h2>JavaWeb 第一天</h2>
+
+<p><p>介绍struts2 框架
+<pre>
+1. 什么框架？框架有什么用
+框架 是 实现部分功能的代码 （半成品），使用框架简化企业级软件开发，提高开发效率。
+2. 什么是struts框架，有什么用？
+struts2是Struts 的下一代产品，是在struts1和webwork的技术基础上进行了合并的全新框架。
+Struts2以webwork为核心的。
+Struts2 = Struts1 + webwork；
+Struts2 是 Apache产品。
+Struts2 是一个标准的MVC框架。 javaweb 中的model2模式就是一个MVC模式。 model2 = servlet+jsp+javabean。
+Struts2 是在javaweb开发中使用的。
+使用Struts2可以简化我们的web开发，并且降低程序的耦合度。
+3. 类似于Struts2框架的产品
+Struts1 webwork jsf springMVC
+4. ssh = struts2 + spring + hibernate
+5. ssi = springMVC + spring + ibatis
+6. XWork 是webwork的核心
+7. Xwork提供了很多核心功能：前端拦截机（interceptor），运行时表单属性验证，类型转换，强大的表达式语言（OGNL – the Object Graph Navigation Language），IoC（Inversion of Control反转控制）容器等
+</pre></p>
+
+<p><p>入门
+<pre>
+index.jsp->holleServlet->hello.jsp  web开发
+index.jsp->helloeAction->hello.jsp struts2流程</p>
+
+<p>struts目录
+1. apps : 应用程序
+2. doc : 文档
+3. lib : struts2 框架所应用的jar以及插件包
+4. src : 源代码(core Struts2的源代码;XWork-core 底层使用了xwork，xwork的源代码)</p>
+
+<p>注意:
+1. 导入jar包到开发工程 只需要导入 apps/struts2-blank.war 中所有jar包  &mdash;- 13 个jar包
+2. 创建页面
+3. 对Struts2框架进行配置
+ web.xml 文件中配置前端控制器（核心控制器）&ndash;就是一个Filter  <code>是为了让struts2框架可以运行</code>
+<code>
+  <filter>      <filter-name>struts2</filter-name>      <filter-class>org.apache.struts2.dispatcher.ng.filter.StrutsPrepareAndExecuteFilter</filter-class>  </filter>  <filter-mapping>     <filter-name>struts2</filter-name>      <url-pattern>/*</url-pattern>  </filter-mapping>
+ </code>
+  创建一个struts.xml配置文件，这个是Struts2框架配置文件 <code>目的是为了让框架运行</code>
+  4. 创建一个类action
+  5. index.jsp 添加链接</p>
+
+<p>  <code>&lt;a href="${pageContext.request.contextPath}/hello.jsp"&gt;first&lt;/a&gt;</code>一定要加上.jsp
+</pre></p>
+
+<h2>See You</h2>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[错误: The Operation Couldn't Be Completed]]></title>
@@ -2143,107 +2202,6 @@ UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIA
 <p></code></p>
 
 <h3>See You</h3>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[NSNotificationCenter小结]]></title>
-    <link href="http://zhyu37.github.io/blog/nsnotificationcenterxiao-jie.html/"/>
-    <updated>2015-10-12T23:41:11+08:00</updated>
-    <id>http://zhyu37.github.io/blog/nsnotificationcenterxiao-jie</id>
-    <content type="html"><![CDATA[<hr />
-
-<h2>NSNotification 消息机制</h2>
-
-<blockquote><p>最近在项目中发现这个NSNotification还是很好用的。那我就简单介绍一下步骤，先要注册对象，当有人post的时候调用注册的方法，当然不能忘记<code>remove</code>注册了的对象。</p></blockquote>
-
-<p>注册对象</p>
-
-
-
-
-<pre><code>
-[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(test) name:@"test" object:nil];
-}
-</code></pre>
-
-
-
-
-<p>当对象被post之后  会调用 写好的test方法</p>
-
-
-
-
-<pre><code>
- [[NSNotificationCenter defaultCenter] postNotificationName:@"test" object:nil];
-    });
-</pre>
-
-
-<p></code></p>
-
-<p>删除对象</p>
-
-
-
-
-<pre><code>
-[[NSNotificationCenter defaultCenter] removeObserver:self name:@"test" object:nil];
-</code></pre>
-
-
-<p><code>注册和删除对象 一定要成对出现  ，当然也可以在dealloc里面 一起删除</code></p>
-
-<pre><code>
-- (void)dealloc{
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-    [super dealloc];
-}
-</pre>
-
-
-<p></code></p>
-
-<p>在这个类的.h 文件中添加下面的的外部申明</p>
-
-
-
-
-<pre><code>
-extern NSString * const testNotification;
-</pre>
-
-
-<p></code></p>
-
-<p>在.m中定义常量</p>
-
-
-
-
-<pre><code>
-NSString * const testNotification = @"BNRColorChanged";
-</pre>
-
-
-<p></code></p>
-
-<p><code>如果安上面的申请方法 我们的注册 和 删除对象也可以改变一下</code></p>
-
-<pre><code>
-
-[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(test) name:testNotification object:nil];
-}
-
-post 删除 同理
-
-</pre>
-
-
-<p></code></p>
-
-<h4>See You</h4>
 ]]></content>
   </entry>
   

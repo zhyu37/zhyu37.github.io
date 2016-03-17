@@ -5,12 +5,14 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>错误: The Operation Couldn't Be Completed - 有所为，有所不为</title>
+  <title>JavaWeb 第一天 - 有所为，有所不为</title>
   <meta name="author" content="张昊煜">
 
   
-  <meta name="description" content=" 错误：The operation couldn’t be completed 如果报这个错，大概是因为Bundle Identifier改动了。 只需要重置模拟器就好了 See You
-">
+  <meta name="description" content="JavaWeb 第一天 介绍struts2 框架 1. 什么框架？框架有什么用
+框架 是 实现部分功能的代码 （半成品），使用框架简化企业级软件开发，提高开发效率。
+2. 什么是struts框架，有什么用？
+struts2是Struts 的下一代产品， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -19,7 +21,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://zhyu37.github.io/blog/cuo-wu-the-operation-couldnt-be-completed.html/">
+  <link rel="canonical" href="http://zhyu37.github.io/blog/javaweb-di-%5B%3F%5D-tian.html/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="有所为，有所不为" type="application/atom+xml">
@@ -87,7 +89,7 @@
   <header>
     
       
-        <h1 class="entry-title">错误: The Operation Couldn't Be Completed</h1>
+        <h1 class="entry-title">JavaWeb 第一天</h1>
       
     
     
@@ -97,7 +99,7 @@
 
 
 
-<time class='entry-date' datetime='2016-03-14T00:55:41+08:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>14</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>12:55 am</span></time>
+<time class='entry-date' datetime='2016-03-17T00:03:52+08:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>12:03 am</span></time>
         
         
       </p>
@@ -107,12 +109,53 @@
 
 <div class="entry-content"><hr />
 
-<h2>错误：The operation couldn’t be completed</h2>
+<h2>JavaWeb 第一天</h2>
 
-<blockquote><p>如果报这个错，大概是因为Bundle Identifier改动了。
-<img src="../images/21_413993_f07e2ce972211fe.png" alt="Alt text" />
-<code>只需要重置模拟器就好了</code>
-<img src="../images/21_505254_c149977c77f5390.png" alt="Alt text" /></p></blockquote>
+<p><p>介绍struts2 框架
+<pre>
+1. 什么框架？框架有什么用
+框架 是 实现部分功能的代码 （半成品），使用框架简化企业级软件开发，提高开发效率。
+2. 什么是struts框架，有什么用？
+struts2是Struts 的下一代产品，是在struts1和webwork的技术基础上进行了合并的全新框架。
+Struts2以webwork为核心的。
+Struts2 = Struts1 + webwork；
+Struts2 是 Apache产品。
+Struts2 是一个标准的MVC框架。 javaweb 中的model2模式就是一个MVC模式。 model2 = servlet+jsp+javabean。
+Struts2 是在javaweb开发中使用的。
+使用Struts2可以简化我们的web开发，并且降低程序的耦合度。
+3. 类似于Struts2框架的产品
+Struts1 webwork jsf springMVC
+4. ssh = struts2 + spring + hibernate
+5. ssi = springMVC + spring + ibatis
+6. XWork 是webwork的核心
+7. Xwork提供了很多核心功能：前端拦截机（interceptor），运行时表单属性验证，类型转换，强大的表达式语言（OGNL – the Object Graph Navigation Language），IoC（Inversion of Control反转控制）容器等
+</pre></p>
+
+<p><p>入门
+<pre>
+index.jsp->holleServlet->hello.jsp  web开发
+index.jsp->helloeAction->hello.jsp struts2流程</p>
+
+<p>struts目录
+1. apps : 应用程序
+2. doc : 文档
+3. lib : struts2 框架所应用的jar以及插件包
+4. src : 源代码(core Struts2的源代码;XWork-core 底层使用了xwork，xwork的源代码)</p>
+
+<p>注意:
+1. 导入jar包到开发工程 只需要导入 apps/struts2-blank.war 中所有jar包  &mdash;- 13 个jar包
+2. 创建页面
+3. 对Struts2框架进行配置
+ web.xml 文件中配置前端控制器（核心控制器）&ndash;就是一个Filter  <code>是为了让struts2框架可以运行</code>
+<code>
+  <filter>      <filter-name>struts2</filter-name>      <filter-class>org.apache.struts2.dispatcher.ng.filter.StrutsPrepareAndExecuteFilter</filter-class>  </filter>  <filter-mapping>     <filter-name>struts2</filter-name>      <url-pattern>/*</url-pattern>  </filter-mapping>
+ </code>
+  创建一个struts.xml配置文件，这个是Struts2框架配置文件 <code>目的是为了让框架运行</code>
+  4. 创建一个类action
+  5. index.jsp 添加链接</p>
+
+<p>  <code>&lt;a href="${pageContext.request.contextPath}/hello.jsp"&gt;first&lt;/a&gt;</code>一定要加上.jsp
+</pre></p>
 
 <h2>See You</h2>
 </div>
@@ -137,7 +180,7 @@
 
 
 
-<time class='entry-date' datetime='2016-03-14T00:55:41+08:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>14</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>12:55 am</span></time>
+<time class='entry-date' datetime='2016-03-17T00:03:52+08:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>12:03 am</span></time>
       
       
 
@@ -146,7 +189,7 @@
     
       <div class="sharing">
   
-  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://zhyu37.github.io/blog/cuo-wu-the-operation-couldnt-be-completed.html/" data-via="" data-counturl="http://zhyu37.github.io/blog/cuo-wu-the-operation-couldnt-be-completed.html/" >Tweet</a>
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://zhyu37.github.io/blog/javaweb-di-%5B%3F%5D-tian.html/" data-via="" data-counturl="http://zhyu37.github.io/blog/javaweb-di-%5B%3F%5D-tian.html/" >Tweet</a>
   
   
   
@@ -155,10 +198,8 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/iosjie-shou-boollei-xing-shu-ju-wen-ti.html/" title="Previous Post: iOS接收bool类型数据问题">&laquo; iOS接收bool类型数据问题</a>
+        <a class="basic-alignment left" href="/blog/cuo-wu-the-operation-couldnt-be-completed.html/" title="Previous Post: 错误:The operation couldn't be completed">&laquo; 错误:The operation couldn't be completed</a>
       
-      
-        <a class="basic-alignment right" href="/blog/javaweb-di-%5B%3F%5D-tian.html/" title="Next Post: JavaWeb 第一天">JavaWeb 第一天 &raquo;</a>
       
     </p>
   </footer>

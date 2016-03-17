@@ -9,8 +9,10 @@
   <meta name="author" content="张昊煜">
 
   
-  <meta name="description" content=" 错误：The operation couldn’t be completed 如果报这个错，大概是因为Bundle Identifier改动了。 只需要重置模拟器就好了 See You
-">
+  <meta name="description" content="JavaWeb 第一天 介绍struts2 框架 1. 什么框架？框架有什么用
+框架 是 实现部分功能的代码 （半成品），使用框架简化企业级软件开发，提高开发效率。
+2. 什么是struts框架，有什么用？
+struts2是Struts 的下一代产品， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -83,6 +85,86 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/javaweb-di-%5B%3F%5D-tian.html/">JavaWeb 第一天</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-03-17T00:03:52+08:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>12:03 am</span></time>
+        
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><hr />
+
+<h2>JavaWeb 第一天</h2>
+
+<p><p>介绍struts2 框架
+<pre>
+1. 什么框架？框架有什么用
+框架 是 实现部分功能的代码 （半成品），使用框架简化企业级软件开发，提高开发效率。
+2. 什么是struts框架，有什么用？
+struts2是Struts 的下一代产品，是在struts1和webwork的技术基础上进行了合并的全新框架。
+Struts2以webwork为核心的。
+Struts2 = Struts1 + webwork；
+Struts2 是 Apache产品。
+Struts2 是一个标准的MVC框架。 javaweb 中的model2模式就是一个MVC模式。 model2 = servlet+jsp+javabean。
+Struts2 是在javaweb开发中使用的。
+使用Struts2可以简化我们的web开发，并且降低程序的耦合度。
+3. 类似于Struts2框架的产品
+Struts1 webwork jsf springMVC
+4. ssh = struts2 + spring + hibernate
+5. ssi = springMVC + spring + ibatis
+6. XWork 是webwork的核心
+7. Xwork提供了很多核心功能：前端拦截机（interceptor），运行时表单属性验证，类型转换，强大的表达式语言（OGNL – the Object Graph Navigation Language），IoC（Inversion of Control反转控制）容器等
+</pre></p>
+
+<p><p>入门
+<pre>
+index.jsp->holleServlet->hello.jsp  web开发
+index.jsp->helloeAction->hello.jsp struts2流程</p>
+
+<p>struts目录
+1. apps : 应用程序
+2. doc : 文档
+3. lib : struts2 框架所应用的jar以及插件包
+4. src : 源代码(core Struts2的源代码;XWork-core 底层使用了xwork，xwork的源代码)</p>
+
+<p>注意:
+1. 导入jar包到开发工程 只需要导入 apps/struts2-blank.war 中所有jar包  &mdash;- 13 个jar包
+2. 创建页面
+3. 对Struts2框架进行配置
+ web.xml 文件中配置前端控制器（核心控制器）&ndash;就是一个Filter  <code>是为了让struts2框架可以运行</code>
+<code>
+  <filter>      <filter-name>struts2</filter-name>      <filter-class>org.apache.struts2.dispatcher.ng.filter.StrutsPrepareAndExecuteFilter</filter-class>  </filter>  <filter-mapping>     <filter-name>struts2</filter-name>      <url-pattern>/*</url-pattern>  </filter-mapping>
+ </code>
+  创建一个struts.xml配置文件，这个是Struts2框架配置文件 <code>目的是为了让框架运行</code>
+  4. 创建一个类action
+  5. index.jsp 添加链接</p>
+
+<p>  <code>&lt;a href="${pageContext.request.contextPath}/hello.jsp"&gt;first&lt;/a&gt;</code>一定要加上.jsp
+</pre></p>
+
+<h2>See You</h2>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -812,78 +894,6 @@ NSMutableDictionary *dict = [NSMutableDictionary new];
 <p></code></p>
 
 <h2>See You</h2>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/method-swizzling.html/">Method Swizzling</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-11-09T13:08:45+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>9</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>1:08 pm</span></time>
-        
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><hr />
-
-<h2>第十三条  用“方法调配技术”调试“黑盒方法”</h2>
-
-<blockquote><p>在没有一个类的源码时，例如调用别人API时。想改变其中一个方法的实现，除了继承重写、借助重类名方法之外，现在还发现了一种新的方法——Method Swizzling。</p></blockquote>
-
-<p>一个NSString类的例子</p>
-
-
-<pre><code>
-//头文件 
-#import  <objc/runtime.h>
-
-//具体实现
- //1.测试字符串
-    NSString *str = @"Hello World";
-    
-//2.打印正常方法调用的值
-    NSLog(@"%@ %@",[str lowercaseString],[str uppercaseString]);
-    
-Method originalMethod = class_getInstanceMethod([NSString class], @selector(lowercaseString));
-    Method swappedMethod = class_getInstanceMethod([NSString class], @selector(uppercaseString));
-    method_exchangeImplementations(originalMethod, swappedMethod);
-    
- //4.打印方法调配后的值
-    NSLog(@"%@ %@",[str lowercaseString],[str uppercaseString]);
-</pre>
-
-
-<p></code></p>
-
-<p><p>打印结果
-<pre><code>
-2015-11-09 12:49:23.361 ChangeMethods[810:459887] hello world HELLO WORLD
-2015-11-09 12:49:23.362 ChangeMethods[810:459887] HELLO WORLD hello world
-</pre></code></p>
-
-<blockquote><p>在Objective-C中调用一个方法，其实是向一个对象发送消息，查找消息的唯一依据是selector的名字。利用Objective-C的动态特性，可以实现在运行时偷换selector对应的方法实现，达到给方法挂钩的目的。
-每个类都有一个方法列表，存放着selector的名字和方法实现的映射关系。IMP有点类似函数指针，指向具体的Method实现。我们可以利用 method_exchangeImplementations 来交换2个方法中的IMP，
-我们可以利用 class_replaceMethod 来修改类，
-我们可以利用 method_setImplementation 来直接设置某个方法的IMP</p>
-
-<h2>See You</h2></blockquote>
 </div>
   
   
