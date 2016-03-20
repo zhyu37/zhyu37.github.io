@@ -9,10 +9,7 @@
   <meta name="author" content="张昊煜">
 
   
-  <meta name="description" content="JavaWeb 第一天 介绍struts2 框架 1. 什么框架？框架有什么用
-框架 是 实现部分功能的代码 （半成品），使用框架简化企业级软件开发，提高开发效率。
-2. 什么是struts框架，有什么用？
-struts2是Struts 的下一代产品， &hellip;">
+  <meta name="description" content="友盟推送、分享问题合集 在第一次做友盟推送、分享的时候多多少少会有一些问题。这次项目又用到了决定做一个合集。请大家多多指教，有问题可以联系我466096851@qq.com。 1. 推送 Problem 1:在还没上架的时候只能申请到sandBox证书？http://blog.csdn.net/ &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -85,6 +82,55 @@ struts2是Struts 的下一代产品， &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/you-meng-fen-xiang-he-tui-song-wen-ti-he-ji.html/">友盟分享和推送问题合集</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-03-20T21:59:13+08:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>20</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>9:59 pm</span></time>
+        
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><hr />
+
+<h2>友盟推送、分享问题合集</h2>
+
+<blockquote><p>在第一次做友盟推送、分享的时候多多少少会有一些问题。这次项目又用到了决定做一个合集。请大家多多指教，有问题可以联系我<code>466096851@qq.com</code>。</p></blockquote>
+
+<p><p>1. 推送
+<pre>
+Problem 1:在还没上架的时候只能申请到sandBox证书？<a href="http://blog.csdn.net/gf771115/article/details/42492767">http://blog.csdn.net/gf771115/article/details/42492767</a>  这是证书的申请过程
+Problem 2:添加SDK过程？<a href="http://bbs.umeng.com/thread-6191-1-1.html">http://bbs.umeng.com/thread-6191-1-1.html</a>  这个是AppDelegate.m 里面的写法。注意最好不要通过pod集合上去，因为有的SDK里面的东西会有重合了会报错。
+Problem 3:推送的Alias:当需要绑定别名的时候，type 会有一些默认的类型比如kUMessageAliasTypeSina这样的，自定义的话随便写一个NSString就好了，一开始还以为在UMessage.h里面弄一个呢。。。。。。
+</pre></p>
+
+<p><p>2. 分享
+<pre>
+Problem 1：分享里面就属QQ的比较麻烦了？
+首先没上架之前只能用一个sandBox的Key，然后就是在你的工程设置项,targets 一栏下,选中自己的 target,在 Info->URL Types 中添加 URL Schemes,它需要添加两个，设置Xcode的url scheme格式为“QQ”+腾讯QQ互联应用appId转换成十六进制（不足8位前面补0），例如“QQ05FC5B14”。 额外设置 url schemes 的格式为"tencent"+腾讯QQ互联应用appId,例如“tencent100424468”。
+</pre></p>
+
+<h2>See You</h2>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -843,55 +889,6 @@ person = &lt;EOCPerson: 0x7fd9a1660600, &ldquo;Bob Smith&rdquo;>
 <p><p>debugDescription</p>
 
 <blockquote><p>此方法的用意与description非常相似。区别在于前者是开发者在调试器中以控制台命令打印对象时才调用的。用法和description类似.</p></blockquote>
-
-<h2>See You</h2>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/li-jie-lei-dui-xiang-de-yong-yi.html/">查询类的类型</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-11-10T09:20:25+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>10</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>9:20 am</span></time>
-        
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><hr />
-
-<h2>第十四条 理解“类对象”的用意</h2>
-
-<blockquote><p>每个实例都用一个指向Class对象的指针，用来表示其类型。如果对象类型无法在编译期确定，那么就应该使用类型信息查询方法来探知。尽量使用类型信息查询方法来确定对象类型，而不要直接比较类对象，因为某些对象可能实现了消息转发功能。</p></blockquote>
-
-<pre><code>
-NSMutableDictionary *dict = [NSMutableDictionary new];
-//判断对象是否是否个特定类的实例
-[dict isMemberofClass:[NSDictionary class]];//NO
-[dict isMemberofClass:[NSMutableDictionary class]];//Yes
-//判断对象是否为某个类或其派生类的实例
-[dict isKindofClass:[NSDictionary class]];//Yes
-[dict isKindofClass:[NSArray class]];//No
-</pre>
-
-
-<p></code></p>
 
 <h2>See You</h2>
 </div>

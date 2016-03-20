@@ -4,7 +4,7 @@
   <title><![CDATA[有所为，有所不为]]></title>
   <link href="http://zhyu37.github.io/atom.xml" rel="self"/>
   <link href="http://zhyu37.github.io/"/>
-  <updated>2016-03-17T08:42:30+08:00</updated>
+  <updated>2016-03-20T22:33:59+08:00</updated>
   <id>http://zhyu37.github.io/</id>
   <author>
     <name><![CDATA[张昊煜]]></name>
@@ -12,6 +12,34 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[友盟分享和推送问题合集]]></title>
+    <link href="http://zhyu37.github.io/blog/you-meng-fen-xiang-he-tui-song-wen-ti-he-ji.html/"/>
+    <updated>2016-03-20T21:59:13+08:00</updated>
+    <id>http://zhyu37.github.io/blog/you-meng-fen-xiang-he-tui-song-wen-ti-he-ji</id>
+    <content type="html"><![CDATA[<hr />
+
+<h2>友盟推送、分享问题合集</h2>
+
+<blockquote><p>在第一次做友盟推送、分享的时候多多少少会有一些问题。这次项目又用到了决定做一个合集。请大家多多指教，有问题可以联系我<code>466096851@qq.com</code>。</p></blockquote>
+
+<p><p>1. 推送
+<pre>
+Problem 1:在还没上架的时候只能申请到sandBox证书？<a href="http://blog.csdn.net/gf771115/article/details/42492767">http://blog.csdn.net/gf771115/article/details/42492767</a>  这是证书的申请过程
+Problem 2:添加SDK过程？<a href="http://bbs.umeng.com/thread-6191-1-1.html">http://bbs.umeng.com/thread-6191-1-1.html</a>  这个是AppDelegate.m 里面的写法。注意最好不要通过pod集合上去，因为有的SDK里面的东西会有重合了会报错。
+Problem 3:推送的Alias:当需要绑定别名的时候，type 会有一些默认的类型比如kUMessageAliasTypeSina这样的，自定义的话随便写一个NSString就好了，一开始还以为在UMessage.h里面弄一个呢。。。。。。
+</pre></p>
+
+<p><p>2. 分享
+<pre>
+Problem 1：分享里面就属QQ的比较麻烦了？
+首先没上架之前只能用一个sandBox的Key，然后就是在你的工程设置项,targets 一栏下,选中自己的 target,在 Info->URL Types 中添加 URL Schemes,它需要添加两个，设置Xcode的url scheme格式为“QQ”+腾讯QQ互联应用appId转换成十六进制（不足8位前面补0），例如“QQ05FC5B14”。 额外设置 url schemes 的格式为"tencent"+腾讯QQ互联应用appId,例如“tencent100424468”。
+</pre></p>
+
+<h2>See You</h2>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[JavaWeb 第一天]]></title>
@@ -2100,108 +2128,6 @@ NSLog(@"current 早");
 <p></code></p>
 
 <h2>See You</h2>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[ios8之UIAlertController]]></title>
-    <link href="http://zhyu37.github.io/blog/ios8zhi-uialertcontroller.html/"/>
-    <updated>2015-10-13T17:16:02+08:00</updated>
-    <id>http://zhyu37.github.io/blog/ios8zhi-uialertcontroller</id>
-    <content type="html"><![CDATA[<hr />
-
-<h2>UIAlertController</h2>
-
-<blockquote><p>UIAlertController 作为ios8新出现的controller还是很值得学习的，它融合了之前的UIAlertView 和  UIActionSheet.</p></blockquote>
-
-<P>先来写个简单的小例子</P>
-
-
-
-
-<pre><code>
-UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"title" message:@"message" preferredStyle:UIAlertControllerStyleAlert];
-
-UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-            
-}];
-
- UIAlertAction *commitAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
- 
-}];
-
-[alertController addAction:cancelAction];
-[alertController addAction:commitAction];
-[self presentViewController:alertController animated:YES completion:nil];
-</pre>
-
-
-<p></code></p>
-
-<p><img src="http://zhyu37.github.io/Users/zhanghaoyu/octopress/source/_posts/image/UIAlertConller1.png" alt="样例" /></p>
-
-<p>在UIAlertController中添加一个输入框</p>
-
-
-
-
-<pre><code>
-@property (nonatomic, strong) UIAlertAction *secureTextAlertAction;
-</pre>
-
-
-<p></code></p>
-
-<pre><code>
-UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"title" message:@"message" preferredStyle:UIAlertControllerStyleAlert];
-
- // Add the text field for the secure text entry.
-    [alertController addTextFieldWithConfigurationHandler:^(UITextField *textField) {
-        // Listen for changes to the text field's text so that we can toggle the current
-        // action's enabled property based on whether the user has entered a sufficiently
-        // secure entry.
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleTextFieldTextDidChangeNotification:) name:UITextFieldTextDidChangeNotification object:textField];
-        //每输入一个字符就会变成点
-         textField.secureTextEntry = YES;
- }];
-
-UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-        [[NSNotificationCenter defaultCenter] removeObserver:self name:UITextFieldTextDidChangeNotification object:alertController.textFields.firstObject];
-    }];
-
- UIAlertAction *commitAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UITextFieldTextDidChangeNotification object:alertController.textFields.firstObject];
-}];
-
-// The text field initially has no text in the text field, so we'll disable it.
-    commitAction.enabled = NO;
-    
-// Hold onto the secure text alert action to toggle the enabled/disabled state when the text changed.
-    self.secureTextAlertAction = commitAction;
-
-[alertController addAction:cancelAction];
-[alertController addAction:commitAction];
-[self presentViewController:alertController animated:YES completion:nil];
-
-</pre>
-
-
-<p></code></p>
-
-<pre><code>
-- (void)handleTextFieldTextDidChangeNotification:(NSNotification *)notification
-{
-    UITextField *textField = notification.object;
-    
-   // Enforce a minimum length of >= 5 characters for secure text alerts.
-    self.secureTextAlertAction.enabled = textField.text.length >= 5;
-}
-</pre>
-
-
-<p></code></p>
-
-<h3>See You</h3>
 ]]></content>
   </entry>
   
