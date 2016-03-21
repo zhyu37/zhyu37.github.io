@@ -9,7 +9,7 @@
   <meta name="author" content="张昊煜">
 
   
-  <meta name="description" content="友盟推送、分享问题合集 在第一次做友盟推送、分享的时候多多少少会有一些问题。这次项目又用到了决定做一个合集。请大家多多指教，有问题可以联系我466096851@qq.com。 1. 推送 Problem 1:在还没上架的时候只能申请到sandBox证书？http://blog.csdn.net/ &hellip;">
+  <meta name="description" content="厚黑学 夫厚黑之学也，其法至简，其效之神，小用小效，大用大效。沛公得其全而兴汉，司马得其全而兴晋；曹操刘备得其偏，割据称雄，烜赫一世，韩信范增，其学亦不在曹刘下。不幸遇沛公而失败，惜哉！然二子虽不善终，能以一得之长。显名当世，身死之后，得于史传中列一席地，至今犹津津焉乐道之不衰， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -82,6 +82,42 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/hou-hei-xue.html/">厚黑学</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-03-21T11:21:18+08:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>21</span><span class='date-suffix'>st</span>, <span class='date-year'>2016</span></span> <span class='time'>11:21 am</span></time>
+        
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><hr />
+
+<h2>厚黑学</h2>
+
+<blockquote><p>夫厚黑之学也，其法至简，其效之神，小用小效，大用大效。沛公得其全而兴汉，司马得其全而兴晋；曹操刘备得其偏，割据称雄，烜赫一世，韩信范增，其学亦不在曹刘下。不幸遇沛公而失败，惜哉！然二子虽不善终，能以一得之长。显名当世，身死之后，得于史传中列一席地，至今犹津津焉乐道之不衰，则厚黑亦何负于人哉？</p></blockquote>
+
+<h2>See You</h2>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -816,79 +852,6 @@ NSArray</em> trueDeepCopyArray = [NSKeyedUnarchiver unarchiveObjectWithData:
          return copy;
 }
 </pre></code></p>
-
-<h2>See You</h2>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/shi-xian-descriptionfang-fa.html/">实现description方法</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-11-25T16:05:11+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>25</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>4:05 pm</span></time>
-        
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><hr />
-
-<h2>实现description方法</h2>
-
-<blockquote><p>当想打印对象的信息时，对象会收到description消息，该方法返回的描述信息回取代“格式字符串”里的“%@”。</p></blockquote>
-
-<p><p>
-<pre><code>
-NSArray *object = @[@&ldquo;a string, @(123)&rdquo;];
-NSLog(@&ldquo;object = %@&rdquo;,object);</p>
-
-<p>//如果是打印 会输出
-object = (
-    &ldquo;a string&rdquo;,
-    123
-)</p>
-
-<p>//如果在自定义的类上这么做  则会打印
-object = &lt;EOCPerson: 0x7fd9a1660600></p>
-
-<p></pre></code></p>
-
-<blockquote><p>但是 这样的打印 如果不需要 类名 和 地址的话 ，这个打印毫无意义。so 我们需要复写 description方法。</p></blockquote>
-
-<p><pre><code>
-EOCPerson *person = [[EOCPerson alloc] initWithFirstName:@&ldquo;Bob&rdquo; lastName:@&ldquo;Smith&rdquo;];
-NSLog(@&ldquo;person = %@&rdquo;, person);</p>
-
-<p>该类的description方法通常是这样实现的
--(NSString*) description{
-    return [NSStringstringWithFormat:@&ldquo;&lt;%@: %p, \&rdquo;%@ %@\&ldquo;>&rdquo;,[self class], self, <em>firstName, </em>lastName];
-}</p>
-
-<p>//打印结果
-person = &lt;EOCPerson: 0x7fd9a1660600, &ldquo;Bob Smith&rdquo;>
-</pre></code></p>
-
-<blockquote><p><code>作者建议:</code>在新实现的description方法中，也应该像默认的实现那样，打印出类的名字和指针地址，因为这些内容有时也会用到。NSArray类的对象就没有打印这两项内容，显然没有固定规律可循。<code>用NSDicionary来实现此功能可以使代码更以维护.</code></p></blockquote>
-
-<p><p>debugDescription</p>
-
-<blockquote><p>此方法的用意与description非常相似。区别在于前者是开发者在调试器中以控制台命令打印对象时才调用的。用法和description类似.</p></blockquote>
 
 <h2>See You</h2>
 </div>
